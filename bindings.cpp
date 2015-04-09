@@ -11,6 +11,8 @@
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/videoio.hpp"
 #include "opencv2/highgui.hpp"
+#include "opencv2/hal.hpp"
+
 #include <emscripten/bind.h>
 using namespace emscripten;
 using namespace cv;
@@ -137,8 +139,6 @@ using namespace cv;
     .property("rows", &cv::Mat::rows)
 
     .property("cols", &cv::Mat::cols)
-
-    .function("getData", &cv::Mat::getData , allow_raw_pointers() )
 
     ;
 
