@@ -11,14 +11,1113 @@
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/videoio.hpp"
 #include "opencv2/highgui.hpp"
-#include "opencv2/hal.hpp"
-
 #include <emscripten/bind.h>
 using namespace emscripten;
 using namespace cv;
 
-    EMSCRIPTEN_BINDINGS(testBinding) {
+namespace Wrappers {
     
+    void Canny_wrapper(const cv::Mat& arg0,cv::Mat& arg1,double arg2,double arg3,int arg4,bool arg5){
+        return cv::Canny(arg0,arg1,arg2,arg3,arg4,arg5) ;
+    }
+
+
+    void GaussianBlur_wrapper(const cv::Mat& arg0,cv::Mat& arg1,Size arg2,double arg3,double arg4,int arg5){
+        return cv::GaussianBlur(arg0,arg1,arg2,arg3,arg4,arg5) ;
+    }
+
+
+    void HoughCircles_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,double arg3,double arg4,double arg5,double arg6,int arg7,int arg8){
+        return cv::HoughCircles(arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8) ;
+    }
+
+
+    void HoughLines_wrapper(const cv::Mat& arg0,cv::Mat& arg1,double arg2,double arg3,int arg4,double arg5,double arg6,double arg7,double arg8){
+        return cv::HoughLines(arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8) ;
+    }
+
+
+    void HoughLinesP_wrapper(const cv::Mat& arg0,cv::Mat& arg1,double arg2,double arg3,int arg4,double arg5,double arg6){
+        return cv::HoughLinesP(arg0,arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    void HuMoments_wrapper(const Moments& arg0,cv::Mat& arg1){
+        return cv::HuMoments(arg0,arg1) ;
+    }
+
+
+    void LUT_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2){
+        return cv::LUT(arg0,arg1,arg2) ;
+    }
+
+
+    void Laplacian_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,int arg3,double arg4,double arg5,int arg6){
+        return cv::Laplacian(arg0,arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    double Mahalanobis_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,const cv::Mat& arg2){
+        return cv::Mahalanobis(arg0,arg1,arg2) ;
+    }
+
+
+    void PCABackProject_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,const cv::Mat& arg2,cv::Mat& arg3){
+        return cv::PCABackProject(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    void PCACompute_wrapper(const cv::Mat& arg0,cv::Mat& arg1,cv::Mat& arg2,int arg3){
+        return cv::PCACompute(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    void PCACompute_wrapper(const cv::Mat& arg0,cv::Mat& arg1,cv::Mat& arg2,double arg3){
+        return cv::PCACompute(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    void PCAProject_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,const cv::Mat& arg2,cv::Mat& arg3){
+        return cv::PCAProject(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    double PSNR_wrapper(const cv::Mat& arg0,const cv::Mat& arg1){
+        return cv::PSNR(arg0,arg1) ;
+    }
+
+
+    void SVBackSubst_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,const cv::Mat& arg2,const cv::Mat& arg3,cv::Mat& arg4){
+        return cv::SVBackSubst(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    void SVDecomp_wrapper(const cv::Mat& arg0,cv::Mat& arg1,cv::Mat& arg2,cv::Mat& arg3,int arg4){
+        return cv::SVDecomp(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    void Scharr_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,int arg3,int arg4,double arg5,double arg6,int arg7){
+        return cv::Scharr(arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7) ;
+    }
+
+
+    void Sobel_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,int arg3,int arg4,int arg5,double arg6,double arg7,int arg8){
+        return cv::Sobel(arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8) ;
+    }
+
+
+    void absdiff_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2){
+        return cv::absdiff(arg0,arg1,arg2) ;
+    }
+
+
+    void accumulate_wrapper(const cv::Mat& arg0,cv::Mat& arg1,const cv::Mat& arg2){
+        return cv::accumulate(arg0,arg1,arg2) ;
+    }
+
+
+    void accumulateProduct_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2,const cv::Mat& arg3){
+        return cv::accumulateProduct(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    void accumulateSquare_wrapper(const cv::Mat& arg0,cv::Mat& arg1,const cv::Mat& arg2){
+        return cv::accumulateSquare(arg0,arg1,arg2) ;
+    }
+
+
+    void accumulateWeighted_wrapper(const cv::Mat& arg0,cv::Mat& arg1,double arg2,const cv::Mat& arg3){
+        return cv::accumulateWeighted(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    void adaptiveThreshold_wrapper(const cv::Mat& arg0,cv::Mat& arg1,double arg2,int arg3,int arg4,int arg5,double arg6){
+        return cv::adaptiveThreshold(arg0,arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    void add_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2,const cv::Mat& arg3,int arg4){
+        return cv::add(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    void addWeighted_wrapper(const cv::Mat& arg0,double arg1,const cv::Mat& arg2,double arg3,double arg4,cv::Mat& arg5,int arg6){
+        return cv::addWeighted(arg0,arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    void applyColorMap_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2){
+        return cv::applyColorMap(arg0,arg1,arg2) ;
+    }
+
+
+    void approxPolyDP_wrapper(const cv::Mat& arg0,cv::Mat& arg1,double arg2,bool arg3){
+        return cv::approxPolyDP(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    double arcLength_wrapper(const cv::Mat& arg0,bool arg1){
+        return cv::arcLength(arg0,arg1) ;
+    }
+
+
+    void arrowedLine_wrapper(cv::Mat& arg0,Point arg1,Point arg2,const Scalar& arg3,int arg4,int arg5,int arg6,double arg7){
+        return cv::arrowedLine(arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7) ;
+    }
+
+
+    void batchDistance_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2,int arg3,cv::Mat& arg4,int arg5,int arg6,const cv::Mat& arg7,int arg8,bool arg9){
+        return cv::batchDistance(arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9) ;
+    }
+
+
+    void bilateralFilter_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,double arg3,double arg4,int arg5){
+        return cv::bilateralFilter(arg0,arg1,arg2,arg3,arg4,arg5) ;
+    }
+
+
+    void bitwise_and_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2,const cv::Mat& arg3){
+        return cv::bitwise_and(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    void bitwise_not_wrapper(const cv::Mat& arg0,cv::Mat& arg1,const cv::Mat& arg2){
+        return cv::bitwise_not(arg0,arg1,arg2) ;
+    }
+
+
+    void bitwise_or_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2,const cv::Mat& arg3){
+        return cv::bitwise_or(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    void bitwise_xor_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2,const cv::Mat& arg3){
+        return cv::bitwise_xor(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    void blur_wrapper(const cv::Mat& arg0,cv::Mat& arg1,Size arg2,Point arg3,int arg4){
+        return cv::blur(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    int borderInterpolate_wrapper(int arg0,int arg1,int arg2){
+        return cv::borderInterpolate(arg0,arg1,arg2) ;
+    }
+
+
+    Rect boundingRect_wrapper(const cv::Mat& arg0){
+        return cv::boundingRect(arg0) ;
+    }
+
+
+    void boxFilter_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,Size arg3,Point arg4,bool arg5,int arg6){
+        return cv::boxFilter(arg0,arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    void boxPoints_wrapper(RotatedRect arg0,cv::Mat& arg1){
+        return cv::boxPoints(arg0,arg1) ;
+    }
+
+
+    void calcBackProject_wrapper(const std::vector<cv::Mat>& arg0,const std::vector<int>& arg1,const cv::Mat& arg2,cv::Mat& arg3,const std::vector<float>& arg4,double arg5){
+        return cv::calcBackProject(arg0,arg1,arg2,arg3,arg4,arg5) ;
+    }
+
+
+    void calcCovarMatrix_wrapper(const cv::Mat& arg0,cv::Mat& arg1,cv::Mat& arg2,int arg3,int arg4){
+        return cv::calcCovarMatrix(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    void calcHist_wrapper(const std::vector<cv::Mat>& arg0,const std::vector<int>& arg1,const cv::Mat& arg2,cv::Mat& arg3,const std::vector<int>& arg4,const std::vector<float>& arg5,bool arg6){
+        return cv::calcHist(arg0,arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    void cartToPolar_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2,cv::Mat& arg3,bool arg4){
+        return cv::cartToPolar(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    bool checkRange_wrapper(const cv::Mat& arg0,bool arg1, Point* arg2,double arg3,double arg4){
+        return cv::checkRange(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    void circle_wrapper(cv::Mat& arg0,Point arg1,int arg2,const Scalar& arg3,int arg4,int arg5,int arg6){
+        return cv::circle(arg0,arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    bool clipLine_wrapper(Rect arg0,  Point& arg1,  Point& arg2){
+        return cv::clipLine(arg0,arg1,arg2) ;
+    }
+
+
+    void compare_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2,int arg3){
+        return cv::compare(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    double compareHist_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,int arg2){
+        return cv::compareHist(arg0,arg1,arg2) ;
+    }
+
+
+    void completeSymm_wrapper(cv::Mat& arg0,bool arg1){
+        return cv::completeSymm(arg0,arg1) ;
+    }
+
+
+    int connectedComponents_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,int arg3){
+        return cv::connectedComponents(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    int connectedComponentsWithStats_wrapper(const cv::Mat& arg0,cv::Mat& arg1,cv::Mat& arg2,cv::Mat& arg3,int arg4,int arg5){
+        return cv::connectedComponentsWithStats(arg0,arg1,arg2,arg3,arg4,arg5) ;
+    }
+
+
+    double contourArea_wrapper(const cv::Mat& arg0,bool arg1){
+        return cv::contourArea(arg0,arg1) ;
+    }
+
+
+    void convertMaps_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2,cv::Mat& arg3,int arg4,bool arg5){
+        return cv::convertMaps(arg0,arg1,arg2,arg3,arg4,arg5) ;
+    }
+
+
+    void convertScaleAbs_wrapper(const cv::Mat& arg0,cv::Mat& arg1,double arg2,double arg3){
+        return cv::convertScaleAbs(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    void convexHull_wrapper(const cv::Mat& arg0,cv::Mat& arg1,bool arg2,bool arg3){
+        return cv::convexHull(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    void convexityDefects_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2){
+        return cv::convexityDefects(arg0,arg1,arg2) ;
+    }
+
+
+    void copyMakeBorder_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,int arg3,int arg4,int arg5,int arg6,const Scalar& arg7){
+        return cv::copyMakeBorder(arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7) ;
+    }
+
+
+    void cornerEigenValsAndVecs_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,int arg3,int arg4){
+        return cv::cornerEigenValsAndVecs(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    void cornerHarris_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,int arg3,double arg4,int arg5){
+        return cv::cornerHarris(arg0,arg1,arg2,arg3,arg4,arg5) ;
+    }
+
+
+    void cornerMinEigenVal_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,int arg3,int arg4){
+        return cv::cornerMinEigenVal(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    void cornerSubPix_wrapper(const cv::Mat& arg0,cv::Mat& arg1,Size arg2,Size arg3,TermCriteria arg4){
+        return cv::cornerSubPix(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    int countNonZero_wrapper(const cv::Mat& arg0){
+        return cv::countNonZero(arg0) ;
+    }
+
+
+    Ptr<CLAHE> createCLAHE_wrapper(double arg0,Size arg1){
+        return cv::createCLAHE(arg0,arg1) ;
+    }
+
+
+    void createHanningWindow_wrapper(cv::Mat& arg0,Size arg1,int arg2){
+        return cv::createHanningWindow(arg0,arg1,arg2) ;
+    }
+
+
+    Ptr<LineSegmentDetector> createLineSegmentDetector_wrapper(int arg0,double arg1,double arg2,double arg3,double arg4,double arg5,double arg6,int arg7){
+        return cv::createLineSegmentDetector(arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7) ;
+    }
+
+
+    void cvtColor_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,int arg3){
+        return cv::cvtColor(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    void dct_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2){
+        return cv::dct(arg0,arg1,arg2) ;
+    }
+
+
+    void demosaicing_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,int arg3){
+        return cv::demosaicing(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    void destroyAllWindows_wrapper(){
+        return cv::destroyAllWindows() ;
+    }
+
+
+    void destroyWindow_wrapper(const String& arg0){
+        return cv::destroyWindow(arg0) ;
+    }
+
+
+    double determinant_wrapper(const cv::Mat& arg0){
+        return cv::determinant(arg0) ;
+    }
+
+
+    void dft_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,int arg3){
+        return cv::dft(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    void dilate_wrapper(const cv::Mat& arg0,cv::Mat& arg1,const cv::Mat& arg2,Point arg3,int arg4,int arg5,const Scalar& arg6){
+        return cv::dilate(arg0,arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    void distanceTransform_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,int arg3,int arg4){
+        return cv::distanceTransform(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    void distanceTransformWithLabels_wrapper(const cv::Mat& arg0,cv::Mat& arg1,cv::Mat& arg2,int arg3,int arg4,int arg5){
+        return cv::distanceTransform(arg0,arg1,arg2,arg3,arg4,arg5) ;
+    }
+
+
+    void divide_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2,double arg3,int arg4){
+        return cv::divide(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    void divide_wrapper(double arg0,const cv::Mat& arg1,cv::Mat& arg2,int arg3){
+        return cv::divide(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    void drawContours_wrapper(cv::Mat& arg0,const std::vector<cv::Mat>& arg1,int arg2,const Scalar& arg3,int arg4,int arg5,const cv::Mat& arg6,int arg7,Point arg8){
+        return cv::drawContours(arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8) ;
+    }
+
+
+    bool eigen_wrapper(const cv::Mat& arg0,cv::Mat& arg1,cv::Mat& arg2){
+        return cv::eigen(arg0,arg1,arg2) ;
+    }
+
+
+    void ellipse_wrapper(cv::Mat& arg0,Point arg1,Size arg2,double arg3,double arg4,double arg5,const Scalar& arg6,int arg7,int arg8,int arg9){
+        return cv::ellipse(arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9) ;
+    }
+
+
+    void ellipse_wrapper(cv::Mat& arg0,const RotatedRect& arg1,const Scalar& arg2,int arg3,int arg4){
+        return cv::ellipse(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    void ellipse2Poly_wrapper(Point arg0,Size arg1,int arg2,int arg3,int arg4,int arg5, std::vector<Point>& arg6){
+        return cv::ellipse2Poly(arg0,arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    void equalizeHist_wrapper(const cv::Mat& arg0,cv::Mat& arg1){
+        return cv::equalizeHist(arg0,arg1) ;
+    }
+
+
+    void erode_wrapper(const cv::Mat& arg0,cv::Mat& arg1,const cv::Mat& arg2,Point arg3,int arg4,int arg5,const Scalar& arg6){
+        return cv::erode(arg0,arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    void exp_wrapper(const cv::Mat& arg0,cv::Mat& arg1){
+        return cv::exp(arg0,arg1) ;
+    }
+
+
+    void extractChannel_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2){
+        return cv::extractChannel(arg0,arg1,arg2) ;
+    }
+
+
+    void fillConvexPoly_wrapper(cv::Mat& arg0,const cv::Mat& arg1,const Scalar& arg2,int arg3,int arg4){
+        return cv::fillConvexPoly(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    void fillPoly_wrapper(cv::Mat& arg0,const std::vector<cv::Mat>& arg1,const Scalar& arg2,int arg3,int arg4,Point arg5){
+        return cv::fillPoly(arg0,arg1,arg2,arg3,arg4,arg5) ;
+    }
+
+
+    void filter2D_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,const cv::Mat& arg3,Point arg4,double arg5,int arg6){
+        return cv::filter2D(arg0,arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    void findContours_wrapper(cv::Mat& arg0,std::vector<cv::Mat>& arg1,cv::Mat& arg2,int arg3,int arg4,Point arg5){
+        return cv::findContours(arg0,arg1,arg2,arg3,arg4,arg5) ;
+    }
+
+
+    void findNonZero_wrapper(const cv::Mat& arg0,cv::Mat& arg1){
+        return cv::findNonZero(arg0,arg1) ;
+    }
+
+
+    RotatedRect fitEllipse_wrapper(const cv::Mat& arg0){
+        return cv::fitEllipse(arg0) ;
+    }
+
+
+    void fitLine_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,double arg3,double arg4,double arg5){
+        return cv::fitLine(arg0,arg1,arg2,arg3,arg4,arg5) ;
+    }
+
+
+    void flip_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2){
+        return cv::flip(arg0,arg1,arg2) ;
+    }
+
+
+    int floodFill_wrapper(cv::Mat& arg0,cv::Mat& arg1,Point arg2,Scalar arg3, Rect* arg4,Scalar arg5,Scalar arg6,int arg7){
+        return cv::floodFill(arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7) ;
+    }
+
+
+    void gemm_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,double arg2,const cv::Mat& arg3,double arg4,cv::Mat& arg5,int arg6){
+        return cv::gemm(arg0,arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    Mat getAffineTransform_wrapper(const cv::Mat& arg0,const cv::Mat& arg1){
+        return cv::getAffineTransform(arg0,arg1) ;
+    }
+
+
+    Mat getDefaultNewCameraMatrix_wrapper(const cv::Mat& arg0,Size arg1,bool arg2){
+        return cv::getDefaultNewCameraMatrix(arg0,arg1,arg2) ;
+    }
+
+
+    void getDerivKernels_wrapper(cv::Mat& arg0,cv::Mat& arg1,int arg2,int arg3,int arg4,bool arg5,int arg6){
+        return cv::getDerivKernels(arg0,arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    Mat getGaborKernel_wrapper(Size arg0,double arg1,double arg2,double arg3,double arg4,double arg5,int arg6){
+        return cv::getGaborKernel(arg0,arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    Mat getGaussianKernel_wrapper(int arg0,double arg1,int arg2){
+        return cv::getGaussianKernel(arg0,arg1,arg2) ;
+    }
+
+
+    int getOptimalDFTSize_wrapper(int arg0){
+        return cv::getOptimalDFTSize(arg0) ;
+    }
+
+
+    Mat getPerspectiveTransform_wrapper(const cv::Mat& arg0,const cv::Mat& arg1){
+        return cv::getPerspectiveTransform(arg0,arg1) ;
+    }
+
+
+    void getRectSubPix_wrapper(const cv::Mat& arg0,Size arg1,Point2f arg2,cv::Mat& arg3,int arg4){
+        return cv::getRectSubPix(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    Mat getRotationMatrix2D_wrapper(Point2f arg0,double arg1,double arg2){
+        return cv::getRotationMatrix2D(arg0,arg1,arg2) ;
+    }
+
+
+    Mat getStructuringElement_wrapper(int arg0,Size arg1,Point arg2){
+        return cv::getStructuringElement(arg0,arg1,arg2) ;
+    }
+
+
+    Size getTextSize_wrapper(const String& arg0,int arg1,double arg2,int arg3, int* arg4){
+        return cv::getTextSize(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    int getTrackbarPos_wrapper(const String& arg0,const String& arg1){
+        return cv::getTrackbarPos(arg0,arg1) ;
+    }
+
+
+    double getWindowProperty_wrapper(const String& arg0,int arg1){
+        return cv::getWindowProperty(arg0,arg1) ;
+    }
+
+
+    void goodFeaturesToTrack_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,double arg3,double arg4,const cv::Mat& arg5,int arg6,bool arg7,double arg8){
+        return cv::goodFeaturesToTrack(arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8) ;
+    }
+
+
+    void grabCut_wrapper(const cv::Mat& arg0,cv::Mat& arg1,Rect arg2,cv::Mat& arg3,cv::Mat& arg4,int arg5,int arg6){
+        return cv::grabCut(arg0,arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    void hconcat_wrapper(const std::vector<cv::Mat>& arg0,cv::Mat& arg1){
+        return cv::hconcat(arg0,arg1) ;
+    }
+
+
+    void idct_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2){
+        return cv::idct(arg0,arg1,arg2) ;
+    }
+
+
+    void idft_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,int arg3){
+        return cv::idft(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    Mat imdecode_wrapper(const cv::Mat& arg0,int arg1){
+        return cv::imdecode(arg0,arg1) ;
+    }
+
+
+    bool imencode_wrapper(const String& arg0,const cv::Mat& arg1, std::vector<uchar>& arg2,const std::vector<int>& arg3){
+        return cv::imencode(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    Mat imread_wrapper(const String& arg0,int arg1){
+        return cv::imread(arg0,arg1) ;
+    }
+
+
+    bool imreadmulti_wrapper(const String& arg0,std::vector<Mat>& arg1,int arg2){
+        return cv::imreadmulti(arg0,arg1,arg2) ;
+    }
+
+
+    void imshow_wrapper(const String& arg0,const cv::Mat& arg1){
+        return cv::imshow(arg0,arg1) ;
+    }
+
+
+    bool imwrite_wrapper(const String& arg0,const cv::Mat& arg1,const std::vector<int>& arg2){
+        return cv::imwrite(arg0,arg1,arg2) ;
+    }
+
+
+    void inRange_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,const cv::Mat& arg2,cv::Mat& arg3){
+        return cv::inRange(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    void initUndistortRectifyMap_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,const cv::Mat& arg2,const cv::Mat& arg3,Size arg4,int arg5,cv::Mat& arg6,cv::Mat& arg7){
+        return cv::initUndistortRectifyMap(arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7) ;
+    }
+
+
+    float initWideAngleProjMap_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,Size arg2,int arg3,int arg4,cv::Mat& arg5,cv::Mat& arg6,int arg7,double arg8){
+        return cv::initWideAngleProjMap(arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8) ;
+    }
+
+
+    void insertChannel_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2){
+        return cv::insertChannel(arg0,arg1,arg2) ;
+    }
+
+
+    void integral_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2){
+        return cv::integral(arg0,arg1,arg2) ;
+    }
+
+
+    void integral2_wrapper(const cv::Mat& arg0,cv::Mat& arg1,cv::Mat& arg2,int arg3,int arg4){
+        return cv::integral(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    void integral3_wrapper(const cv::Mat& arg0,cv::Mat& arg1,cv::Mat& arg2,cv::Mat& arg3,int arg4,int arg5){
+        return cv::integral(arg0,arg1,arg2,arg3,arg4,arg5) ;
+    }
+
+
+    float intersectConvexConvex_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2,bool arg3){
+        return cv::intersectConvexConvex(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    double invert_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2){
+        return cv::invert(arg0,arg1,arg2) ;
+    }
+
+
+    void invertAffineTransform_wrapper(const cv::Mat& arg0,cv::Mat& arg1){
+        return cv::invertAffineTransform(arg0,arg1) ;
+    }
+
+
+    bool isContourConvex_wrapper(const cv::Mat& arg0){
+        return cv::isContourConvex(arg0) ;
+    }
+
+
+    double kmeans_wrapper(const cv::Mat& arg0,int arg1,cv::Mat& arg2,TermCriteria arg3,int arg4,int arg5,cv::Mat& arg6){
+        return cv::kmeans(arg0,arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    void line_wrapper(cv::Mat& arg0,Point arg1,Point arg2,const Scalar& arg3,int arg4,int arg5,int arg6){
+        return cv::line(arg0,arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    void linearPolar_wrapper(const cv::Mat& arg0,cv::Mat& arg1,Point2f arg2,double arg3,int arg4){
+        return cv::linearPolar(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    void log_wrapper(const cv::Mat& arg0,cv::Mat& arg1){
+        return cv::log(arg0,arg1) ;
+    }
+
+
+    void logPolar_wrapper(const cv::Mat& arg0,cv::Mat& arg1,Point2f arg2,double arg3,int arg4){
+        return cv::logPolar(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    void magnitude_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2){
+        return cv::magnitude(arg0,arg1,arg2) ;
+    }
+
+
+    double matchShapes_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,int arg2,double arg3){
+        return cv::matchShapes(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    void matchTemplate_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2,int arg3,const cv::Mat& arg4){
+        return cv::matchTemplate(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    void max_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2){
+        return cv::max(arg0,arg1,arg2) ;
+    }
+
+
+    Scalar mean_wrapper(const cv::Mat& arg0,const cv::Mat& arg1){
+        return cv::mean(arg0,arg1) ;
+    }
+
+
+    void meanStdDev_wrapper(const cv::Mat& arg0,cv::Mat& arg1,cv::Mat& arg2,const cv::Mat& arg3){
+        return cv::meanStdDev(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    void medianBlur_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2){
+        return cv::medianBlur(arg0,arg1,arg2) ;
+    }
+
+
+    void merge_wrapper(const std::vector<cv::Mat>& arg0,cv::Mat& arg1){
+        return cv::merge(arg0,arg1) ;
+    }
+
+
+    void min_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2){
+        return cv::min(arg0,arg1,arg2) ;
+    }
+
+
+    RotatedRect minAreaRect_wrapper(const cv::Mat& arg0){
+        return cv::minAreaRect(arg0) ;
+    }
+
+
+    double minEnclosingTriangle_wrapper(const cv::Mat& arg0, OutputArray arg1){
+        return cv::minEnclosingTriangle(arg0,arg1) ;
+    }
+
+
+    void minMaxLoc_wrapper(const cv::Mat& arg0, double* arg1, double* arg2, Point* arg3, Point* arg4,const cv::Mat& arg5){
+        return cv::minMaxLoc(arg0,arg1,arg2,arg3,arg4,arg5) ;
+    }
+
+
+    void mixChannels_wrapper(const std::vector<cv::Mat>& arg0,InputOutputArrayOfArrays arg1,const std::vector<int>& arg2){
+        return cv::mixChannels(arg0,arg1,arg2) ;
+    }
+
+
+    Moments moments_wrapper(const cv::Mat& arg0,bool arg1){
+        return cv::moments(arg0,arg1) ;
+    }
+
+
+    void morphologyEx_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,const cv::Mat& arg3,Point arg4,int arg5,int arg6,const Scalar& arg7){
+        return cv::morphologyEx(arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7) ;
+    }
+
+
+    void moveWindow_wrapper(const String& arg0,int arg1,int arg2){
+        return cv::moveWindow(arg0,arg1,arg2) ;
+    }
+
+
+    void mulSpectrums_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2,int arg3,bool arg4){
+        return cv::mulSpectrums(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    void mulTransposed_wrapper(const cv::Mat& arg0,cv::Mat& arg1,bool arg2,const cv::Mat& arg3,double arg4,int arg5){
+        return cv::mulTransposed(arg0,arg1,arg2,arg3,arg4,arg5) ;
+    }
+
+
+    void multiply_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2,double arg3,int arg4){
+        return cv::multiply(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    void namedWindow_wrapper(const String& arg0,int arg1){
+        return cv::namedWindow(arg0,arg1) ;
+    }
+
+
+    double norm_wrapper(const cv::Mat& arg0,int arg1,const cv::Mat& arg2){
+        return cv::norm(arg0,arg1,arg2) ;
+    }
+
+
+    double norm_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,int arg2,const cv::Mat& arg3){
+        return cv::norm(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    void normalize_wrapper(const cv::Mat& arg0,cv::Mat& arg1,double arg2,double arg3,int arg4,int arg5,const cv::Mat& arg6){
+        return cv::normalize(arg0,arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    void patchNaNs_wrapper(cv::Mat& arg0,double arg1){
+        return cv::patchNaNs(arg0,arg1) ;
+    }
+
+
+    void perspectiveTransform_wrapper(const cv::Mat& arg0,cv::Mat& arg1,const cv::Mat& arg2){
+        return cv::perspectiveTransform(arg0,arg1,arg2) ;
+    }
+
+
+    void phase_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2,bool arg3){
+        return cv::phase(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    Point2d phaseCorrelate_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,const cv::Mat& arg2, double* arg3){
+        return cv::phaseCorrelate(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    double pointPolygonTest_wrapper(const cv::Mat& arg0,Point2f arg1,bool arg2){
+        return cv::pointPolygonTest(arg0,arg1,arg2) ;
+    }
+
+
+    void polarToCart_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2,cv::Mat& arg3,bool arg4){
+        return cv::polarToCart(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    void polylines_wrapper(cv::Mat& arg0,const std::vector<cv::Mat>& arg1,bool arg2,const Scalar& arg3,int arg4,int arg5,int arg6){
+        return cv::polylines(arg0,arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    void pow_wrapper(const cv::Mat& arg0,double arg1,cv::Mat& arg2){
+        return cv::pow(arg0,arg1,arg2) ;
+    }
+
+
+    void preCornerDetect_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,int arg3){
+        return cv::preCornerDetect(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    void putText_wrapper(cv::Mat& arg0,const String& arg1,Point arg2,int arg3,double arg4,Scalar arg5,int arg6,int arg7,bool arg8){
+        return cv::putText(arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8) ;
+    }
+
+
+    void pyrDown_wrapper(const cv::Mat& arg0,cv::Mat& arg1,const Size& arg2,int arg3){
+        return cv::pyrDown(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    void pyrMeanShiftFiltering_wrapper(const cv::Mat& arg0,cv::Mat& arg1,double arg2,double arg3,int arg4,TermCriteria arg5){
+        return cv::pyrMeanShiftFiltering(arg0,arg1,arg2,arg3,arg4,arg5) ;
+    }
+
+
+    void pyrUp_wrapper(const cv::Mat& arg0,cv::Mat& arg1,const Size& arg2,int arg3){
+        return cv::pyrUp(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    void randShuffle_wrapper(cv::Mat& arg0,double arg1,RNG* arg2){
+        return cv::randShuffle(arg0,arg1,arg2) ;
+    }
+
+
+    void randn_wrapper(cv::Mat& arg0,const cv::Mat& arg1,const cv::Mat& arg2){
+        return cv::randn(arg0,arg1,arg2) ;
+    }
+
+
+    void randu_wrapper(cv::Mat& arg0,const cv::Mat& arg1,const cv::Mat& arg2){
+        return cv::randu(arg0,arg1,arg2) ;
+    }
+
+
+    void rectangle_wrapper(cv::Mat& arg0,Point arg1,Point arg2,const Scalar& arg3,int arg4,int arg5,int arg6){
+        return cv::rectangle(arg0,arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    void reduce_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,int arg3,int arg4){
+        return cv::reduce(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    void remap_wrapper(const cv::Mat& arg0,cv::Mat& arg1,const cv::Mat& arg2,const cv::Mat& arg3,int arg4,int arg5,const Scalar& arg6){
+        return cv::remap(arg0,arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    void repeat_wrapper(const cv::Mat& arg0,int arg1,int arg2,cv::Mat& arg3){
+        return cv::repeat(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    void resize_wrapper(const cv::Mat& arg0,cv::Mat& arg1,Size arg2,double arg3,double arg4,int arg5){
+        return cv::resize(arg0,arg1,arg2,arg3,arg4,arg5) ;
+    }
+
+
+    void resizeWindow_wrapper(const String& arg0,int arg1,int arg2){
+        return cv::resizeWindow(arg0,arg1,arg2) ;
+    }
+
+
+    int rotatedRectangleIntersection_wrapper(const RotatedRect& arg0,const RotatedRect& arg1,cv::Mat& arg2){
+        return cv::rotatedRectangleIntersection(arg0,arg1,arg2) ;
+    }
+
+
+    void scaleAdd_wrapper(const cv::Mat& arg0,double arg1,const cv::Mat& arg2,cv::Mat& arg3){
+        return cv::scaleAdd(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    void sepFilter2D_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,const cv::Mat& arg3,const cv::Mat& arg4,Point arg5,double arg6,int arg7){
+        return cv::sepFilter2D(arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7) ;
+    }
+
+
+    void setIdentity_wrapper(cv::Mat& arg0,const Scalar& arg1){
+        return cv::setIdentity(arg0,arg1) ;
+    }
+
+
+    void setTrackbarMax_wrapper(const String& arg0,const String& arg1,int arg2){
+        return cv::setTrackbarMax(arg0,arg1,arg2) ;
+    }
+
+
+    void setTrackbarPos_wrapper(const String& arg0,const String& arg1,int arg2){
+        return cv::setTrackbarPos(arg0,arg1,arg2) ;
+    }
+
+
+    void setWindowProperty_wrapper(const String& arg0,int arg1,double arg2){
+        return cv::setWindowProperty(arg0,arg1,arg2) ;
+    }
+
+
+    void setWindowTitle_wrapper(const String& arg0,const String& arg1){
+        return cv::setWindowTitle(arg0,arg1) ;
+    }
+
+
+    bool solve_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2,int arg3){
+        return cv::solve(arg0,arg1,arg2,arg3) ;
+    }
+
+
+    int solveCubic_wrapper(const cv::Mat& arg0,cv::Mat& arg1){
+        return cv::solveCubic(arg0,arg1) ;
+    }
+
+
+    double solvePoly_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2){
+        return cv::solvePoly(arg0,arg1,arg2) ;
+    }
+
+
+    void sort_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2){
+        return cv::sort(arg0,arg1,arg2) ;
+    }
+
+
+    void sortIdx_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2){
+        return cv::sortIdx(arg0,arg1,arg2) ;
+    }
+
+
+    void split_wrapper(const cv::Mat& arg0,std::vector<cv::Mat>& arg1){
+        return cv::split(arg0,arg1) ;
+    }
+
+
+    void sqrBoxFilter_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,Size arg3,Point arg4,bool arg5,int arg6){
+        return cv::sqrBoxFilter(arg0,arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    void sqrt_wrapper(const cv::Mat& arg0,cv::Mat& arg1){
+        return cv::sqrt(arg0,arg1) ;
+    }
+
+
+    int startWindowThread_wrapper(){
+        return cv::startWindowThread() ;
+    }
+
+
+    void subtract_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2,const cv::Mat& arg3,int arg4){
+        return cv::subtract(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    Scalar sumElems_wrapper(const cv::Mat& arg0){
+        return cv::sum(arg0) ;
+    }
+
+
+    double threshold_wrapper(const cv::Mat& arg0,cv::Mat& arg1,double arg2,double arg3,int arg4){
+        return cv::threshold(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    Scalar trace_wrapper(const cv::Mat& arg0){
+        return cv::trace(arg0) ;
+    }
+
+
+    void transform_wrapper(const cv::Mat& arg0,cv::Mat& arg1,const cv::Mat& arg2){
+        return cv::transform(arg0,arg1,arg2) ;
+    }
+
+
+    void transpose_wrapper(const cv::Mat& arg0,cv::Mat& arg1){
+        return cv::transpose(arg0,arg1) ;
+    }
+
+
+    void undistort_wrapper(const cv::Mat& arg0,cv::Mat& arg1,const cv::Mat& arg2,const cv::Mat& arg3,const cv::Mat& arg4){
+        return cv::undistort(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    void undistortPoints_wrapper(const cv::Mat& arg0,cv::Mat& arg1,const cv::Mat& arg2,const cv::Mat& arg3,const cv::Mat& arg4,const cv::Mat& arg5){
+        return cv::undistortPoints(arg0,arg1,arg2,arg3,arg4,arg5) ;
+    }
+
+
+    void vconcat_wrapper(const std::vector<cv::Mat>& arg0,cv::Mat& arg1){
+        return cv::vconcat(arg0,arg1) ;
+    }
+
+
+    int waitKey_wrapper(int arg0){
+        return cv::waitKey(arg0) ;
+    }
+
+
+    void warpAffine_wrapper(const cv::Mat& arg0,cv::Mat& arg1,const cv::Mat& arg2,Size arg3,int arg4,int arg5,const Scalar& arg6){
+        return cv::warpAffine(arg0,arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    void warpPerspective_wrapper(const cv::Mat& arg0,cv::Mat& arg1,const cv::Mat& arg2,Size arg3,int arg4,int arg5,const Scalar& arg6){
+        return cv::warpPerspective(arg0,arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    void watershed_wrapper(const cv::Mat& arg0,cv::Mat& arg1){
+        return cv::watershed(arg0,arg1) ;
+    }
+
+
+    void finish_wrapper(){
+        return cv::ocl::finish() ;
+    }
+
+
+    bool haveAmdBlas_wrapper(){
+        return cv::ocl::haveAmdBlas() ;
+    }
+
+
+    bool haveAmdFft_wrapper(){
+        return cv::ocl::haveAmdFft() ;
+    }
+
+
+    bool haveOpenCL_wrapper(){
+        return cv::ocl::haveOpenCL() ;
+    }
+
+
+    void setUseOpenCL_wrapper(bool arg0){
+        return cv::ocl::setUseOpenCL(arg0) ;
+    }
+
+
+    bool useOpenCL_wrapper(){
+        return cv::ocl::useOpenCL() ;
+    }
+
+}
+
+    EMSCRIPTEN_BINDINGS(testBinding) {
+        
+    emscripten::class_<cv::Algorithm>("Algorithm")
+    
+    ;
 
     emscripten::class_<cv::CLAHE>("CLAHE")
     
@@ -43,102 +1142,6 @@ using namespace cv;
     .function("detect", select_overload<void(InputArray,OutputArray,OutputArray,OutputArray,OutputArray)>(&cv::LineSegmentDetector::detect))
 
     .function("drawSegments", select_overload<void(InputOutputArray,InputArray)>(&cv::LineSegmentDetector::drawSegments))
-
-    ;
-
-    emscripten::class_<cv::Mat>("Mat")
-    
-    .function("elemSize1", select_overload<size_t()const>(&cv::Mat::elemSize1))
-
-    .function("assignTo", select_overload<void(Mat&,int)const>(&cv::Mat::assignTo))
-
-    .function("inv", select_overload<MatExpr(int)const>(&cv::Mat::inv))
-
-    .function("channels", select_overload<int()const>(&cv::Mat::channels))
-
-    .function("isContinuous", select_overload<bool()const>(&cv::Mat::isContinuous))
-
-    .function("checkVector", select_overload<int(int,int,bool)const>(&cv::Mat::checkVector))
-
-    .function("convertTo", select_overload<void(OutputArray,int,double,double)const>(&cv::Mat::convertTo))
-
-    .function("total", select_overload<size_t()const>(&cv::Mat::total))
-
-    .function("row", select_overload<Mat(int)const>(&cv::Mat::row))
-
-    .class_function("eye",select_overload<MatExpr(int,int,int)>(&cv::Mat::eye))
-
-    .class_function("eye",select_overload<MatExpr(Size,int)>(&cv::Mat::eye))
-
-    .constructor<  >()
-
-    .constructor< int,int,int >()
-
-    .constructor< int,int,int,const Scalar& >()
-
-    .constructor< const Mat& >()
-
-    .constructor< int,int,int,void*,size_t >()
-
-    .constructor< const Mat&,const Rect& >()
-
-    .function("reshape", select_overload<Mat(int,int)const>(&cv::Mat::reshape))
-
-    .function("reshape", select_overload<Mat(int,int,const int*)const>(&cv::Mat::reshape), allow_raw_pointers())
-
-    .function("create", select_overload<void(int,int,int)>(&cv::Mat::create))
-
-    .function("create", select_overload<void(Size,int)>(&cv::Mat::create))
-
-    .function("rowRange", select_overload<Mat(int,int)const>(&cv::Mat::rowRange))
-
-    .function("rowRange", select_overload<Mat(const Range&)const>(&cv::Mat::rowRange))
-
-    .function("cross", select_overload<Mat(InputArray)const>(&cv::Mat::cross))
-
-    .function("copyTo", select_overload<void(OutputArray)const>(&cv::Mat::copyTo))
-
-    .function("copyTo", select_overload<void(OutputArray,InputArray)const>(&cv::Mat::copyTo))
-
-    .class_function("zeros",select_overload<MatExpr(int,int,int)>(&cv::Mat::zeros))
-
-    .class_function("zeros",select_overload<MatExpr(Size,int)>(&cv::Mat::zeros))
-
-    .class_function("zeros",select_overload<MatExpr(int,const int*,int)>(&cv::Mat::zeros), allow_raw_pointers())
-
-    .function("elemSize", select_overload<size_t()const>(&cv::Mat::elemSize))
-
-    .function("mul", select_overload<MatExpr(InputArray,double)const>(&cv::Mat::mul))
-
-    .function("type", select_overload<int()const>(&cv::Mat::type))
-
-    .function("empty", select_overload<bool()const>(&cv::Mat::empty))
-
-    .function("colRange", select_overload<Mat(int,int)const>(&cv::Mat::colRange))
-
-    .function("colRange", select_overload<Mat(const Range&)const>(&cv::Mat::colRange))
-
-    .function("step1", select_overload<size_t(int)const>(&cv::Mat::step1))
-
-    .function("clone", select_overload<Mat()const>(&cv::Mat::clone))
-
-    .class_function("ones",select_overload<MatExpr(int,int,int)>(&cv::Mat::ones))
-
-    .class_function("ones",select_overload<MatExpr(Size,int)>(&cv::Mat::ones))
-
-    .class_function("ones",select_overload<MatExpr(int,const int*,int)>(&cv::Mat::ones), allow_raw_pointers())
-
-    .function("depth", select_overload<int()const>(&cv::Mat::depth))
-
-    .function("t", select_overload<MatExpr()const>(&cv::Mat::t))
-
-    .function("col", select_overload<Mat(int)const>(&cv::Mat::col))
-
-    .function("dot", select_overload<double(InputArray)const>(&cv::Mat::dot))
-
-    .property("rows", &cv::Mat::rows)
-
-    .property("cols", &cv::Mat::cols)
 
     ;
 
@@ -224,444 +1227,447 @@ using namespace cv;
 
     ;
 
-   
-    function("Canny", select_overload<void(InputArray,OutputArray,double,double,int,bool)>(&cv::Canny));
+    emscripten::class_<cv::ml::StatModel>("ml_StatModel")
+    
+    ;
 
-    function("GaussianBlur", select_overload<void(InputArray,OutputArray,Size,double,double,int)>(&cv::GaussianBlur));
+    function("Canny", select_overload<void(const cv::Mat&,cv::Mat&,double,double,int,bool)>(&Wrappers::Canny_wrapper));
 
-    function("HoughCircles", select_overload<void(InputArray,OutputArray,int,double,double,double,double,int,int)>(&cv::HoughCircles));
+    function("GaussianBlur", select_overload<void(const cv::Mat&,cv::Mat&,Size,double,double,int)>(&Wrappers::GaussianBlur_wrapper));
 
-    function("HoughLines", select_overload<void(InputArray,OutputArray,double,double,int,double,double,double,double)>(&cv::HoughLines));
+    function("HoughCircles", select_overload<void(const cv::Mat&,cv::Mat&,int,double,double,double,double,int,int)>(&Wrappers::HoughCircles_wrapper));
 
-    function("HoughLinesP", select_overload<void(InputArray,OutputArray,double,double,int,double,double)>(&cv::HoughLinesP));
+    function("HoughLines", select_overload<void(const cv::Mat&,cv::Mat&,double,double,int,double,double,double,double)>(&Wrappers::HoughLines_wrapper));
 
-    function("HuMoments", select_overload<void(const Moments&,OutputArray)>(&cv::HuMoments));
+    function("HoughLinesP", select_overload<void(const cv::Mat&,cv::Mat&,double,double,int,double,double)>(&Wrappers::HoughLinesP_wrapper));
 
-    function("LUT", select_overload<void(InputArray,InputArray,OutputArray)>(&cv::LUT));
+    function("HuMoments", select_overload<void(const Moments&,cv::Mat&)>(&Wrappers::HuMoments_wrapper));
 
-    function("Laplacian", select_overload<void(InputArray,OutputArray,int,int,double,double,int)>(&cv::Laplacian));
+    function("LUT", select_overload<void(const cv::Mat&,const cv::Mat&,cv::Mat&)>(&Wrappers::LUT_wrapper));
 
-    function("Mahalanobis", select_overload<double(InputArray,InputArray,InputArray)>(&cv::Mahalanobis));
+    function("Laplacian", select_overload<void(const cv::Mat&,cv::Mat&,int,int,double,double,int)>(&Wrappers::Laplacian_wrapper));
 
-    function("PCABackProject", select_overload<void(InputArray,InputArray,InputArray,OutputArray)>(&cv::PCABackProject));
+    function("Mahalanobis", select_overload<double(const cv::Mat&,const cv::Mat&,const cv::Mat&)>(&Wrappers::Mahalanobis_wrapper));
 
-    function("PCACompute", select_overload<void(InputArray,InputOutputArray,OutputArray,int)>(&cv::PCACompute));
+    function("PCABackProject", select_overload<void(const cv::Mat&,const cv::Mat&,const cv::Mat&,cv::Mat&)>(&Wrappers::PCABackProject_wrapper));
 
-    function("PCACompute", select_overload<void(InputArray,InputOutputArray,OutputArray,double)>(&cv::PCACompute));
+    function("PCACompute", select_overload<void(const cv::Mat&,cv::Mat&,cv::Mat&,int)>(&Wrappers::PCACompute_wrapper));
 
-    function("PCAProject", select_overload<void(InputArray,InputArray,InputArray,OutputArray)>(&cv::PCAProject));
+    function("PCACompute", select_overload<void(const cv::Mat&,cv::Mat&,cv::Mat&,double)>(&Wrappers::PCACompute_wrapper));
 
-    function("PSNR", select_overload<double(InputArray,InputArray)>(&cv::PSNR));
+    function("PCAProject", select_overload<void(const cv::Mat&,const cv::Mat&,const cv::Mat&,cv::Mat&)>(&Wrappers::PCAProject_wrapper));
 
-    function("SVBackSubst", select_overload<void(InputArray,InputArray,InputArray,InputArray,OutputArray)>(&cv::SVBackSubst));
+    function("PSNR", select_overload<double(const cv::Mat&,const cv::Mat&)>(&Wrappers::PSNR_wrapper));
 
-    function("SVDecomp", select_overload<void(InputArray,OutputArray,OutputArray,OutputArray,int)>(&cv::SVDecomp));
+    function("SVBackSubst", select_overload<void(const cv::Mat&,const cv::Mat&,const cv::Mat&,const cv::Mat&,cv::Mat&)>(&Wrappers::SVBackSubst_wrapper));
 
-    function("Scharr", select_overload<void(InputArray,OutputArray,int,int,int,double,double,int)>(&cv::Scharr));
+    function("SVDecomp", select_overload<void(const cv::Mat&,cv::Mat&,cv::Mat&,cv::Mat&,int)>(&Wrappers::SVDecomp_wrapper));
 
-    function("Sobel", select_overload<void(InputArray,OutputArray,int,int,int,int,double,double,int)>(&cv::Sobel));
+    function("Scharr", select_overload<void(const cv::Mat&,cv::Mat&,int,int,int,double,double,int)>(&Wrappers::Scharr_wrapper));
 
-    function("absdiff", select_overload<void(InputArray,InputArray,OutputArray)>(&cv::absdiff));
+    function("Sobel", select_overload<void(const cv::Mat&,cv::Mat&,int,int,int,int,double,double,int)>(&Wrappers::Sobel_wrapper));
 
-    function("accumulate", select_overload<void(InputArray,InputOutputArray,InputArray)>(&cv::accumulate));
+    function("absdiff", select_overload<void(const cv::Mat&,const cv::Mat&,cv::Mat&)>(&Wrappers::absdiff_wrapper));
 
-    function("accumulateProduct", select_overload<void(InputArray,InputArray,InputOutputArray,InputArray)>(&cv::accumulateProduct));
+    function("accumulate", select_overload<void(const cv::Mat&,cv::Mat&,const cv::Mat&)>(&Wrappers::accumulate_wrapper));
 
-    function("accumulateSquare", select_overload<void(InputArray,InputOutputArray,InputArray)>(&cv::accumulateSquare));
+    function("accumulateProduct", select_overload<void(const cv::Mat&,const cv::Mat&,cv::Mat&,const cv::Mat&)>(&Wrappers::accumulateProduct_wrapper));
 
-    function("accumulateWeighted", select_overload<void(InputArray,InputOutputArray,double,InputArray)>(&cv::accumulateWeighted));
+    function("accumulateSquare", select_overload<void(const cv::Mat&,cv::Mat&,const cv::Mat&)>(&Wrappers::accumulateSquare_wrapper));
 
-    function("adaptiveThreshold", select_overload<void(InputArray,OutputArray,double,int,int,int,double)>(&cv::adaptiveThreshold));
+    function("accumulateWeighted", select_overload<void(const cv::Mat&,cv::Mat&,double,const cv::Mat&)>(&Wrappers::accumulateWeighted_wrapper));
 
-    function("add", select_overload<void(InputArray,InputArray,OutputArray,InputArray,int)>(&cv::add));
+    function("adaptiveThreshold", select_overload<void(const cv::Mat&,cv::Mat&,double,int,int,int,double)>(&Wrappers::adaptiveThreshold_wrapper));
 
-    function("addWeighted", select_overload<void(InputArray,double,InputArray,double,double,OutputArray,int)>(&cv::addWeighted));
+    function("add", select_overload<void(const cv::Mat&,const cv::Mat&,cv::Mat&,const cv::Mat&,int)>(&Wrappers::add_wrapper));
 
-    function("applyColorMap", select_overload<void(InputArray,OutputArray,int)>(&cv::applyColorMap));
+    function("addWeighted", select_overload<void(const cv::Mat&,double,const cv::Mat&,double,double,cv::Mat&,int)>(&Wrappers::addWeighted_wrapper));
 
-    function("approxPolyDP", select_overload<void(InputArray,OutputArray,double,bool)>(&cv::approxPolyDP));
+    function("applyColorMap", select_overload<void(const cv::Mat&,cv::Mat&,int)>(&Wrappers::applyColorMap_wrapper));
 
-    function("arcLength", select_overload<double(InputArray,bool)>(&cv::arcLength));
+    function("approxPolyDP", select_overload<void(const cv::Mat&,cv::Mat&,double,bool)>(&Wrappers::approxPolyDP_wrapper));
 
-    function("arrowedLine", select_overload<void(InputOutputArray,Point,Point,const Scalar&,int,int,int,double)>(&cv::arrowedLine));
+    function("arcLength", select_overload<double(const cv::Mat&,bool)>(&Wrappers::arcLength_wrapper));
 
-    function("batchDistance", select_overload<void(InputArray,InputArray,OutputArray,int,OutputArray,int,int,InputArray,int,bool)>(&cv::batchDistance));
+    function("arrowedLine", select_overload<void(cv::Mat&,Point,Point,const Scalar&,int,int,int,double)>(&Wrappers::arrowedLine_wrapper));
 
-    function("bilateralFilter", select_overload<void(InputArray,OutputArray,int,double,double,int)>(&cv::bilateralFilter));
+    function("batchDistance", select_overload<void(const cv::Mat&,const cv::Mat&,cv::Mat&,int,cv::Mat&,int,int,const cv::Mat&,int,bool)>(&Wrappers::batchDistance_wrapper));
 
-    function("bitwise_and", select_overload<void(InputArray,InputArray,OutputArray,InputArray)>(&cv::bitwise_and));
+    function("bilateralFilter", select_overload<void(const cv::Mat&,cv::Mat&,int,double,double,int)>(&Wrappers::bilateralFilter_wrapper));
 
-    function("bitwise_not", select_overload<void(InputArray,OutputArray,InputArray)>(&cv::bitwise_not));
+    function("bitwise_and", select_overload<void(const cv::Mat&,const cv::Mat&,cv::Mat&,const cv::Mat&)>(&Wrappers::bitwise_and_wrapper));
 
-    function("bitwise_or", select_overload<void(InputArray,InputArray,OutputArray,InputArray)>(&cv::bitwise_or));
+    function("bitwise_not", select_overload<void(const cv::Mat&,cv::Mat&,const cv::Mat&)>(&Wrappers::bitwise_not_wrapper));
 
-    function("bitwise_xor", select_overload<void(InputArray,InputArray,OutputArray,InputArray)>(&cv::bitwise_xor));
+    function("bitwise_or", select_overload<void(const cv::Mat&,const cv::Mat&,cv::Mat&,const cv::Mat&)>(&Wrappers::bitwise_or_wrapper));
 
-    function("blur", select_overload<void(InputArray,OutputArray,Size,Point,int)>(&cv::blur));
+    function("bitwise_xor", select_overload<void(const cv::Mat&,const cv::Mat&,cv::Mat&,const cv::Mat&)>(&Wrappers::bitwise_xor_wrapper));
 
-    function("borderInterpolate", select_overload<int(int,int,int)>(&cv::borderInterpolate));
+    function("blur", select_overload<void(const cv::Mat&,cv::Mat&,Size,Point,int)>(&Wrappers::blur_wrapper));
 
-    function("boundingRect", select_overload<Rect(InputArray)>(&cv::boundingRect));
+    function("borderInterpolate", select_overload<int(int,int,int)>(&Wrappers::borderInterpolate_wrapper));
 
-    function("boxFilter", select_overload<void(InputArray,OutputArray,int,Size,Point,bool,int)>(&cv::boxFilter));
+    function("boundingRect", select_overload<Rect(const cv::Mat&)>(&Wrappers::boundingRect_wrapper));
 
-    function("boxPoints", select_overload<void(RotatedRect,OutputArray)>(&cv::boxPoints));
+    function("boxFilter", select_overload<void(const cv::Mat&,cv::Mat&,int,Size,Point,bool,int)>(&Wrappers::boxFilter_wrapper));
 
-    function("calcBackProject", select_overload<void(InputArrayOfArrays,const std::vector<int>&,InputArray,OutputArray,const std::vector<float>&,double)>(&cv::calcBackProject));
+    function("boxPoints", select_overload<void(RotatedRect,cv::Mat&)>(&Wrappers::boxPoints_wrapper));
 
-    function("calcCovarMatrix", select_overload<void(InputArray,OutputArray,InputOutputArray,int,int)>(&cv::calcCovarMatrix));
+    function("calcBackProject", select_overload<void(const std::vector<cv::Mat>&,const std::vector<int>&,const cv::Mat&,cv::Mat&,const std::vector<float>&,double)>(&Wrappers::calcBackProject_wrapper));
 
-    function("calcHist", select_overload<void(InputArrayOfArrays,const std::vector<int>&,InputArray,OutputArray,const std::vector<int>&,const std::vector<float>&,bool)>(&cv::calcHist));
+    function("calcCovarMatrix", select_overload<void(const cv::Mat&,cv::Mat&,cv::Mat&,int,int)>(&Wrappers::calcCovarMatrix_wrapper));
 
-    function("cartToPolar", select_overload<void(InputArray,InputArray,OutputArray,OutputArray,bool)>(&cv::cartToPolar));
+    function("calcHist", select_overload<void(const std::vector<cv::Mat>&,const std::vector<int>&,const cv::Mat&,cv::Mat&,const std::vector<int>&,const std::vector<float>&,bool)>(&Wrappers::calcHist_wrapper));
 
-    function("checkRange", select_overload<bool(InputArray,bool, Point*,double,double)>(&cv::checkRange), allow_raw_pointers());
+    function("cartToPolar", select_overload<void(const cv::Mat&,const cv::Mat&,cv::Mat&,cv::Mat&,bool)>(&Wrappers::cartToPolar_wrapper));
 
-    function("circle", select_overload<void(InputOutputArray,Point,int,const Scalar&,int,int,int)>(&cv::circle));
+    function("checkRange", select_overload<bool(const cv::Mat&,bool, Point*,double,double)>(&Wrappers::checkRange_wrapper), allow_raw_pointers());
 
-    function("clipLine", select_overload<bool(Rect,  Point&,  Point&)>(&cv::clipLine));
+    function("circle", select_overload<void(cv::Mat&,Point,int,const Scalar&,int,int,int)>(&Wrappers::circle_wrapper));
 
-    function("compare", select_overload<void(InputArray,InputArray,OutputArray,int)>(&cv::compare));
+    function("clipLine", select_overload<bool(Rect,  Point&,  Point&)>(&Wrappers::clipLine_wrapper));
 
-    function("compareHist", select_overload<double(InputArray,InputArray,int)>(&cv::compareHist));
+    function("compare", select_overload<void(const cv::Mat&,const cv::Mat&,cv::Mat&,int)>(&Wrappers::compare_wrapper));
 
-    function("completeSymm", select_overload<void(InputOutputArray,bool)>(&cv::completeSymm));
+    function("compareHist", select_overload<double(const cv::Mat&,const cv::Mat&,int)>(&Wrappers::compareHist_wrapper));
 
-    function("connectedComponents", select_overload<int(InputArray,OutputArray,int,int)>(&cv::connectedComponents));
+    function("completeSymm", select_overload<void(cv::Mat&,bool)>(&Wrappers::completeSymm_wrapper));
 
-    function("connectedComponentsWithStats", select_overload<int(InputArray,OutputArray,OutputArray,OutputArray,int,int)>(&cv::connectedComponentsWithStats));
+    function("connectedComponents", select_overload<int(const cv::Mat&,cv::Mat&,int,int)>(&Wrappers::connectedComponents_wrapper));
 
-    function("contourArea", select_overload<double(InputArray,bool)>(&cv::contourArea));
+    function("connectedComponentsWithStats", select_overload<int(const cv::Mat&,cv::Mat&,cv::Mat&,cv::Mat&,int,int)>(&Wrappers::connectedComponentsWithStats_wrapper));
 
-    function("convertMaps", select_overload<void(InputArray,InputArray,OutputArray,OutputArray,int,bool)>(&cv::convertMaps));
+    function("contourArea", select_overload<double(const cv::Mat&,bool)>(&Wrappers::contourArea_wrapper));
 
-    function("convertScaleAbs", select_overload<void(InputArray,OutputArray,double,double)>(&cv::convertScaleAbs));
+    function("convertMaps", select_overload<void(const cv::Mat&,const cv::Mat&,cv::Mat&,cv::Mat&,int,bool)>(&Wrappers::convertMaps_wrapper));
 
-    function("convexHull", select_overload<void(InputArray,OutputArray,bool,bool)>(&cv::convexHull));
+    function("convertScaleAbs", select_overload<void(const cv::Mat&,cv::Mat&,double,double)>(&Wrappers::convertScaleAbs_wrapper));
 
-    function("convexityDefects", select_overload<void(InputArray,InputArray,OutputArray)>(&cv::convexityDefects));
+    function("convexHull", select_overload<void(const cv::Mat&,cv::Mat&,bool,bool)>(&Wrappers::convexHull_wrapper));
 
-    function("copyMakeBorder", select_overload<void(InputArray,OutputArray,int,int,int,int,int,const Scalar&)>(&cv::copyMakeBorder));
+    function("convexityDefects", select_overload<void(const cv::Mat&,const cv::Mat&,cv::Mat&)>(&Wrappers::convexityDefects_wrapper));
 
-    function("cornerEigenValsAndVecs", select_overload<void(InputArray,OutputArray,int,int,int)>(&cv::cornerEigenValsAndVecs));
+    function("copyMakeBorder", select_overload<void(const cv::Mat&,cv::Mat&,int,int,int,int,int,const Scalar&)>(&Wrappers::copyMakeBorder_wrapper));
 
-    function("cornerHarris", select_overload<void(InputArray,OutputArray,int,int,double,int)>(&cv::cornerHarris));
+    function("cornerEigenValsAndVecs", select_overload<void(const cv::Mat&,cv::Mat&,int,int,int)>(&Wrappers::cornerEigenValsAndVecs_wrapper));
 
-    function("cornerMinEigenVal", select_overload<void(InputArray,OutputArray,int,int,int)>(&cv::cornerMinEigenVal));
+    function("cornerHarris", select_overload<void(const cv::Mat&,cv::Mat&,int,int,double,int)>(&Wrappers::cornerHarris_wrapper));
 
-    function("cornerSubPix", select_overload<void(InputArray,InputOutputArray,Size,Size,TermCriteria)>(&cv::cornerSubPix));
+    function("cornerMinEigenVal", select_overload<void(const cv::Mat&,cv::Mat&,int,int,int)>(&Wrappers::cornerMinEigenVal_wrapper));
 
-    function("countNonZero", select_overload<int(InputArray)>(&cv::countNonZero));
+    function("cornerSubPix", select_overload<void(const cv::Mat&,cv::Mat&,Size,Size,TermCriteria)>(&Wrappers::cornerSubPix_wrapper));
 
-    function("createCLAHE", select_overload<Ptr<CLAHE>(double,Size)>(&cv::createCLAHE));
+    function("countNonZero", select_overload<int(const cv::Mat&)>(&Wrappers::countNonZero_wrapper));
 
-    function("createHanningWindow", select_overload<void(OutputArray,Size,int)>(&cv::createHanningWindow));
+    function("createCLAHE", select_overload<Ptr<CLAHE>(double,Size)>(&Wrappers::createCLAHE_wrapper));
 
-    function("createLineSegmentDetector", select_overload<Ptr<LineSegmentDetector>(int,double,double,double,double,double,double,int)>(&cv::createLineSegmentDetector));
+    function("createHanningWindow", select_overload<void(cv::Mat&,Size,int)>(&Wrappers::createHanningWindow_wrapper));
 
-    function("cvtColor", select_overload<void(InputArray,OutputArray,int,int)>(&cv::cvtColor));
+    function("createLineSegmentDetector", select_overload<Ptr<LineSegmentDetector>(int,double,double,double,double,double,double,int)>(&Wrappers::createLineSegmentDetector_wrapper));
 
-    function("dct", select_overload<void(InputArray,OutputArray,int)>(&cv::dct));
+    function("cvtColor", select_overload<void(const cv::Mat&,cv::Mat&,int,int)>(&Wrappers::cvtColor_wrapper));
 
-    function("demosaicing", select_overload<void(InputArray,OutputArray,int,int)>(&cv::demosaicing));
+    function("dct", select_overload<void(const cv::Mat&,cv::Mat&,int)>(&Wrappers::dct_wrapper));
 
-    function("destroyAllWindows", select_overload<void()>(&cv::destroyAllWindows));
+    function("demosaicing", select_overload<void(const cv::Mat&,cv::Mat&,int,int)>(&Wrappers::demosaicing_wrapper));
 
-    function("destroyWindow", select_overload<void(const String&)>(&cv::destroyWindow));
+    function("destroyAllWindows", select_overload<void()>(&Wrappers::destroyAllWindows_wrapper));
 
-    function("determinant", select_overload<double(InputArray)>(&cv::determinant));
+    function("destroyWindow", select_overload<void(const String&)>(&Wrappers::destroyWindow_wrapper));
 
-    function("dft", select_overload<void(InputArray,OutputArray,int,int)>(&cv::dft));
+    function("determinant", select_overload<double(const cv::Mat&)>(&Wrappers::determinant_wrapper));
 
-    function("dilate", select_overload<void(InputArray,OutputArray,InputArray,Point,int,int,const Scalar&)>(&cv::dilate));
+    function("dft", select_overload<void(const cv::Mat&,cv::Mat&,int,int)>(&Wrappers::dft_wrapper));
 
-    function("distanceTransform", select_overload<void(InputArray,OutputArray,int,int,int)>(&cv::distanceTransform));
+    function("dilate", select_overload<void(const cv::Mat&,cv::Mat&,const cv::Mat&,Point,int,int,const Scalar&)>(&Wrappers::dilate_wrapper));
 
-    function("distanceTransformWithLabels", select_overload<void(InputArray,OutputArray,OutputArray,int,int,int)>(&cv::distanceTransform));
+    function("distanceTransform", select_overload<void(const cv::Mat&,cv::Mat&,int,int,int)>(&Wrappers::distanceTransform_wrapper));
 
-    function("divide", select_overload<void(InputArray,InputArray,OutputArray,double,int)>(&cv::divide));
+    function("distanceTransformWithLabels", select_overload<void(const cv::Mat&,cv::Mat&,cv::Mat&,int,int,int)>(&Wrappers::distanceTransformWithLabels_wrapper));
 
-    function("divide", select_overload<void(double,InputArray,OutputArray,int)>(&cv::divide));
+    function("divide", select_overload<void(const cv::Mat&,const cv::Mat&,cv::Mat&,double,int)>(&Wrappers::divide_wrapper));
 
-    function("drawContours", select_overload<void(InputOutputArray,InputArrayOfArrays,int,const Scalar&,int,int,InputArray,int,Point)>(&cv::drawContours));
+    function("divide", select_overload<void(double,const cv::Mat&,cv::Mat&,int)>(&Wrappers::divide_wrapper));
 
-    function("eigen", select_overload<bool(InputArray,OutputArray,OutputArray)>(&cv::eigen));
+    function("drawContours", select_overload<void(cv::Mat&,const std::vector<cv::Mat>&,int,const Scalar&,int,int,const cv::Mat&,int,Point)>(&Wrappers::drawContours_wrapper));
 
-    function("ellipse", select_overload<void(InputOutputArray,Point,Size,double,double,double,const Scalar&,int,int,int)>(&cv::ellipse));
+    function("eigen", select_overload<bool(const cv::Mat&,cv::Mat&,cv::Mat&)>(&Wrappers::eigen_wrapper));
 
-    function("ellipse", select_overload<void(InputOutputArray,const RotatedRect&,const Scalar&,int,int)>(&cv::ellipse));
+    function("ellipse", select_overload<void(cv::Mat&,Point,Size,double,double,double,const Scalar&,int,int,int)>(&Wrappers::ellipse_wrapper));
 
-    function("ellipse2Poly", select_overload<void(Point,Size,int,int,int,int, std::vector<Point>&)>(&cv::ellipse2Poly));
+    function("ellipse", select_overload<void(cv::Mat&,const RotatedRect&,const Scalar&,int,int)>(&Wrappers::ellipse_wrapper));
 
-    function("equalizeHist", select_overload<void(InputArray,OutputArray)>(&cv::equalizeHist));
+    function("ellipse2Poly", select_overload<void(Point,Size,int,int,int,int, std::vector<Point>&)>(&Wrappers::ellipse2Poly_wrapper));
 
-    function("erode", select_overload<void(InputArray,OutputArray,InputArray,Point,int,int,const Scalar&)>(&cv::erode));
+    function("equalizeHist", select_overload<void(const cv::Mat&,cv::Mat&)>(&Wrappers::equalizeHist_wrapper));
 
-    function("exp", select_overload<void(InputArray,OutputArray)>(&cv::exp));
+    function("erode", select_overload<void(const cv::Mat&,cv::Mat&,const cv::Mat&,Point,int,int,const Scalar&)>(&Wrappers::erode_wrapper));
 
-    function("extractChannel", select_overload<void(InputArray,OutputArray,int)>(&cv::extractChannel));
+    function("exp", select_overload<void(const cv::Mat&,cv::Mat&)>(&Wrappers::exp_wrapper));
 
-    function("fillConvexPoly", select_overload<void(InputOutputArray,InputArray,const Scalar&,int,int)>(&cv::fillConvexPoly));
+    function("extractChannel", select_overload<void(const cv::Mat&,cv::Mat&,int)>(&Wrappers::extractChannel_wrapper));
 
-    function("fillPoly", select_overload<void(InputOutputArray,InputArrayOfArrays,const Scalar&,int,int,Point)>(&cv::fillPoly));
+    function("fillConvexPoly", select_overload<void(cv::Mat&,const cv::Mat&,const Scalar&,int,int)>(&Wrappers::fillConvexPoly_wrapper));
 
-    function("filter2D", select_overload<void(InputArray,OutputArray,int,InputArray,Point,double,int)>(&cv::filter2D));
+    function("fillPoly", select_overload<void(cv::Mat&,const std::vector<cv::Mat>&,const Scalar&,int,int,Point)>(&Wrappers::fillPoly_wrapper));
 
-    function("findContours", select_overload<void(InputOutputArray,OutputArrayOfArrays,OutputArray,int,int,Point)>(&cv::findContours));
+    function("filter2D", select_overload<void(const cv::Mat&,cv::Mat&,int,const cv::Mat&,Point,double,int)>(&Wrappers::filter2D_wrapper));
 
-    function("findNonZero", select_overload<void(InputArray,OutputArray)>(&cv::findNonZero));
+    function("findContours", select_overload<void(cv::Mat&,std::vector<cv::Mat>&,cv::Mat&,int,int,Point)>(&Wrappers::findContours_wrapper));
 
-    function("fitEllipse", select_overload<RotatedRect(InputArray)>(&cv::fitEllipse));
+    function("findNonZero", select_overload<void(const cv::Mat&,cv::Mat&)>(&Wrappers::findNonZero_wrapper));
 
-    function("fitLine", select_overload<void(InputArray,OutputArray,int,double,double,double)>(&cv::fitLine));
+    function("fitEllipse", select_overload<RotatedRect(const cv::Mat&)>(&Wrappers::fitEllipse_wrapper));
 
-    function("flip", select_overload<void(InputArray,OutputArray,int)>(&cv::flip));
+    function("fitLine", select_overload<void(const cv::Mat&,cv::Mat&,int,double,double,double)>(&Wrappers::fitLine_wrapper));
 
-    function("floodFill", select_overload<int(InputOutputArray,InputOutputArray,Point,Scalar, Rect*,Scalar,Scalar,int)>(&cv::floodFill), allow_raw_pointers());
+    function("flip", select_overload<void(const cv::Mat&,cv::Mat&,int)>(&Wrappers::flip_wrapper));
 
-    function("gemm", select_overload<void(InputArray,InputArray,double,InputArray,double,OutputArray,int)>(&cv::gemm));
+    function("floodFill", select_overload<int(cv::Mat&,cv::Mat&,Point,Scalar, Rect*,Scalar,Scalar,int)>(&Wrappers::floodFill_wrapper), allow_raw_pointers());
 
-    function("getAffineTransform", select_overload<Mat(InputArray,InputArray)>(&cv::getAffineTransform));
+    function("gemm", select_overload<void(const cv::Mat&,const cv::Mat&,double,const cv::Mat&,double,cv::Mat&,int)>(&Wrappers::gemm_wrapper));
 
-    function("getDefaultNewCameraMatrix", select_overload<Mat(InputArray,Size,bool)>(&cv::getDefaultNewCameraMatrix));
+    function("getAffineTransform", select_overload<Mat(const cv::Mat&,const cv::Mat&)>(&Wrappers::getAffineTransform_wrapper));
 
-    function("getDerivKernels", select_overload<void(OutputArray,OutputArray,int,int,int,bool,int)>(&cv::getDerivKernels));
+    function("getDefaultNewCameraMatrix", select_overload<Mat(const cv::Mat&,Size,bool)>(&Wrappers::getDefaultNewCameraMatrix_wrapper));
 
-    function("getGaborKernel", select_overload<Mat(Size,double,double,double,double,double,int)>(&cv::getGaborKernel));
+    function("getDerivKernels", select_overload<void(cv::Mat&,cv::Mat&,int,int,int,bool,int)>(&Wrappers::getDerivKernels_wrapper));
 
-    function("getGaussianKernel", select_overload<Mat(int,double,int)>(&cv::getGaussianKernel));
+    function("getGaborKernel", select_overload<Mat(Size,double,double,double,double,double,int)>(&Wrappers::getGaborKernel_wrapper));
 
-    function("getOptimalDFTSize", select_overload<int(int)>(&cv::getOptimalDFTSize));
+    function("getGaussianKernel", select_overload<Mat(int,double,int)>(&Wrappers::getGaussianKernel_wrapper));
 
-    function("getPerspectiveTransform", select_overload<Mat(InputArray,InputArray)>(&cv::getPerspectiveTransform));
+    function("getOptimalDFTSize", select_overload<int(int)>(&Wrappers::getOptimalDFTSize_wrapper));
 
-    function("getRectSubPix", select_overload<void(InputArray,Size,Point2f,OutputArray,int)>(&cv::getRectSubPix));
+    function("getPerspectiveTransform", select_overload<Mat(const cv::Mat&,const cv::Mat&)>(&Wrappers::getPerspectiveTransform_wrapper));
 
-    function("getRotationMatrix2D", select_overload<Mat(Point2f,double,double)>(&cv::getRotationMatrix2D));
+    function("getRectSubPix", select_overload<void(const cv::Mat&,Size,Point2f,cv::Mat&,int)>(&Wrappers::getRectSubPix_wrapper));
 
-    function("getStructuringElement", select_overload<Mat(int,Size,Point)>(&cv::getStructuringElement));
+    function("getRotationMatrix2D", select_overload<Mat(Point2f,double,double)>(&Wrappers::getRotationMatrix2D_wrapper));
 
-    function("getTextSize", select_overload<Size(const String&,int,double,int, int*)>(&cv::getTextSize), allow_raw_pointers());
+    function("getStructuringElement", select_overload<Mat(int,Size,Point)>(&Wrappers::getStructuringElement_wrapper));
 
-    function("getTrackbarPos", select_overload<int(const String&,const String&)>(&cv::getTrackbarPos));
+    function("getTextSize", select_overload<Size(const String&,int,double,int, int*)>(&Wrappers::getTextSize_wrapper), allow_raw_pointers());
 
-    function("getWindowProperty", select_overload<double(const String&,int)>(&cv::getWindowProperty));
+    function("getTrackbarPos", select_overload<int(const String&,const String&)>(&Wrappers::getTrackbarPos_wrapper));
 
-    function("goodFeaturesToTrack", select_overload<void(InputArray,OutputArray,int,double,double,InputArray,int,bool,double)>(&cv::goodFeaturesToTrack));
+    function("getWindowProperty", select_overload<double(const String&,int)>(&Wrappers::getWindowProperty_wrapper));
 
-    function("grabCut", select_overload<void(InputArray,InputOutputArray,Rect,InputOutputArray,InputOutputArray,int,int)>(&cv::grabCut));
+    function("goodFeaturesToTrack", select_overload<void(const cv::Mat&,cv::Mat&,int,double,double,const cv::Mat&,int,bool,double)>(&Wrappers::goodFeaturesToTrack_wrapper));
 
-    function("hconcat", select_overload<void(InputArrayOfArrays,OutputArray)>(&cv::hconcat));
+    function("grabCut", select_overload<void(const cv::Mat&,cv::Mat&,Rect,cv::Mat&,cv::Mat&,int,int)>(&Wrappers::grabCut_wrapper));
 
-    function("idct", select_overload<void(InputArray,OutputArray,int)>(&cv::idct));
+    function("hconcat", select_overload<void(const std::vector<cv::Mat>&,cv::Mat&)>(&Wrappers::hconcat_wrapper));
 
-    function("idft", select_overload<void(InputArray,OutputArray,int,int)>(&cv::idft));
+    function("idct", select_overload<void(const cv::Mat&,cv::Mat&,int)>(&Wrappers::idct_wrapper));
 
-    function("imdecode", select_overload<Mat(InputArray,int)>(&cv::imdecode));
+    function("idft", select_overload<void(const cv::Mat&,cv::Mat&,int,int)>(&Wrappers::idft_wrapper));
 
-    function("imencode", select_overload<bool(const String&,InputArray, std::vector<uchar>&,const std::vector<int>&)>(&cv::imencode));
+    function("imdecode", select_overload<Mat(const cv::Mat&,int)>(&Wrappers::imdecode_wrapper));
 
-    function("imread", select_overload<Mat(const String&,int)>(&cv::imread));
+    function("imencode", select_overload<bool(const String&,const cv::Mat&, std::vector<uchar>&,const std::vector<int>&)>(&Wrappers::imencode_wrapper));
 
-    function("imreadmulti", select_overload<bool(const String&,std::vector<Mat>&,int)>(&cv::imreadmulti));
+    function("imread", select_overload<Mat(const String&,int)>(&Wrappers::imread_wrapper));
 
-    function("imshow", select_overload<void(const String&,InputArray)>(&cv::imshow));
+    function("imreadmulti", select_overload<bool(const String&,std::vector<Mat>&,int)>(&Wrappers::imreadmulti_wrapper));
 
-    function("imwrite", select_overload<bool(const String&,InputArray,const std::vector<int>&)>(&cv::imwrite));
+    function("imshow", select_overload<void(const String&,const cv::Mat&)>(&Wrappers::imshow_wrapper));
 
-    function("inRange", select_overload<void(InputArray,InputArray,InputArray,OutputArray)>(&cv::inRange));
+    function("imwrite", select_overload<bool(const String&,const cv::Mat&,const std::vector<int>&)>(&Wrappers::imwrite_wrapper));
 
-    function("initUndistortRectifyMap", select_overload<void(InputArray,InputArray,InputArray,InputArray,Size,int,OutputArray,OutputArray)>(&cv::initUndistortRectifyMap));
+    function("inRange", select_overload<void(const cv::Mat&,const cv::Mat&,const cv::Mat&,cv::Mat&)>(&Wrappers::inRange_wrapper));
 
-    function("initWideAngleProjMap", select_overload<float(InputArray,InputArray,Size,int,int,OutputArray,OutputArray,int,double)>(&cv::initWideAngleProjMap));
+    function("initUndistortRectifyMap", select_overload<void(const cv::Mat&,const cv::Mat&,const cv::Mat&,const cv::Mat&,Size,int,cv::Mat&,cv::Mat&)>(&Wrappers::initUndistortRectifyMap_wrapper));
 
-    function("insertChannel", select_overload<void(InputArray,InputOutputArray,int)>(&cv::insertChannel));
+    function("initWideAngleProjMap", select_overload<float(const cv::Mat&,const cv::Mat&,Size,int,int,cv::Mat&,cv::Mat&,int,double)>(&Wrappers::initWideAngleProjMap_wrapper));
 
-    function("integral", select_overload<void(InputArray,OutputArray,int)>(&cv::integral));
+    function("insertChannel", select_overload<void(const cv::Mat&,cv::Mat&,int)>(&Wrappers::insertChannel_wrapper));
 
-    function("integral2", select_overload<void(InputArray,OutputArray,OutputArray,int,int)>(&cv::integral));
+    function("integral", select_overload<void(const cv::Mat&,cv::Mat&,int)>(&Wrappers::integral_wrapper));
 
-    function("integral3", select_overload<void(InputArray,OutputArray,OutputArray,OutputArray,int,int)>(&cv::integral));
+    function("integral2", select_overload<void(const cv::Mat&,cv::Mat&,cv::Mat&,int,int)>(&Wrappers::integral2_wrapper));
 
-    function("intersectConvexConvex", select_overload<float(InputArray,InputArray,OutputArray,bool)>(&cv::intersectConvexConvex));
+    function("integral3", select_overload<void(const cv::Mat&,cv::Mat&,cv::Mat&,cv::Mat&,int,int)>(&Wrappers::integral3_wrapper));
 
-    function("invert", select_overload<double(InputArray,OutputArray,int)>(&cv::invert));
+    function("intersectConvexConvex", select_overload<float(const cv::Mat&,const cv::Mat&,cv::Mat&,bool)>(&Wrappers::intersectConvexConvex_wrapper));
 
-    function("invertAffineTransform", select_overload<void(InputArray,OutputArray)>(&cv::invertAffineTransform));
+    function("invert", select_overload<double(const cv::Mat&,cv::Mat&,int)>(&Wrappers::invert_wrapper));
 
-    function("isContourConvex", select_overload<bool(InputArray)>(&cv::isContourConvex));
+    function("invertAffineTransform", select_overload<void(const cv::Mat&,cv::Mat&)>(&Wrappers::invertAffineTransform_wrapper));
 
-    function("kmeans", select_overload<double(InputArray,int,InputOutputArray,TermCriteria,int,int,OutputArray)>(&cv::kmeans));
+    function("isContourConvex", select_overload<bool(const cv::Mat&)>(&Wrappers::isContourConvex_wrapper));
 
-    function("line", select_overload<void(InputOutputArray,Point,Point,const Scalar&,int,int,int)>(&cv::line));
+    function("kmeans", select_overload<double(const cv::Mat&,int,cv::Mat&,TermCriteria,int,int,cv::Mat&)>(&Wrappers::kmeans_wrapper));
 
-    function("linearPolar", select_overload<void(InputArray,OutputArray,Point2f,double,int)>(&cv::linearPolar));
+    function("line", select_overload<void(cv::Mat&,Point,Point,const Scalar&,int,int,int)>(&Wrappers::line_wrapper));
 
-    function("log", select_overload<void(InputArray,OutputArray)>(&cv::log));
+    function("linearPolar", select_overload<void(const cv::Mat&,cv::Mat&,Point2f,double,int)>(&Wrappers::linearPolar_wrapper));
 
-    function("logPolar", select_overload<void(InputArray,OutputArray,Point2f,double,int)>(&cv::logPolar));
+    function("log", select_overload<void(const cv::Mat&,cv::Mat&)>(&Wrappers::log_wrapper));
 
-    function("magnitude", select_overload<void(InputArray,InputArray,OutputArray)>(&cv::magnitude));
+    function("logPolar", select_overload<void(const cv::Mat&,cv::Mat&,Point2f,double,int)>(&Wrappers::logPolar_wrapper));
 
-    function("matchShapes", select_overload<double(InputArray,InputArray,int,double)>(&cv::matchShapes));
+    function("magnitude", select_overload<void(const cv::Mat&,const cv::Mat&,cv::Mat&)>(&Wrappers::magnitude_wrapper));
 
-    function("matchTemplate", select_overload<void(InputArray,InputArray,OutputArray,int,InputArray)>(&cv::matchTemplate));
+    function("matchShapes", select_overload<double(const cv::Mat&,const cv::Mat&,int,double)>(&Wrappers::matchShapes_wrapper));
 
-    function("max", select_overload<void(InputArray,InputArray,OutputArray)>(&cv::max));
+    function("matchTemplate", select_overload<void(const cv::Mat&,const cv::Mat&,cv::Mat&,int,const cv::Mat&)>(&Wrappers::matchTemplate_wrapper));
 
-    function("mean", select_overload<Scalar(InputArray,InputArray)>(&cv::mean));
+    function("max", select_overload<void(const cv::Mat&,const cv::Mat&,cv::Mat&)>(&Wrappers::max_wrapper));
 
-    function("meanStdDev", select_overload<void(InputArray,OutputArray,OutputArray,InputArray)>(&cv::meanStdDev));
+    function("mean", select_overload<Scalar(const cv::Mat&,const cv::Mat&)>(&Wrappers::mean_wrapper));
 
-    function("medianBlur", select_overload<void(InputArray,OutputArray,int)>(&cv::medianBlur));
+    function("meanStdDev", select_overload<void(const cv::Mat&,cv::Mat&,cv::Mat&,const cv::Mat&)>(&Wrappers::meanStdDev_wrapper));
 
-    function("merge", select_overload<void(InputArrayOfArrays,OutputArray)>(&cv::merge));
+    function("medianBlur", select_overload<void(const cv::Mat&,cv::Mat&,int)>(&Wrappers::medianBlur_wrapper));
 
-    function("min", select_overload<void(InputArray,InputArray,OutputArray)>(&cv::min));
+    function("merge", select_overload<void(const std::vector<cv::Mat>&,cv::Mat&)>(&Wrappers::merge_wrapper));
 
-    function("minAreaRect", select_overload<RotatedRect(InputArray)>(&cv::minAreaRect));
+    function("min", select_overload<void(const cv::Mat&,const cv::Mat&,cv::Mat&)>(&Wrappers::min_wrapper));
 
-    function("minEnclosingTriangle", select_overload<double(InputArray, OutputArray)>(&cv::minEnclosingTriangle));
+    function("minAreaRect", select_overload<RotatedRect(const cv::Mat&)>(&Wrappers::minAreaRect_wrapper));
 
-    function("minMaxLoc", select_overload<void(InputArray, double*, double*, Point*, Point*,InputArray)>(&cv::minMaxLoc), allow_raw_pointers());
+    function("minEnclosingTriangle", select_overload<double(const cv::Mat&, OutputArray)>(&Wrappers::minEnclosingTriangle_wrapper));
 
-    function("mixChannels", select_overload<void(InputArrayOfArrays,InputOutputArrayOfArrays,const std::vector<int>&)>(&cv::mixChannels));
+    function("minMaxLoc", select_overload<void(const cv::Mat&, double*, double*, Point*, Point*,const cv::Mat&)>(&Wrappers::minMaxLoc_wrapper), allow_raw_pointers());
 
-    function("moments", select_overload<Moments(InputArray,bool)>(&cv::moments));
+    function("mixChannels", select_overload<void(const std::vector<cv::Mat>&,InputOutputArrayOfArrays,const std::vector<int>&)>(&Wrappers::mixChannels_wrapper));
 
-    function("morphologyEx", select_overload<void(InputArray,OutputArray,int,InputArray,Point,int,int,const Scalar&)>(&cv::morphologyEx));
+    function("moments", select_overload<Moments(const cv::Mat&,bool)>(&Wrappers::moments_wrapper));
 
-    function("moveWindow", select_overload<void(const String&,int,int)>(&cv::moveWindow));
+    function("morphologyEx", select_overload<void(const cv::Mat&,cv::Mat&,int,const cv::Mat&,Point,int,int,const Scalar&)>(&Wrappers::morphologyEx_wrapper));
 
-    function("mulSpectrums", select_overload<void(InputArray,InputArray,OutputArray,int,bool)>(&cv::mulSpectrums));
+    function("moveWindow", select_overload<void(const String&,int,int)>(&Wrappers::moveWindow_wrapper));
 
-    function("mulTransposed", select_overload<void(InputArray,OutputArray,bool,InputArray,double,int)>(&cv::mulTransposed));
+    function("mulSpectrums", select_overload<void(const cv::Mat&,const cv::Mat&,cv::Mat&,int,bool)>(&Wrappers::mulSpectrums_wrapper));
 
-    function("multiply", select_overload<void(InputArray,InputArray,OutputArray,double,int)>(&cv::multiply));
+    function("mulTransposed", select_overload<void(const cv::Mat&,cv::Mat&,bool,const cv::Mat&,double,int)>(&Wrappers::mulTransposed_wrapper));
 
-    function("namedWindow", select_overload<void(const String&,int)>(&cv::namedWindow));
+    function("multiply", select_overload<void(const cv::Mat&,const cv::Mat&,cv::Mat&,double,int)>(&Wrappers::multiply_wrapper));
 
-    function("norm", select_overload<double(InputArray,int,InputArray)>(&cv::norm));
+    function("namedWindow", select_overload<void(const String&,int)>(&Wrappers::namedWindow_wrapper));
 
-    function("norm", select_overload<double(InputArray,InputArray,int,InputArray)>(&cv::norm));
+    function("norm", select_overload<double(const cv::Mat&,int,const cv::Mat&)>(&Wrappers::norm_wrapper));
 
-    function("normalize", select_overload<void(InputArray,InputOutputArray,double,double,int,int,InputArray)>(&cv::normalize));
+    function("norm", select_overload<double(const cv::Mat&,const cv::Mat&,int,const cv::Mat&)>(&Wrappers::norm_wrapper));
 
-    function("patchNaNs", select_overload<void(InputOutputArray,double)>(&cv::patchNaNs));
+    function("normalize", select_overload<void(const cv::Mat&,cv::Mat&,double,double,int,int,const cv::Mat&)>(&Wrappers::normalize_wrapper));
 
-    function("perspectiveTransform", select_overload<void(InputArray,OutputArray,InputArray)>(&cv::perspectiveTransform));
+    function("patchNaNs", select_overload<void(cv::Mat&,double)>(&Wrappers::patchNaNs_wrapper));
 
-    function("phase", select_overload<void(InputArray,InputArray,OutputArray,bool)>(&cv::phase));
+    function("perspectiveTransform", select_overload<void(const cv::Mat&,cv::Mat&,const cv::Mat&)>(&Wrappers::perspectiveTransform_wrapper));
 
-    function("phaseCorrelate", select_overload<Point2d(InputArray,InputArray,InputArray, double*)>(&cv::phaseCorrelate), allow_raw_pointers());
+    function("phase", select_overload<void(const cv::Mat&,const cv::Mat&,cv::Mat&,bool)>(&Wrappers::phase_wrapper));
 
-    function("pointPolygonTest", select_overload<double(InputArray,Point2f,bool)>(&cv::pointPolygonTest));
+    function("phaseCorrelate", select_overload<Point2d(const cv::Mat&,const cv::Mat&,const cv::Mat&, double*)>(&Wrappers::phaseCorrelate_wrapper), allow_raw_pointers());
 
-    function("polarToCart", select_overload<void(InputArray,InputArray,OutputArray,OutputArray,bool)>(&cv::polarToCart));
+    function("pointPolygonTest", select_overload<double(const cv::Mat&,Point2f,bool)>(&Wrappers::pointPolygonTest_wrapper));
 
-    function("polylines", select_overload<void(InputOutputArray,InputArrayOfArrays,bool,const Scalar&,int,int,int)>(&cv::polylines));
+    function("polarToCart", select_overload<void(const cv::Mat&,const cv::Mat&,cv::Mat&,cv::Mat&,bool)>(&Wrappers::polarToCart_wrapper));
 
-    function("pow", select_overload<void(InputArray,double,OutputArray)>(&cv::pow));
+    function("polylines", select_overload<void(cv::Mat&,const std::vector<cv::Mat>&,bool,const Scalar&,int,int,int)>(&Wrappers::polylines_wrapper));
 
-    function("preCornerDetect", select_overload<void(InputArray,OutputArray,int,int)>(&cv::preCornerDetect));
+    function("pow", select_overload<void(const cv::Mat&,double,cv::Mat&)>(&Wrappers::pow_wrapper));
 
-    function("putText", select_overload<void(InputOutputArray,const String&,Point,int,double,Scalar,int,int,bool)>(&cv::putText));
+    function("preCornerDetect", select_overload<void(const cv::Mat&,cv::Mat&,int,int)>(&Wrappers::preCornerDetect_wrapper));
 
-    function("pyrDown", select_overload<void(InputArray,OutputArray,const Size&,int)>(&cv::pyrDown));
+    function("putText", select_overload<void(cv::Mat&,const String&,Point,int,double,Scalar,int,int,bool)>(&Wrappers::putText_wrapper));
 
-    function("pyrMeanShiftFiltering", select_overload<void(InputArray,OutputArray,double,double,int,TermCriteria)>(&cv::pyrMeanShiftFiltering));
+    function("pyrDown", select_overload<void(const cv::Mat&,cv::Mat&,const Size&,int)>(&Wrappers::pyrDown_wrapper));
 
-    function("pyrUp", select_overload<void(InputArray,OutputArray,const Size&,int)>(&cv::pyrUp));
+    function("pyrMeanShiftFiltering", select_overload<void(const cv::Mat&,cv::Mat&,double,double,int,TermCriteria)>(&Wrappers::pyrMeanShiftFiltering_wrapper));
 
-    function("randShuffle", select_overload<void(InputOutputArray,double,RNG*)>(&cv::randShuffle), allow_raw_pointers());
+    function("pyrUp", select_overload<void(const cv::Mat&,cv::Mat&,const Size&,int)>(&Wrappers::pyrUp_wrapper));
 
-    function("randn", select_overload<void(InputOutputArray,InputArray,InputArray)>(&cv::randn));
+    function("randShuffle", select_overload<void(cv::Mat&,double,RNG*)>(&Wrappers::randShuffle_wrapper), allow_raw_pointers());
 
-    function("randu", select_overload<void(InputOutputArray,InputArray,InputArray)>(&cv::randu));
+    function("randn", select_overload<void(cv::Mat&,const cv::Mat&,const cv::Mat&)>(&Wrappers::randn_wrapper));
 
-    function("rectangle", select_overload<void(InputOutputArray,Point,Point,const Scalar&,int,int,int)>(&cv::rectangle));
+    function("randu", select_overload<void(cv::Mat&,const cv::Mat&,const cv::Mat&)>(&Wrappers::randu_wrapper));
 
-    function("reduce", select_overload<void(InputArray,OutputArray,int,int,int)>(&cv::reduce));
+    function("rectangle", select_overload<void(cv::Mat&,Point,Point,const Scalar&,int,int,int)>(&Wrappers::rectangle_wrapper));
 
-    function("remap", select_overload<void(InputArray,OutputArray,InputArray,InputArray,int,int,const Scalar&)>(&cv::remap));
+    function("reduce", select_overload<void(const cv::Mat&,cv::Mat&,int,int,int)>(&Wrappers::reduce_wrapper));
 
-    function("repeat", select_overload<void(InputArray,int,int,OutputArray)>(&cv::repeat));
+    function("remap", select_overload<void(const cv::Mat&,cv::Mat&,const cv::Mat&,const cv::Mat&,int,int,const Scalar&)>(&Wrappers::remap_wrapper));
 
-    function("resize", select_overload<void(InputArray,OutputArray,Size,double,double,int)>(&cv::resize));
+    function("repeat", select_overload<void(const cv::Mat&,int,int,cv::Mat&)>(&Wrappers::repeat_wrapper));
 
-    function("resizeWindow", select_overload<void(const String&,int,int)>(&cv::resizeWindow));
+    function("resize", select_overload<void(const cv::Mat&,cv::Mat&,Size,double,double,int)>(&Wrappers::resize_wrapper));
 
-    function("rotatedRectangleIntersection", select_overload<int(const RotatedRect&,const RotatedRect&,OutputArray)>(&cv::rotatedRectangleIntersection));
+    function("resizeWindow", select_overload<void(const String&,int,int)>(&Wrappers::resizeWindow_wrapper));
 
-    function("scaleAdd", select_overload<void(InputArray,double,InputArray,OutputArray)>(&cv::scaleAdd));
+    function("rotatedRectangleIntersection", select_overload<int(const RotatedRect&,const RotatedRect&,cv::Mat&)>(&Wrappers::rotatedRectangleIntersection_wrapper));
 
-    function("sepFilter2D", select_overload<void(InputArray,OutputArray,int,InputArray,InputArray,Point,double,int)>(&cv::sepFilter2D));
+    function("scaleAdd", select_overload<void(const cv::Mat&,double,const cv::Mat&,cv::Mat&)>(&Wrappers::scaleAdd_wrapper));
 
-    function("setIdentity", select_overload<void(InputOutputArray,const Scalar&)>(&cv::setIdentity));
+    function("sepFilter2D", select_overload<void(const cv::Mat&,cv::Mat&,int,const cv::Mat&,const cv::Mat&,Point,double,int)>(&Wrappers::sepFilter2D_wrapper));
 
-    function("setTrackbarMax", select_overload<void(const String&,const String&,int)>(&cv::setTrackbarMax));
+    function("setIdentity", select_overload<void(cv::Mat&,const Scalar&)>(&Wrappers::setIdentity_wrapper));
 
-    function("setTrackbarPos", select_overload<void(const String&,const String&,int)>(&cv::setTrackbarPos));
+    function("setTrackbarMax", select_overload<void(const String&,const String&,int)>(&Wrappers::setTrackbarMax_wrapper));
 
-    function("setWindowProperty", select_overload<void(const String&,int,double)>(&cv::setWindowProperty));
+    function("setTrackbarPos", select_overload<void(const String&,const String&,int)>(&Wrappers::setTrackbarPos_wrapper));
 
-    function("setWindowTitle", select_overload<void(const String&,const String&)>(&cv::setWindowTitle));
+    function("setWindowProperty", select_overload<void(const String&,int,double)>(&Wrappers::setWindowProperty_wrapper));
 
-    function("solve", select_overload<bool(InputArray,InputArray,OutputArray,int)>(&cv::solve));
+    function("setWindowTitle", select_overload<void(const String&,const String&)>(&Wrappers::setWindowTitle_wrapper));
 
-    function("solveCubic", select_overload<int(InputArray,OutputArray)>(&cv::solveCubic));
+    function("solve", select_overload<bool(const cv::Mat&,const cv::Mat&,cv::Mat&,int)>(&Wrappers::solve_wrapper));
 
-    function("solvePoly", select_overload<double(InputArray,OutputArray,int)>(&cv::solvePoly));
+    function("solveCubic", select_overload<int(const cv::Mat&,cv::Mat&)>(&Wrappers::solveCubic_wrapper));
 
-    function("sort", select_overload<void(InputArray,OutputArray,int)>(&cv::sort));
+    function("solvePoly", select_overload<double(const cv::Mat&,cv::Mat&,int)>(&Wrappers::solvePoly_wrapper));
 
-    function("sortIdx", select_overload<void(InputArray,OutputArray,int)>(&cv::sortIdx));
+    function("sort", select_overload<void(const cv::Mat&,cv::Mat&,int)>(&Wrappers::sort_wrapper));
 
-    function("split", select_overload<void(InputArray,OutputArrayOfArrays)>(&cv::split));
+    function("sortIdx", select_overload<void(const cv::Mat&,cv::Mat&,int)>(&Wrappers::sortIdx_wrapper));
 
-    function("sqrBoxFilter", select_overload<void(InputArray,OutputArray,int,Size,Point,bool,int)>(&cv::sqrBoxFilter));
+    function("split", select_overload<void(const cv::Mat&,std::vector<cv::Mat>&)>(&Wrappers::split_wrapper));
 
-    function("sqrt", select_overload<void(InputArray,OutputArray)>(&cv::sqrt));
+    function("sqrBoxFilter", select_overload<void(const cv::Mat&,cv::Mat&,int,Size,Point,bool,int)>(&Wrappers::sqrBoxFilter_wrapper));
 
-    function("startWindowThread", select_overload<int()>(&cv::startWindowThread));
+    function("sqrt", select_overload<void(const cv::Mat&,cv::Mat&)>(&Wrappers::sqrt_wrapper));
 
-    function("subtract", select_overload<void(InputArray,InputArray,OutputArray,InputArray,int)>(&cv::subtract));
+    function("startWindowThread", select_overload<int()>(&Wrappers::startWindowThread_wrapper));
 
-    function("sumElems", select_overload<Scalar(InputArray)>(&cv::sum));
+    function("subtract", select_overload<void(const cv::Mat&,const cv::Mat&,cv::Mat&,const cv::Mat&,int)>(&Wrappers::subtract_wrapper));
 
-    function("threshold", select_overload<double(InputArray,OutputArray,double,double,int)>(&cv::threshold));
+    function("sumElems", select_overload<Scalar(const cv::Mat&)>(&Wrappers::sumElems_wrapper));
 
-    function("trace", select_overload<Scalar(InputArray)>(&cv::trace));
+    function("threshold", select_overload<double(const cv::Mat&,cv::Mat&,double,double,int)>(&Wrappers::threshold_wrapper));
 
-    function("transform", select_overload<void(InputArray,OutputArray,InputArray)>(&cv::transform));
+    function("trace", select_overload<Scalar(const cv::Mat&)>(&Wrappers::trace_wrapper));
 
-    function("transpose", select_overload<void(InputArray,OutputArray)>(&cv::transpose));
+    function("transform", select_overload<void(const cv::Mat&,cv::Mat&,const cv::Mat&)>(&Wrappers::transform_wrapper));
 
-    function("undistort", select_overload<void(InputArray,OutputArray,InputArray,InputArray,InputArray)>(&cv::undistort));
+    function("transpose", select_overload<void(const cv::Mat&,cv::Mat&)>(&Wrappers::transpose_wrapper));
 
-    function("undistortPoints", select_overload<void(InputArray,OutputArray,InputArray,InputArray,InputArray,InputArray)>(&cv::undistortPoints));
+    function("undistort", select_overload<void(const cv::Mat&,cv::Mat&,const cv::Mat&,const cv::Mat&,const cv::Mat&)>(&Wrappers::undistort_wrapper));
 
-    function("vconcat", select_overload<void(InputArrayOfArrays,OutputArray)>(&cv::vconcat));
+    function("undistortPoints", select_overload<void(const cv::Mat&,cv::Mat&,const cv::Mat&,const cv::Mat&,const cv::Mat&,const cv::Mat&)>(&Wrappers::undistortPoints_wrapper));
 
-    function("waitKey", select_overload<int(int)>(&cv::waitKey));
+    function("vconcat", select_overload<void(const std::vector<cv::Mat>&,cv::Mat&)>(&Wrappers::vconcat_wrapper));
 
-    function("warpAffine", select_overload<void(InputArray,OutputArray,InputArray,Size,int,int,const Scalar&)>(&cv::warpAffine));
+    function("waitKey", select_overload<int(int)>(&Wrappers::waitKey_wrapper));
 
-    function("warpPerspective", select_overload<void(InputArray,OutputArray,InputArray,Size,int,int,const Scalar&)>(&cv::warpPerspective));
+    function("warpAffine", select_overload<void(const cv::Mat&,cv::Mat&,const cv::Mat&,Size,int,int,const Scalar&)>(&Wrappers::warpAffine_wrapper));
 
-    function("watershed", select_overload<void(InputArray,InputOutputArray)>(&cv::watershed));
+    function("warpPerspective", select_overload<void(const cv::Mat&,cv::Mat&,const cv::Mat&,Size,int,int,const Scalar&)>(&Wrappers::warpPerspective_wrapper));
 
-    function("finish", select_overload<void()>(&cv::ocl::finish));
+    function("watershed", select_overload<void(const cv::Mat&,cv::Mat&)>(&Wrappers::watershed_wrapper));
 
-    function("haveAmdBlas", select_overload<bool()>(&cv::ocl::haveAmdBlas));
+    function("finish", select_overload<void()>(&Wrappers::finish_wrapper));
 
-    function("haveAmdFft", select_overload<bool()>(&cv::ocl::haveAmdFft));
+    function("haveAmdBlas", select_overload<bool()>(&Wrappers::haveAmdBlas_wrapper));
 
-    function("haveOpenCL", select_overload<bool()>(&cv::ocl::haveOpenCL));
+    function("haveAmdFft", select_overload<bool()>(&Wrappers::haveAmdFft_wrapper));
 
-    function("setUseOpenCL", select_overload<void(bool)>(&cv::ocl::setUseOpenCL));
+    function("haveOpenCL", select_overload<bool()>(&Wrappers::haveOpenCL_wrapper));
 
-    function("useOpenCL", select_overload<bool()>(&cv::ocl::useOpenCL));
+    function("setUseOpenCL", select_overload<void(bool)>(&Wrappers::setUseOpenCL_wrapper));
+
+    function("useOpenCL", select_overload<bool()>(&Wrappers::useOpenCL_wrapper));
 
     emscripten::enum_<cv::AdaptiveThresholdTypes>("cv_AdaptiveThresholdTypes")
     
@@ -1637,15 +2643,151 @@ using namespace cv;
 
     }
 
-        EMSCRIPTEN_BINDINGS(StringBinding) {
-            emscripten::class_<cv::String>("String")
-                .function("size", select_overload<size_t()const>(&cv::String::size))
-                .function("length", select_overload<size_t()const>(&cv::String::length))
-                .function("empty", select_overload<bool()const>(&cv::String::empty))
-                .function("toLowerCase",select_overload<String()const>(&cv::String::toLowerCase))
-                .function("compareString",select_overload<int(const String&)const>(&cv::String::compare))
-                .function("compare",select_overload<int(const char* )const>(&cv::String::compare),allow_raw_pointers() )
-                .constructor< const std::string& >()
-            ;
-        }
-        
+namespace Utils{
+    cv::Mat imreadwrapper(const std::string& file , int mode){
+        cv::String str(file.data() ) ;
+        return cv::imread(  str , mode ) ;
+    }
+
+    //std::string data( const cv::Mat& mat ) {
+    //    std::string ret ( (char*) mat.data , mat.total()  * mat.elemSize() ) ;r
+    //    retun ret ;
+    //}
+
+    void u8data(const cv::Mat& mat, emscripten::val onComplete) {
+          onComplete(emscripten::memory_view<uint8_t>(mat.total() * mat.elemSize(), (unsigned char*) mat.data ));
+    }
+
+    void u16data(const cv::Mat& mat, emscripten::val onComplete) {
+          onComplete(emscripten::memory_view<uint16_t>(mat.total() * mat.elemSize() / 2 , (unsigned short*) mat.data ));
+    }
+
+
+
+
+}
+
+EMSCRIPTEN_BINDINGS(Utils) {
+
+    register_vector<int>("IntegerVector");
+    register_vector<char>("CharVector");
+    register_vector<unsigned>("VectorUnsigned");
+    register_vector<unsigned char>("VectorUnsignedChar");
+    register_vector<std::string>("StringVector");
+    register_vector<emscripten::val>("EmValVector");
+    register_vector<float>("FloatVector");
+    register_vector<std::vector<int>>("IntegerVectorVector");
+    register_vector<std::vector<Point>>("PointVectorVector");
+    register_vector<cv::Vec4i>("Vec4iVector");
+    register_vector<cv::Mat>("MatVector");
+
+    emscripten::class_<cv::Mat>("Mat")
+        .function("elemSize1", select_overload<size_t()const>(&cv::Mat::elemSize1))
+        .function("assignTo", select_overload<void(Mat&,int)const>(&cv::Mat::assignTo))
+        .function("inv", select_overload<MatExpr(int)const>(&cv::Mat::inv))
+        .function("channels", select_overload<int()const>(&cv::Mat::channels))
+        .function("isContinuous", select_overload<bool()const>(&cv::Mat::isContinuous))
+        .function("checkVector", select_overload<int(int,int,bool)const>(&cv::Mat::checkVector))
+        .function("convertTo", select_overload<void(OutputArray,int,double,double)const>(&cv::Mat::convertTo))
+        .function("total", select_overload<size_t()const>(&cv::Mat::total))
+        .function("row", select_overload<Mat(int)const>(&cv::Mat::row))
+        .class_function("eye",select_overload<MatExpr(int,int,int)>(&cv::Mat::eye))
+        .class_function("eye",select_overload<MatExpr(Size,int)>(&cv::Mat::eye))
+        .constructor<  >()
+        .constructor< int,int,int >()
+        .constructor< int,int,int,const Scalar& >()
+        .constructor< const Mat& >()
+        .constructor< int,int,int,void*,size_t >()
+        .constructor< const Mat&,const Rect& >()
+        .function("reshape", select_overload<Mat(int,int)const>(&cv::Mat::reshape))
+        .function("reshape", select_overload<Mat(int,int,const int*)const>(&cv::Mat::reshape), allow_raw_pointers())
+        .function("create", select_overload<void(int,int,int)>(&cv::Mat::create))
+        .function("create", select_overload<void(Size,int)>(&cv::Mat::create))
+        .function("rowRange", select_overload<Mat(int,int)const>(&cv::Mat::rowRange))
+        .function("rowRange", select_overload<Mat(const Range&)const>(&cv::Mat::rowRange))
+        .function("cross", select_overload<Mat(InputArray)const>(&cv::Mat::cross))
+        .function("copyTo", select_overload<void(OutputArray)const>(&cv::Mat::copyTo))
+        .function("copyTo", select_overload<void(OutputArray,InputArray)const>(&cv::Mat::copyTo))
+        .class_function("zeros",select_overload<MatExpr(int,int,int)>(&cv::Mat::zeros))
+        .class_function("zeros",select_overload<MatExpr(Size,int)>(&cv::Mat::zeros))
+        .class_function("zeros",select_overload<MatExpr(int,const int*,int)>(&cv::Mat::zeros), allow_raw_pointers())
+        .function("elemSize", select_overload<size_t()const>(&cv::Mat::elemSize))
+        .function("mul", select_overload<MatExpr(InputArray,double)const>(&cv::Mat::mul))
+        .function("type", select_overload<int()const>(&cv::Mat::type))
+        .function("empty", select_overload<bool()const>(&cv::Mat::empty))
+        .function("colRange", select_overload<Mat(int,int)const>(&cv::Mat::colRange))
+        .function("colRange", select_overload<Mat(const Range&)const>(&cv::Mat::colRange))
+        .function("step1", select_overload<size_t(int)const>(&cv::Mat::step1))
+        .function("clone", select_overload<Mat()const>(&cv::Mat::clone))
+        .class_function("ones",select_overload<MatExpr(int,int,int)>(&cv::Mat::ones))
+        .class_function("ones",select_overload<MatExpr(Size,int)>(&cv::Mat::ones))
+        .class_function("ones",select_overload<MatExpr(int,const int*,int)>(&cv::Mat::ones), allow_raw_pointers())
+        .function("depth", select_overload<int()const>(&cv::Mat::depth))
+        .function("t", select_overload<MatExpr()const>(&cv::Mat::t))
+        .function("col", select_overload<Mat(int)const>(&cv::Mat::col))
+        .function("dot", select_overload<double(InputArray)const>(&cv::Mat::dot))
+        .property("rows", &cv::Mat::rows)
+        .property("cols", &cv::Mat::cols)
+        .function("data", &Utils::u8data)
+        .function("u16data", &Utils::u16data)
+        .function("at_uchar" , select_overload<unsigned char& (int,int,int)>(&cv::Mat::at<unsigned char>) )
+        .function("at_ushort" , select_overload<unsigned short& (int,int,int)>(&cv::Mat::at<unsigned short>) )
+
+    ;
+
+
+    emscripten::class_<cv::Vec<int,4>>("Vec4i")
+        .constructor<>()
+        .constructor<int,int,int,int>()
+    ;
+
+    emscripten::class_<cv::String>("String")
+        .function("size", select_overload<size_t()const>(&cv::String::size))
+        .function("length", select_overload<size_t()const>(&cv::String::length))
+        .function("empty", select_overload<bool()const>(&cv::String::empty))
+        .function("toLowerCase",select_overload<String()const>(&cv::String::toLowerCase))
+        .function("compareString",select_overload<int(const String&)const>(&cv::String::compare))
+        .function("compare",select_overload<int(const char* )const>(&cv::String::compare),allow_raw_pointers() )
+        .constructor< const std::string& >()
+        .constructor<>()
+    ;
+
+    emscripten::class_<cv::Size_<int>> ("Size")
+        .constructor<> ()
+        .constructor<int, int> ()
+        .constructor<const cv::Size_<int>& > ()
+        .property("width" , &cv::Size_<int>::width )
+        .property("height" , &cv::Size_<int>::height )
+    ;
+
+    emscripten::class_<cv::Point_<int>> ("Point")
+        .constructor<> ()
+        .constructor<int, int> ()
+        .constructor<const cv::Point_<int>& > ()
+        .property("x" , &cv::Point_<int>::x )
+        .property("y" , &cv::Point_<int>::y )
+    ;
+
+    emscripten::class_<cv::Rect_<int>> ("Rect")
+        .constructor<> ()
+        .constructor<const cv::Point_<int>& , const cv::Size_<int>&  > ()
+        .constructor<int, int,int, int> ()
+        .constructor<const cv::Rect_<int>& > ()
+        .property("x" , &cv::Rect_<int>::x )
+        .property("y" , &cv::Rect_<int>::y )
+        .property("width" , &cv::Rect_<int>::width )
+        .property("height" , &cv::Rect_<int>::height )
+    ;
+
+    emscripten::class_<cv::Scalar_<double>> ("Scalar")
+        .constructor<> ()
+        .constructor<double> ()
+        .constructor<double,double> ()
+        .constructor<double,double,double> ()
+        .constructor<double,double,double,double> ()
+        .class_function("all" , &cv::Scalar_<double>::all )
+        .function("isReal", select_overload<bool()const>(&cv::Scalar_<double>::isReal))
+    ;
+
+
+}
