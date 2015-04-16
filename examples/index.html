@@ -1299,15 +1299,19 @@
 
 	//	return ;
 		
+		show_image( mat, 'canvas1' ) ;
 		
 		console.log("Testing Canny, Contours") ;
 		
 		thresh = 75; 
 		cv.cvtColor(mat, mat4 , cv.cv_ColorConversionCodes.COLOR_RGB2GRAY.value , 0)
+		show_image( mat4, 'canvas2' ) ;
 		cv.blur( mat4, mat5, new cv.Size(10,10) , new cv.Point(-1,-1) , 0 ) ;
-		
+		show_image( mat5, 'canvas3' ) ;
 		cv.Canny( mat5, mat6, thresh, thresh*2, 3 , 0);
+		show_image( mat6, 'canvas4' ) ;
 		drawing = new cv.Mat();
+		return;
 		cv.Canny( mat5, drawing, thresh, thresh*2, 3 , 0);
 		
 		contours = new cv.MatVector();
