@@ -13,10 +13,730 @@
 #include "opencv2/highgui.hpp"
 #include <emscripten/bind.h>
 using namespace emscripten;
-using namespace cv;
+using namespace cv;using namespace cv::flann;
 
 namespace Wrappers {
     
+    void AKAZE_setNOctaveLayers_wrap(cv::AKAZE& arg0 ,int arg1){
+        return arg0.setNOctaveLayers(arg1) ;
+    }
+
+
+    void AKAZE_setDescriptorType_wrap(cv::AKAZE& arg0 ,int arg1){
+        return arg0.setDescriptorType(arg1) ;
+    }
+
+
+    int AKAZE_getNOctaveLayers_wrap(cv::AKAZE& arg0 ){
+        return arg0.getNOctaveLayers() ;
+    }
+
+
+    void AKAZE_setNOctaves_wrap(cv::AKAZE& arg0 ,int arg1){
+        return arg0.setNOctaves(arg1) ;
+    }
+
+
+    int AKAZE_getDescriptorType_wrap(cv::AKAZE& arg0 ){
+        return arg0.getDescriptorType() ;
+    }
+
+
+    double AKAZE_getThreshold_wrap(cv::AKAZE& arg0 ){
+        return arg0.getThreshold() ;
+    }
+
+
+    Ptr<AKAZE> create_AKAZE_wrapper(int arg1,int arg2,int arg3,float arg4,int arg5,int arg6,int arg7){
+        Ptr<AKAZE> ptr = cv::AKAZE::create(arg1,arg2,arg3,arg4,arg5,arg6,arg7) ;
+        return ptr;
+    }
+
+
+    int AKAZE_getNOctaves_wrap(cv::AKAZE& arg0 ){
+        return arg0.getNOctaves() ;
+    }
+
+
+    void AKAZE_setDescriptorChannels_wrap(cv::AKAZE& arg0 ,int arg1){
+        return arg0.setDescriptorChannels(arg1) ;
+    }
+
+
+    void AKAZE_setThreshold_wrap(cv::AKAZE& arg0 ,double arg1){
+        return arg0.setThreshold(arg1) ;
+    }
+
+
+    int AKAZE_getDescriptorChannels_wrap(cv::AKAZE& arg0 ){
+        return arg0.getDescriptorChannels() ;
+    }
+
+
+    void AKAZE_setDescriptorSize_wrap(cv::AKAZE& arg0 ,int arg1){
+        return arg0.setDescriptorSize(arg1) ;
+    }
+
+
+    void AKAZE_setDiffusivity_wrap(cv::AKAZE& arg0 ,int arg1){
+        return arg0.setDiffusivity(arg1) ;
+    }
+
+
+    int AKAZE_getDiffusivity_wrap(cv::AKAZE& arg0 ){
+        return arg0.getDiffusivity() ;
+    }
+
+
+    int AKAZE_getDescriptorSize_wrap(cv::AKAZE& arg0 ){
+        return arg0.getDescriptorSize() ;
+    }
+
+
+    void BOWImgDescriptorExtractor_setVocabulary_wrap(cv::BOWImgDescriptorExtractor& arg0 ,const Mat& arg1){
+        return arg0.setVocabulary(arg1) ;
+    }
+
+
+    void BOWImgDescriptorExtractor_compute_wrap(cv::BOWImgDescriptorExtractor& arg0 ,const Mat& arg1,std::vector<KeyPoint>& arg2, Mat& arg3){
+        return arg0.compute2(arg1,arg2,arg3) ;
+    }
+
+
+    const Mat& BOWImgDescriptorExtractor_getVocabulary_wrap(cv::BOWImgDescriptorExtractor& arg0 ){
+        return arg0.getVocabulary() ;
+    }
+
+
+    int BOWImgDescriptorExtractor_descriptorSize_wrap(cv::BOWImgDescriptorExtractor& arg0 ){
+        return arg0.descriptorSize() ;
+    }
+
+
+    int BOWImgDescriptorExtractor_descriptorType_wrap(cv::BOWImgDescriptorExtractor& arg0 ){
+        return arg0.descriptorType() ;
+    }
+
+
+    Mat BOWKMeansTrainer_cluster_wrap(cv::BOWKMeansTrainer& arg0 ){
+        return arg0.cluster() ;
+    }
+
+
+    Mat BOWKMeansTrainer_cluster_wrap(cv::BOWKMeansTrainer& arg0 ,const Mat& arg1){
+        return arg0.cluster(arg1) ;
+    }
+
+
+    const std::vector<Mat>& BOWTrainer_getDescriptors_wrap(cv::BOWTrainer& arg0 ){
+        return arg0.getDescriptors() ;
+    }
+
+
+    Mat BOWTrainer_cluster_wrap(cv::BOWTrainer& arg0 ){
+        return arg0.cluster() ;
+    }
+
+
+    Mat BOWTrainer_cluster_wrap(cv::BOWTrainer& arg0 ,const Mat& arg1){
+        return arg0.cluster(arg1) ;
+    }
+
+
+    void BOWTrainer_add_wrap(cv::BOWTrainer& arg0 ,const Mat& arg1){
+        return arg0.add(arg1) ;
+    }
+
+
+    void BOWTrainer_clear_wrap(cv::BOWTrainer& arg0 ){
+        return arg0.clear() ;
+    }
+
+
+    int BOWTrainer_descriptorsCount_wrap(cv::BOWTrainer& arg0 ){
+        return arg0.descriptorsCount() ;
+    }
+
+
+    Ptr<BRISK> create_BRISK_wrapper(int arg1,int arg2,float arg3){
+        Ptr<BRISK> ptr = cv::BRISK::create(arg1,arg2,arg3) ;
+        return ptr;
+    }
+
+
+    Ptr<BRISK> create_BRISK_wrapper(const std::vector<float> arg1,const std::vector<int> arg2,float arg3,float arg4,const std::vector<int>& arg5){
+        Ptr<BRISK> ptr = cv::BRISK::create(arg1,arg2,arg3,arg4,arg5) ;
+        return ptr;
+    }
+
+
+    void CLAHE_setTilesGridSize_wrap(cv::CLAHE& arg0 ,Size arg1){
+        return arg0.setTilesGridSize(arg1) ;
+    }
+
+
+    void CLAHE_collectGarbage_wrap(cv::CLAHE& arg0 ){
+        return arg0.collectGarbage() ;
+    }
+
+
+    void CLAHE_setClipLimit_wrap(cv::CLAHE& arg0 ,double arg1){
+        return arg0.setClipLimit(arg1) ;
+    }
+
+
+    Size CLAHE_getTilesGridSize_wrap(cv::CLAHE& arg0 ){
+        return arg0.getTilesGridSize() ;
+    }
+
+
+    double CLAHE_getClipLimit_wrap(cv::CLAHE& arg0 ){
+        return arg0.getClipLimit() ;
+    }
+
+
+    void CLAHE_apply_wrap(cv::CLAHE& arg0 ,const cv::Mat& arg1,cv::Mat& arg2){
+        return arg0.apply(arg1,arg2) ;
+    }
+
+
+    Ptr<DescriptorMatcher> create_DescriptorMatcher_wrapper(const String& arg1){
+        Ptr<DescriptorMatcher> ptr = cv::DescriptorMatcher::create(arg1) ;
+        return ptr;
+    }
+
+
+    void DescriptorMatcher_clear_wrap(cv::DescriptorMatcher& arg0 ){
+        return arg0.clear() ;
+    }
+
+
+    void DescriptorMatcher_knnMatch_wrap(cv::DescriptorMatcher& arg0 ,const cv::Mat& arg1,const cv::Mat& arg2, std::vector<std::vector<DMatch> >& arg3,int arg4,const cv::Mat& arg5,bool arg6){
+        return arg0.knnMatch(arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    void DescriptorMatcher_knnMatch_wrap(cv::DescriptorMatcher& arg0 ,const cv::Mat& arg1, std::vector<std::vector<DMatch> >& arg2,int arg3,const std::vector<cv::Mat>& arg4,bool arg5){
+        return arg0.knnMatch(arg1,arg2,arg3,arg4,arg5) ;
+    }
+
+
+    void DescriptorMatcher_add_wrap(cv::DescriptorMatcher& arg0 ,const std::vector<cv::Mat>& arg1){
+        return arg0.add(arg1) ;
+    }
+
+
+    void DescriptorMatcher_train_wrap(cv::DescriptorMatcher& arg0 ){
+        return arg0.train() ;
+    }
+
+
+    void DescriptorMatcher_match_wrap(cv::DescriptorMatcher& arg0 ,const cv::Mat& arg1,const cv::Mat& arg2, std::vector<DMatch>& arg3,const cv::Mat& arg4){
+        return arg0.match(arg1,arg2,arg3,arg4) ;
+    }
+
+
+    void DescriptorMatcher_match_wrap(cv::DescriptorMatcher& arg0 ,const cv::Mat& arg1, std::vector<DMatch>& arg2,const std::vector<cv::Mat>& arg3){
+        return arg0.match(arg1,arg2,arg3) ;
+    }
+
+
+    const std::vector<Mat>& DescriptorMatcher_getTrainDescriptors_wrap(cv::DescriptorMatcher& arg0 ){
+        return arg0.getTrainDescriptors() ;
+    }
+
+
+    bool DescriptorMatcher_isMaskSupported_wrap(cv::DescriptorMatcher& arg0 ){
+        return arg0.isMaskSupported() ;
+    }
+
+
+    bool DescriptorMatcher_empty_wrap(cv::DescriptorMatcher& arg0 ){
+        return arg0.empty() ;
+    }
+
+
+    bool FastFeatureDetector_getNonmaxSuppression_wrap(cv::FastFeatureDetector& arg0 ){
+        return arg0.getNonmaxSuppression() ;
+    }
+
+
+    int FastFeatureDetector_getThreshold_wrap(cv::FastFeatureDetector& arg0 ){
+        return arg0.getThreshold() ;
+    }
+
+
+    Ptr<FastFeatureDetector> create_FastFeatureDetector_wrapper(int arg1,bool arg2,int arg3){
+        Ptr<FastFeatureDetector> ptr = cv::FastFeatureDetector::create(arg1,arg2,arg3) ;
+        return ptr;
+    }
+
+
+    int FastFeatureDetector_getType_wrap(cv::FastFeatureDetector& arg0 ){
+        return arg0.getType() ;
+    }
+
+
+    void FastFeatureDetector_setNonmaxSuppression_wrap(cv::FastFeatureDetector& arg0 ,bool arg1){
+        return arg0.setNonmaxSuppression(arg1) ;
+    }
+
+
+    void FastFeatureDetector_setThreshold_wrap(cv::FastFeatureDetector& arg0 ,int arg1){
+        return arg0.setThreshold(arg1) ;
+    }
+
+
+    void FastFeatureDetector_setType_wrap(cv::FastFeatureDetector& arg0 ,int arg1){
+        return arg0.setType(arg1) ;
+    }
+
+
+    void Feature2D_detect_wrap(cv::Feature2D& arg0 ,const cv::Mat& arg1, std::vector<KeyPoint>& arg2,const cv::Mat& arg3){
+        return arg0.detect(arg1,arg2,arg3) ;
+    }
+
+
+    void Feature2D_compute_wrap(cv::Feature2D& arg0 ,const cv::Mat& arg1,  std::vector<KeyPoint>& arg2,cv::Mat& arg3){
+        return arg0.compute(arg1,arg2,arg3) ;
+    }
+
+
+    int Feature2D_defaultNorm_wrap(cv::Feature2D& arg0 ){
+        return arg0.defaultNorm() ;
+    }
+
+
+    void Feature2D_detectAndCompute_wrap(cv::Feature2D& arg0 ,const cv::Mat& arg1,const cv::Mat& arg2, std::vector<KeyPoint>& arg3,cv::Mat& arg4,bool arg5){
+        return arg0.detectAndCompute(arg1,arg2,arg3,arg4,arg5) ;
+    }
+
+
+    int Feature2D_descriptorSize_wrap(cv::Feature2D& arg0 ){
+        return arg0.descriptorSize() ;
+    }
+
+
+    int Feature2D_descriptorType_wrap(cv::Feature2D& arg0 ){
+        return arg0.descriptorType() ;
+    }
+
+
+    bool Feature2D_empty_wrap(cv::Feature2D& arg0 ){
+        return arg0.empty() ;
+    }
+
+
+    int GFTTDetector_getBlockSize_wrap(cv::GFTTDetector& arg0 ){
+        return arg0.getBlockSize() ;
+    }
+
+
+    double GFTTDetector_getK_wrap(cv::GFTTDetector& arg0 ){
+        return arg0.getK() ;
+    }
+
+
+    void GFTTDetector_setHarrisDetector_wrap(cv::GFTTDetector& arg0 ,bool arg1){
+        return arg0.setHarrisDetector(arg1) ;
+    }
+
+
+    void GFTTDetector_setBlockSize_wrap(cv::GFTTDetector& arg0 ,int arg1){
+        return arg0.setBlockSize(arg1) ;
+    }
+
+
+    Ptr<GFTTDetector> create_GFTTDetector_wrapper(int arg1,double arg2,double arg3,int arg4,bool arg5,double arg6){
+        Ptr<GFTTDetector> ptr = cv::GFTTDetector::create(arg1,arg2,arg3,arg4,arg5,arg6) ;
+        return ptr;
+    }
+
+
+    void GFTTDetector_setQualityLevel_wrap(cv::GFTTDetector& arg0 ,double arg1){
+        return arg0.setQualityLevel(arg1) ;
+    }
+
+
+    void GFTTDetector_setMaxFeatures_wrap(cv::GFTTDetector& arg0 ,int arg1){
+        return arg0.setMaxFeatures(arg1) ;
+    }
+
+
+    void GFTTDetector_setK_wrap(cv::GFTTDetector& arg0 ,double arg1){
+        return arg0.setK(arg1) ;
+    }
+
+
+    int GFTTDetector_getMaxFeatures_wrap(cv::GFTTDetector& arg0 ){
+        return arg0.getMaxFeatures() ;
+    }
+
+
+    void GFTTDetector_setMinDistance_wrap(cv::GFTTDetector& arg0 ,double arg1){
+        return arg0.setMinDistance(arg1) ;
+    }
+
+
+    double GFTTDetector_getMinDistance_wrap(cv::GFTTDetector& arg0 ){
+        return arg0.getMinDistance() ;
+    }
+
+
+    double GFTTDetector_getQualityLevel_wrap(cv::GFTTDetector& arg0 ){
+        return arg0.getQualityLevel() ;
+    }
+
+
+    bool GFTTDetector_getHarrisDetector_wrap(cv::GFTTDetector& arg0 ){
+        return arg0.getHarrisDetector() ;
+    }
+
+
+    void KAZE_setExtended_wrap(cv::KAZE& arg0 ,bool arg1){
+        return arg0.setExtended(arg1) ;
+    }
+
+
+    void KAZE_setNOctaveLayers_wrap(cv::KAZE& arg0 ,int arg1){
+        return arg0.setNOctaveLayers(arg1) ;
+    }
+
+
+    int KAZE_getNOctaves_wrap(cv::KAZE& arg0 ){
+        return arg0.getNOctaves() ;
+    }
+
+
+    int KAZE_getNOctaveLayers_wrap(cv::KAZE& arg0 ){
+        return arg0.getNOctaveLayers() ;
+    }
+
+
+    void KAZE_setNOctaves_wrap(cv::KAZE& arg0 ,int arg1){
+        return arg0.setNOctaves(arg1) ;
+    }
+
+
+    bool KAZE_getUpright_wrap(cv::KAZE& arg0 ){
+        return arg0.getUpright() ;
+    }
+
+
+    Ptr<KAZE> create_KAZE_wrapper(bool arg1,bool arg2,float arg3,int arg4,int arg5,int arg6){
+        Ptr<KAZE> ptr = cv::KAZE::create(arg1,arg2,arg3,arg4,arg5,arg6) ;
+        return ptr;
+    }
+
+
+    bool KAZE_getExtended_wrap(cv::KAZE& arg0 ){
+        return arg0.getExtended() ;
+    }
+
+
+    void KAZE_setUpright_wrap(cv::KAZE& arg0 ,bool arg1){
+        return arg0.setUpright(arg1) ;
+    }
+
+
+    void KAZE_setDiffusivity_wrap(cv::KAZE& arg0 ,int arg1){
+        return arg0.setDiffusivity(arg1) ;
+    }
+
+
+    double KAZE_getThreshold_wrap(cv::KAZE& arg0 ){
+        return arg0.getThreshold() ;
+    }
+
+
+    int KAZE_getDiffusivity_wrap(cv::KAZE& arg0 ){
+        return arg0.getDiffusivity() ;
+    }
+
+
+    void KAZE_setThreshold_wrap(cv::KAZE& arg0 ,double arg1){
+        return arg0.setThreshold(arg1) ;
+    }
+
+
+    int LineSegmentDetector_compareSegments_wrap(cv::LineSegmentDetector& arg0 ,const Size& arg1,const cv::Mat& arg2,const cv::Mat& arg3,cv::Mat& arg4){
+        return arg0.compareSegments(arg1,arg2,arg3,arg4) ;
+    }
+
+
+    void LineSegmentDetector_detect_wrap(cv::LineSegmentDetector& arg0 ,const cv::Mat& arg1,cv::Mat& arg2,cv::Mat& arg3,cv::Mat& arg4,cv::Mat& arg5){
+        return arg0.detect(arg1,arg2,arg3,arg4,arg5) ;
+    }
+
+
+    void LineSegmentDetector_drawSegments_wrap(cv::LineSegmentDetector& arg0 ,cv::Mat& arg1,const cv::Mat& arg2){
+        return arg0.drawSegments(arg1,arg2) ;
+    }
+
+
+    bool MSER_getPass2Only_wrap(cv::MSER& arg0 ){
+        return arg0.getPass2Only() ;
+    }
+
+
+    void MSER_setMinArea_wrap(cv::MSER& arg0 ,int arg1){
+        return arg0.setMinArea(arg1) ;
+    }
+
+
+    int MSER_getDelta_wrap(cv::MSER& arg0 ){
+        return arg0.getDelta() ;
+    }
+
+
+    Ptr<MSER> create_MSER_wrapper(int arg1,int arg2,int arg3,double arg4,double arg5,int arg6,double arg7,double arg8,int arg9){
+        Ptr<MSER> ptr = cv::MSER::create(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9) ;
+        return ptr;
+    }
+
+
+    int MSER_getMaxArea_wrap(cv::MSER& arg0 ){
+        return arg0.getMaxArea() ;
+    }
+
+
+    void MSER_setMaxArea_wrap(cv::MSER& arg0 ,int arg1){
+        return arg0.setMaxArea(arg1) ;
+    }
+
+
+    void MSER_setPass2Only_wrap(cv::MSER& arg0 ,bool arg1){
+        return arg0.setPass2Only(arg1) ;
+    }
+
+
+    int MSER_getMinArea_wrap(cv::MSER& arg0 ){
+        return arg0.getMinArea() ;
+    }
+
+
+    void MSER_detectRegions_wrap(cv::MSER& arg0 ,const cv::Mat& arg1, std::vector<std::vector<Point> >& arg2,std::vector<Rect>& arg3){
+        return arg0.detectRegions(arg1,arg2,arg3) ;
+    }
+
+
+    void MSER_setDelta_wrap(cv::MSER& arg0 ,int arg1){
+        return arg0.setDelta(arg1) ;
+    }
+
+
+    int ORB_getMaxFeatures_wrap(cv::ORB& arg0 ){
+        return arg0.getMaxFeatures() ;
+    }
+
+
+    void ORB_setEdgeThreshold_wrap(cv::ORB& arg0 ,int arg1){
+        return arg0.setEdgeThreshold(arg1) ;
+    }
+
+
+    void ORB_setFirstLevel_wrap(cv::ORB& arg0 ,int arg1){
+        return arg0.setFirstLevel(arg1) ;
+    }
+
+
+    Ptr<ORB> create_ORB_wrapper(int arg1,float arg2,int arg3,int arg4,int arg5,int arg6,int arg7,int arg8,int arg9){
+        Ptr<ORB> ptr = cv::ORB::create(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9) ;
+        return ptr;
+    }
+
+
+    int ORB_getFastThreshold_wrap(cv::ORB& arg0 ){
+        return arg0.getFastThreshold() ;
+    }
+
+
+    void ORB_setMaxFeatures_wrap(cv::ORB& arg0 ,int arg1){
+        return arg0.setMaxFeatures(arg1) ;
+    }
+
+
+    int ORB_getWTA_K_wrap(cv::ORB& arg0 ){
+        return arg0.getWTA_K() ;
+    }
+
+
+    int ORB_getNLevels_wrap(cv::ORB& arg0 ){
+        return arg0.getNLevels() ;
+    }
+
+
+    void ORB_setNLevels_wrap(cv::ORB& arg0 ,int arg1){
+        return arg0.setNLevels(arg1) ;
+    }
+
+
+    void ORB_setFastThreshold_wrap(cv::ORB& arg0 ,int arg1){
+        return arg0.setFastThreshold(arg1) ;
+    }
+
+
+    double ORB_getScaleFactor_wrap(cv::ORB& arg0 ){
+        return arg0.getScaleFactor() ;
+    }
+
+
+    void ORB_setPatchSize_wrap(cv::ORB& arg0 ,int arg1){
+        return arg0.setPatchSize(arg1) ;
+    }
+
+
+    void ORB_setWTA_K_wrap(cv::ORB& arg0 ,int arg1){
+        return arg0.setWTA_K(arg1) ;
+    }
+
+
+    void ORB_setScaleFactor_wrap(cv::ORB& arg0 ,double arg1){
+        return arg0.setScaleFactor(arg1) ;
+    }
+
+
+    int ORB_getPatchSize_wrap(cv::ORB& arg0 ){
+        return arg0.getPatchSize() ;
+    }
+
+
+    int ORB_getEdgeThreshold_wrap(cv::ORB& arg0 ){
+        return arg0.getEdgeThreshold() ;
+    }
+
+
+    int ORB_getFirstLevel_wrap(cv::ORB& arg0 ){
+        return arg0.getFirstLevel() ;
+    }
+
+
+    int ORB_getScoreType_wrap(cv::ORB& arg0 ){
+        return arg0.getScoreType() ;
+    }
+
+
+    void ORB_setScoreType_wrap(cv::ORB& arg0 ,int arg1){
+        return arg0.setScoreType(arg1) ;
+    }
+
+
+    Ptr<SimpleBlobDetector> create_SimpleBlobDetector_wrapper(const SimpleBlobDetector::Params arg1){
+        Ptr<SimpleBlobDetector> ptr = cv::SimpleBlobDetector::create(arg1) ;
+        return ptr;
+    }
+
+
+    void Subdiv2D_initDelaunay_wrap(cv::Subdiv2D& arg0 ,Rect arg1){
+        return arg0.initDelaunay(arg1) ;
+    }
+
+
+    int Subdiv2D_edgeOrg_wrap(cv::Subdiv2D& arg0 ,int arg1, Point2f* arg2){
+        return arg0.edgeOrg(arg1,arg2) ;
+    }
+
+
+    int Subdiv2D_rotateEdge_wrap(cv::Subdiv2D& arg0 ,int arg1,int arg2){
+        return arg0.rotateEdge(arg1,arg2) ;
+    }
+
+
+    int Subdiv2D_insert_wrap(cv::Subdiv2D& arg0 ,Point2f arg1){
+        return arg0.insert(arg1) ;
+    }
+
+
+    void Subdiv2D_insert_wrap(cv::Subdiv2D& arg0 ,const std::vector<Point2f>& arg1){
+        return arg0.insert(arg1) ;
+    }
+
+
+    int Subdiv2D_getEdge_wrap(cv::Subdiv2D& arg0 ,int arg1,int arg2){
+        return arg0.getEdge(arg1,arg2) ;
+    }
+
+
+    void Subdiv2D_getTriangleList_wrap(cv::Subdiv2D& arg0 , std::vector<Vec6f>& arg1){
+        return arg0.getTriangleList(arg1) ;
+    }
+
+
+    int Subdiv2D_nextEdge_wrap(cv::Subdiv2D& arg0 ,int arg1){
+        return arg0.nextEdge(arg1) ;
+    }
+
+
+    int Subdiv2D_edgeDst_wrap(cv::Subdiv2D& arg0 ,int arg1, Point2f* arg2){
+        return arg0.edgeDst(arg1,arg2) ;
+    }
+
+
+    void Subdiv2D_getVoronoiFacetList_wrap(cv::Subdiv2D& arg0 ,const std::vector<int>& arg1, std::vector<std::vector<Point2f> >& arg2, std::vector<Point2f>& arg3){
+        return arg0.getVoronoiFacetList(arg1,arg2,arg3) ;
+    }
+
+
+    Point2f Subdiv2D_getVertex_wrap(cv::Subdiv2D& arg0 ,int arg1, int* arg2){
+        return arg0.getVertex(arg1,arg2) ;
+    }
+
+
+    void Subdiv2D_getEdgeList_wrap(cv::Subdiv2D& arg0 , std::vector<Vec4f>& arg1){
+        return arg0.getEdgeList(arg1) ;
+    }
+
+
+    int Subdiv2D_symEdge_wrap(cv::Subdiv2D& arg0 ,int arg1){
+        return arg0.symEdge(arg1) ;
+    }
+
+
+    int Subdiv2D_findNearest_wrap(cv::Subdiv2D& arg0 ,Point2f arg1, Point2f* arg2){
+        return arg0.findNearest(arg1,arg2) ;
+    }
+
+
+    bool flann_Index_load_wrap(cv::flann::Index& arg0 ,const cv::Mat& arg1,const String& arg2){
+        return arg0.load(arg1,arg2) ;
+    }
+
+
+    int flann_Index_radiusSearch_wrap(cv::flann::Index& arg0 ,const cv::Mat& arg1,cv::Mat& arg2,cv::Mat& arg3,double arg4,int arg5,const SearchParams& arg6){
+        return arg0.radiusSearch(arg1,arg2,arg3,arg4,arg5,arg6) ;
+    }
+
+
+    cvflann::flann_algorithm_t flann_Index_getAlgorithm_wrap(cv::flann::Index& arg0 ){
+        return arg0.getAlgorithm() ;
+    }
+
+
+    void flann_Index_build_wrap(cv::flann::Index& arg0 ,const cv::Mat& arg1,const IndexParams& arg2,cvflann::flann_distance_t arg3){
+        return arg0.build(arg1,arg2,arg3) ;
+    }
+
+
+    cvflann::flann_distance_t flann_Index_getDistance_wrap(cv::flann::Index& arg0 ){
+        return arg0.getDistance() ;
+    }
+
+
+    void flann_Index_release_wrap(cv::flann::Index& arg0 ){
+        return arg0.release() ;
+    }
+
+
+    void flann_Index_save_wrap(cv::flann::Index& arg0 ,const String& arg1){
+        return arg0.save(arg1) ;
+    }
+
+
+    void flann_Index_knnSearch_wrap(cv::flann::Index& arg0 ,const cv::Mat& arg1,cv::Mat& arg2,cv::Mat& arg3,int arg4,const SearchParams& arg5){
+        return arg0.knnSearch(arg1,arg2,arg3,arg4,arg5) ;
+    }
+
+
     void Canny_wrapper(const cv::Mat& arg0,cv::Mat& arg1,double arg2,double arg3,int arg4,bool arg5){
         return cv::Canny(arg0,arg1,arg2,arg3,arg4,arg5) ;
     }
@@ -337,8 +1057,9 @@ namespace Wrappers {
     }
 
 
-    Ptr<CLAHE> createCLAHE_wrapper(double arg0,Size arg1){
-        return cv::createCLAHE(arg0,arg1) ;
+    CLAHE* createCLAHE_wrapper(double arg0,Size arg1){
+        Ptr<CLAHE> ptr = cv::createCLAHE(arg0,arg1) ;
+        return ptr;
     }
 
 
@@ -347,8 +1068,9 @@ namespace Wrappers {
     }
 
 
-    Ptr<LineSegmentDetector> createLineSegmentDetector_wrapper(int arg0,double arg1,double arg2,double arg3,double arg4,double arg5,double arg6,int arg7){
-        return cv::createLineSegmentDetector(arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7) ;
+    LineSegmentDetector* createLineSegmentDetector_wrapper(int arg0,double arg1,double arg2,double arg3,double arg4,double arg5,double arg6,int arg7){
+        Ptr<LineSegmentDetector> ptr = cv::createLineSegmentDetector(arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7) ;
+        return ptr;
     }
 
 
@@ -364,16 +1086,6 @@ namespace Wrappers {
 
     void demosaicing_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,int arg3){
         return cv::demosaicing(arg0,arg1,arg2,arg3) ;
-    }
-
-
-    void destroyAllWindows_wrapper(){
-        return cv::destroyAllWindows() ;
-    }
-
-
-    void destroyWindow_wrapper(const String& arg0){
-        return cv::destroyWindow(arg0) ;
     }
 
 
@@ -414,6 +1126,21 @@ namespace Wrappers {
 
     void drawContours_wrapper(cv::Mat& arg0,const std::vector<cv::Mat>& arg1,int arg2,const Scalar& arg3,int arg4,int arg5,const cv::Mat& arg6,int arg7,Point arg8){
         return cv::drawContours(arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8) ;
+    }
+
+
+    void drawKeypoints_wrapper(const cv::Mat& arg0,const std::vector<KeyPoint>& arg1,cv::Mat& arg2,const Scalar& arg3,int arg4){
+        return cv::drawKeypoints(arg0,arg1,arg2,arg3,arg4) ;
+    }
+
+
+    void drawMatches_wrapper(const cv::Mat& arg0,const std::vector<KeyPoint>& arg1,const cv::Mat& arg2,const std::vector<KeyPoint>& arg3,const std::vector<DMatch>& arg4,cv::Mat& arg5,const Scalar& arg6,const Scalar& arg7,const std::vector<char>& arg8,int arg9){
+        return cv::drawMatches(arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9) ;
+    }
+
+
+    void drawMatchesKnn_wrapper(const cv::Mat& arg0,const std::vector<KeyPoint>& arg1,const cv::Mat& arg2,const std::vector<KeyPoint>& arg3,const std::vector<std::vector<DMatch> >& arg4,cv::Mat& arg5,const Scalar& arg6,const Scalar& arg7,const std::vector<std::vector<char> >& arg8,int arg9){
+        return cv::drawMatches(arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9) ;
     }
 
 
@@ -562,16 +1289,6 @@ namespace Wrappers {
     }
 
 
-    int getTrackbarPos_wrapper(const String& arg0,const String& arg1){
-        return cv::getTrackbarPos(arg0,arg1) ;
-    }
-
-
-    double getWindowProperty_wrapper(const String& arg0,int arg1){
-        return cv::getWindowProperty(arg0,arg1) ;
-    }
-
-
     void goodFeaturesToTrack_wrapper(const cv::Mat& arg0,cv::Mat& arg1,int arg2,double arg3,double arg4,const cv::Mat& arg5,int arg6,bool arg7,double arg8){
         return cv::goodFeaturesToTrack(arg0,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8) ;
     }
@@ -614,11 +1331,6 @@ namespace Wrappers {
 
     bool imreadmulti_wrapper(const String& arg0,std::vector<Mat>& arg1,int arg2){
         return cv::imreadmulti(arg0,arg1,arg2) ;
-    }
-
-
-    void imshow_wrapper(const String& arg0,const cv::Mat& arg1){
-        return cv::imshow(arg0,arg1) ;
     }
 
 
@@ -782,11 +1494,6 @@ namespace Wrappers {
     }
 
 
-    void moveWindow_wrapper(const String& arg0,int arg1,int arg2){
-        return cv::moveWindow(arg0,arg1,arg2) ;
-    }
-
-
     void mulSpectrums_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2,int arg3,bool arg4){
         return cv::mulSpectrums(arg0,arg1,arg2,arg3,arg4) ;
     }
@@ -799,11 +1506,6 @@ namespace Wrappers {
 
     void multiply_wrapper(const cv::Mat& arg0,const cv::Mat& arg1,cv::Mat& arg2,double arg3,int arg4){
         return cv::multiply(arg0,arg1,arg2,arg3,arg4) ;
-    }
-
-
-    void namedWindow_wrapper(const String& arg0,int arg1){
-        return cv::namedWindow(arg0,arg1) ;
     }
 
 
@@ -927,11 +1629,6 @@ namespace Wrappers {
     }
 
 
-    void resizeWindow_wrapper(const String& arg0,int arg1,int arg2){
-        return cv::resizeWindow(arg0,arg1,arg2) ;
-    }
-
-
     int rotatedRectangleIntersection_wrapper(const RotatedRect& arg0,const RotatedRect& arg1,cv::Mat& arg2){
         return cv::rotatedRectangleIntersection(arg0,arg1,arg2) ;
     }
@@ -949,26 +1646,6 @@ namespace Wrappers {
 
     void setIdentity_wrapper(cv::Mat& arg0,const Scalar& arg1){
         return cv::setIdentity(arg0,arg1) ;
-    }
-
-
-    void setTrackbarMax_wrapper(const String& arg0,const String& arg1,int arg2){
-        return cv::setTrackbarMax(arg0,arg1,arg2) ;
-    }
-
-
-    void setTrackbarPos_wrapper(const String& arg0,const String& arg1,int arg2){
-        return cv::setTrackbarPos(arg0,arg1,arg2) ;
-    }
-
-
-    void setWindowProperty_wrapper(const String& arg0,int arg1,double arg2){
-        return cv::setWindowProperty(arg0,arg1,arg2) ;
-    }
-
-
-    void setWindowTitle_wrapper(const String& arg0,const String& arg1){
-        return cv::setWindowTitle(arg0,arg1) ;
     }
 
 
@@ -1009,11 +1686,6 @@ namespace Wrappers {
 
     void sqrt_wrapper(const cv::Mat& arg0,cv::Mat& arg1){
         return cv::sqrt(arg0,arg1) ;
-    }
-
-
-    int startWindowThread_wrapper(){
-        return cv::startWindowThread() ;
     }
 
 
@@ -1059,11 +1731,6 @@ namespace Wrappers {
 
     void vconcat_wrapper(const std::vector<cv::Mat>& arg0,cv::Mat& arg1){
         return cv::vconcat(arg0,arg1) ;
-    }
-
-
-    int waitKey_wrapper(int arg0){
-        return cv::waitKey(arg0) ;
     }
 
 
@@ -1115,120 +1782,496 @@ namespace Wrappers {
 
     EMSCRIPTEN_BINDINGS(testBinding) {
         
-    emscripten::class_<cv::Algorithm>("Algorithm")
+    emscripten::class_<cv::AKAZE ,base<Feature2D>>("AKAZE")
     
-    ;
+    .function("setNOctaveLayers", select_overload<void(cv::AKAZE&,int)>(&Wrappers::AKAZE_setNOctaveLayers_wrap),pure_virtual() )
 
-    emscripten::class_<cv::CLAHE>("CLAHE")
-    
-    .function("setTilesGridSize", select_overload<void(Size)>(&cv::CLAHE::setTilesGridSize))
+    .function("setDescriptorType", select_overload<void(cv::AKAZE&,int)>(&Wrappers::AKAZE_setDescriptorType_wrap),pure_virtual() )
 
-    .function("collectGarbage", select_overload<void()>(&cv::CLAHE::collectGarbage))
+    .function("getNOctaveLayers", select_overload<int(cv::AKAZE&)>(&Wrappers::AKAZE_getNOctaveLayers_wrap),pure_virtual() )
 
-    .function("setClipLimit", select_overload<void(double)>(&cv::CLAHE::setClipLimit))
+    .function("setNOctaves", select_overload<void(cv::AKAZE&,int)>(&Wrappers::AKAZE_setNOctaves_wrap),pure_virtual() )
 
-    .function("getTilesGridSize", select_overload<Size()const>(&cv::CLAHE::getTilesGridSize))
+    .function("getDescriptorType", select_overload<int(cv::AKAZE&)>(&Wrappers::AKAZE_getDescriptorType_wrap),pure_virtual() )
 
-    .function("getClipLimit", select_overload<double()const>(&cv::CLAHE::getClipLimit))
+    .function("getThreshold", select_overload<double(cv::AKAZE&)>(&Wrappers::AKAZE_getThreshold_wrap),pure_virtual() )
 
-    .function("apply", select_overload<void(InputArray,OutputArray)>(&cv::CLAHE::apply))
+    .class_function("create",select_overload<Ptr<AKAZE>(int,int,int,float,int,int,int)>(&Wrappers::create_AKAZE_wrapper))
 
-    ;
+    .function("getNOctaves", select_overload<int(cv::AKAZE&)>(&Wrappers::AKAZE_getNOctaves_wrap),pure_virtual() )
 
-    emscripten::class_<cv::LineSegmentDetector>("LineSegmentDetector")
-    
-    .function("compareSegments", select_overload<int(const Size&,InputArray,InputArray,InputOutputArray)>(&cv::LineSegmentDetector::compareSegments))
+    .function("setDescriptorChannels", select_overload<void(cv::AKAZE&,int)>(&Wrappers::AKAZE_setDescriptorChannels_wrap),pure_virtual() )
 
-    .function("detect", select_overload<void(InputArray,OutputArray,OutputArray,OutputArray,OutputArray)>(&cv::LineSegmentDetector::detect))
+    .function("setThreshold", select_overload<void(cv::AKAZE&,double)>(&Wrappers::AKAZE_setThreshold_wrap),pure_virtual() )
 
-    .function("drawSegments", select_overload<void(InputOutputArray,InputArray)>(&cv::LineSegmentDetector::drawSegments))
+    .function("getDescriptorChannels", select_overload<int(cv::AKAZE&)>(&Wrappers::AKAZE_getDescriptorChannels_wrap),pure_virtual() )
 
-    ;
+    .function("setDescriptorSize", select_overload<void(cv::AKAZE&,int)>(&Wrappers::AKAZE_setDescriptorSize_wrap),pure_virtual() )
 
-    emscripten::class_<cv::Subdiv2D>("Subdiv2D")
-    
-    .function("insert", select_overload<int(Point2f)>(&cv::Subdiv2D::insert))
+    .function("setDiffusivity", select_overload<void(cv::AKAZE&,int)>(&Wrappers::AKAZE_setDiffusivity_wrap),pure_virtual() )
 
-    .function("insert", select_overload<void(const std::vector<Point2f>&)>(&cv::Subdiv2D::insert))
+    .function("getDiffusivity", select_overload<int(cv::AKAZE&)>(&Wrappers::AKAZE_getDiffusivity_wrap),pure_virtual() )
 
-    .function("edgeOrg", select_overload<int(int, Point2f*)const>(&cv::Subdiv2D::edgeOrg), allow_raw_pointers())
-
-    .function("rotateEdge", select_overload<int(int,int)const>(&cv::Subdiv2D::rotateEdge))
-
-    .function("initDelaunay", select_overload<void(Rect)>(&cv::Subdiv2D::initDelaunay))
-
-    .constructor<  >()
-
-    .constructor< Rect >()
-
-    .function("getEdge", select_overload<int(int,int)const>(&cv::Subdiv2D::getEdge))
-
-    .function("getTriangleList", select_overload<void( std::vector<Vec6f>&)const>(&cv::Subdiv2D::getTriangleList))
-
-    .function("nextEdge", select_overload<int(int)const>(&cv::Subdiv2D::nextEdge))
-
-    .function("edgeDst", select_overload<int(int, Point2f*)const>(&cv::Subdiv2D::edgeDst), allow_raw_pointers())
-
-    .function("getEdgeList", select_overload<void( std::vector<Vec4f>&)const>(&cv::Subdiv2D::getEdgeList))
-
-    .function("getVertex", select_overload<Point2f(int, int*)const>(&cv::Subdiv2D::getVertex), allow_raw_pointers())
-
-    .function("getVoronoiFacetList", select_overload<void(const std::vector<int>&, std::vector<std::vector<Point2f> >&, std::vector<Point2f>&)>(&cv::Subdiv2D::getVoronoiFacetList))
-
-    .function("symEdge", select_overload<int(int)const>(&cv::Subdiv2D::symEdge))
-
-    .function("findNearest", select_overload<int(Point2f, Point2f*)>(&cv::Subdiv2D::findNearest), allow_raw_pointers())
+    .function("getDescriptorSize", select_overload<int(cv::AKAZE&)>(&Wrappers::AKAZE_getDescriptorSize_wrap),pure_virtual() )
 
     ;
 
-    emscripten::class_<cv::ml::ANN_MLP>("ml_ANN_MLP")
+    emscripten::class_<cv::Algorithm >("Algorithm")
     
     ;
 
-    emscripten::class_<cv::ml::Boost>("ml_Boost")
+    emscripten::class_<cv::BFMatcher ,base<DescriptorMatcher>>("BFMatcher")
     
     ;
 
-    emscripten::class_<cv::ml::DTrees>("ml_DTrees")
+    emscripten::class_<cv::BOWImgDescriptorExtractor >("BOWImgDescriptorExtractor")
     
-    ;
+    .function("setVocabulary", select_overload<void(cv::BOWImgDescriptorExtractor&,const Mat&)>(&Wrappers::BOWImgDescriptorExtractor_setVocabulary_wrap))
 
-    emscripten::class_<cv::ml::EM>("ml_EM")
-    
-    .function("predict2", select_overload<Vec2d(InputArray,OutputArray)const>(&cv::ml::EM::predict2))
+    .function("compute", select_overload<void(cv::BOWImgDescriptorExtractor&,const Mat&,std::vector<KeyPoint>&, Mat&)>(&Wrappers::BOWImgDescriptorExtractor_compute_wrap))
 
-    ;
+    .function("getVocabulary", select_overload<const Mat&(cv::BOWImgDescriptorExtractor&)>(&Wrappers::BOWImgDescriptorExtractor_getVocabulary_wrap))
 
-    emscripten::class_<cv::ml::KNearest>("ml_KNearest")
-    
-    ;
+    .function("descriptorSize", select_overload<int(cv::BOWImgDescriptorExtractor&)>(&Wrappers::BOWImgDescriptorExtractor_descriptorSize_wrap))
 
-    emscripten::class_<cv::ml::NormalBayesClassifier>("ml_NormalBayesClassifier")
-    
-    ;
-
-    emscripten::class_<cv::ml::ParamGrid>("ml_ParamGrid")
-    
-    .property("minVal", &cv::ml::ParamGrid::minVal)
-
-    .property("maxVal", &cv::ml::ParamGrid::maxVal)
-
-    .property("logStep", &cv::ml::ParamGrid::logStep)
+    .function("descriptorType", select_overload<int(cv::BOWImgDescriptorExtractor&)>(&Wrappers::BOWImgDescriptorExtractor_descriptorType_wrap))
 
     ;
 
-    emscripten::class_<cv::ml::RTrees>("ml_RTrees")
+    emscripten::class_<cv::BOWKMeansTrainer ,base<BOWTrainer>>("BOWKMeansTrainer")
     
-    ;
+    .function("cluster", select_overload<Mat(cv::BOWKMeansTrainer&)>(&Wrappers::BOWKMeansTrainer_cluster_wrap))
 
-    emscripten::class_<cv::ml::SVM>("ml_SVM")
-    
-    .function("getSupportVectors", select_overload<Mat()const>(&cv::ml::SVM::getSupportVectors))
+    .function("cluster", select_overload<Mat(cv::BOWKMeansTrainer&,const Mat&)>(&Wrappers::BOWKMeansTrainer_cluster_wrap))
 
     ;
 
-    emscripten::class_<cv::ml::StatModel>("ml_StatModel")
+    emscripten::class_<cv::BOWTrainer >("BOWTrainer")
     
+    .function("getDescriptors", select_overload<const std::vector<Mat>&(cv::BOWTrainer&)>(&Wrappers::BOWTrainer_getDescriptors_wrap))
+
+    .function("cluster", select_overload<Mat(cv::BOWTrainer&)>(&Wrappers::BOWTrainer_cluster_wrap),pure_virtual() )
+
+    .function("cluster", select_overload<Mat(cv::BOWTrainer&,const Mat&)>(&Wrappers::BOWTrainer_cluster_wrap),pure_virtual() )
+
+    .function("add", select_overload<void(cv::BOWTrainer&,const Mat&)>(&Wrappers::BOWTrainer_add_wrap))
+
+    .function("clear", select_overload<void(cv::BOWTrainer&)>(&Wrappers::BOWTrainer_clear_wrap))
+
+    .function("descriptorsCount", select_overload<int(cv::BOWTrainer&)>(&Wrappers::BOWTrainer_descriptorsCount_wrap))
+
+    ;
+
+    emscripten::class_<cv::BRISK ,base<Feature2D>>("BRISK")
+    
+    .class_function("create",select_overload<Ptr<BRISK>(int,int,float)>(&Wrappers::create_BRISK_wrapper))
+
+    .class_function("create",select_overload<Ptr<BRISK>(const std::vector<float>,const std::vector<int>,float,float,const std::vector<int>&)>(&Wrappers::create_BRISK_wrapper))
+
+    ;
+
+    emscripten::class_<cv::CLAHE ,base<Algorithm>>("CLAHE")
+    
+    .function("setTilesGridSize", select_overload<void(cv::CLAHE&,Size)>(&Wrappers::CLAHE_setTilesGridSize_wrap),pure_virtual() )
+
+    .function("collectGarbage", select_overload<void(cv::CLAHE&)>(&Wrappers::CLAHE_collectGarbage_wrap),pure_virtual() )
+
+    .function("setClipLimit", select_overload<void(cv::CLAHE&,double)>(&Wrappers::CLAHE_setClipLimit_wrap),pure_virtual() )
+
+    .function("getTilesGridSize", select_overload<Size(cv::CLAHE&)>(&Wrappers::CLAHE_getTilesGridSize_wrap),pure_virtual() )
+
+    .function("getClipLimit", select_overload<double(cv::CLAHE&)>(&Wrappers::CLAHE_getClipLimit_wrap),pure_virtual() )
+
+    .function("apply", select_overload<void(cv::CLAHE&,const cv::Mat&,cv::Mat&)>(&Wrappers::CLAHE_apply_wrap),pure_virtual() )
+
+    ;
+
+    emscripten::class_<cv::DMatch >("DMatch")
+    
+    .property("queryIdx", &cv::DMatch::queryIdx)
+
+    .property("trainIdx", &cv::DMatch::trainIdx)
+
+    .property("imgIdx", &cv::DMatch::imgIdx)
+
+    .property("distance", &cv::DMatch::distance)
+
+    ;
+
+    emscripten::class_<cv::DescriptorMatcher ,base<Algorithm>>("DescriptorMatcher")
+    
+    .class_function("create",select_overload<Ptr<DescriptorMatcher>(const String&)>(&Wrappers::create_DescriptorMatcher_wrapper))
+
+    .function("clear", select_overload<void(cv::DescriptorMatcher&)>(&Wrappers::DescriptorMatcher_clear_wrap))
+
+    .function("knnMatch", select_overload<void(cv::DescriptorMatcher&,const cv::Mat&,const cv::Mat&, std::vector<std::vector<DMatch> >&,int,const cv::Mat&,bool)>(&Wrappers::DescriptorMatcher_knnMatch_wrap))
+
+    .function("knnMatch", select_overload<void(cv::DescriptorMatcher&,const cv::Mat&, std::vector<std::vector<DMatch> >&,int,const std::vector<cv::Mat>&,bool)>(&Wrappers::DescriptorMatcher_knnMatch_wrap))
+
+    .function("add", select_overload<void(cv::DescriptorMatcher&,const std::vector<cv::Mat>&)>(&Wrappers::DescriptorMatcher_add_wrap))
+
+    .function("train", select_overload<void(cv::DescriptorMatcher&)>(&Wrappers::DescriptorMatcher_train_wrap))
+
+    .function("match", select_overload<void(cv::DescriptorMatcher&,const cv::Mat&,const cv::Mat&, std::vector<DMatch>&,const cv::Mat&)>(&Wrappers::DescriptorMatcher_match_wrap))
+
+    .function("match", select_overload<void(cv::DescriptorMatcher&,const cv::Mat&, std::vector<DMatch>&,const std::vector<cv::Mat>&)>(&Wrappers::DescriptorMatcher_match_wrap))
+
+    .function("getTrainDescriptors", select_overload<const std::vector<Mat>&(cv::DescriptorMatcher&)>(&Wrappers::DescriptorMatcher_getTrainDescriptors_wrap))
+
+    .function("isMaskSupported", select_overload<bool(cv::DescriptorMatcher&)>(&Wrappers::DescriptorMatcher_isMaskSupported_wrap),pure_virtual() )
+
+    .function("empty", select_overload<bool(cv::DescriptorMatcher&)>(&Wrappers::DescriptorMatcher_empty_wrap))
+
+    ;
+
+    emscripten::class_<cv::FastFeatureDetector ,base<Feature2D>>("FastFeatureDetector")
+    
+    .function("getNonmaxSuppression", select_overload<bool(cv::FastFeatureDetector&)>(&Wrappers::FastFeatureDetector_getNonmaxSuppression_wrap),pure_virtual() )
+
+    .function("getThreshold", select_overload<int(cv::FastFeatureDetector&)>(&Wrappers::FastFeatureDetector_getThreshold_wrap),pure_virtual() )
+
+    .class_function("create",select_overload<Ptr<FastFeatureDetector>(int,bool,int)>(&Wrappers::create_FastFeatureDetector_wrapper))
+
+    .function("getType", select_overload<int(cv::FastFeatureDetector&)>(&Wrappers::FastFeatureDetector_getType_wrap),pure_virtual() )
+
+    .function("setNonmaxSuppression", select_overload<void(cv::FastFeatureDetector&,bool)>(&Wrappers::FastFeatureDetector_setNonmaxSuppression_wrap),pure_virtual() )
+
+    .function("setThreshold", select_overload<void(cv::FastFeatureDetector&,int)>(&Wrappers::FastFeatureDetector_setThreshold_wrap),pure_virtual() )
+
+    .function("setType", select_overload<void(cv::FastFeatureDetector&,int)>(&Wrappers::FastFeatureDetector_setType_wrap),pure_virtual() )
+
+    ;
+
+    emscripten::class_<cv::Feature2D ,base<Algorithm>>("Feature2D")
+    
+    .function("detect", select_overload<void(cv::Feature2D&,const cv::Mat&, std::vector<KeyPoint>&,const cv::Mat&)>(&Wrappers::Feature2D_detect_wrap))
+
+    .function("compute", select_overload<void(cv::Feature2D&,const cv::Mat&,  std::vector<KeyPoint>&,cv::Mat&)>(&Wrappers::Feature2D_compute_wrap))
+
+    .function("defaultNorm", select_overload<int(cv::Feature2D&)>(&Wrappers::Feature2D_defaultNorm_wrap))
+
+    .function("detectAndCompute", select_overload<void(cv::Feature2D&,const cv::Mat&,const cv::Mat&, std::vector<KeyPoint>&,cv::Mat&,bool)>(&Wrappers::Feature2D_detectAndCompute_wrap))
+
+    .function("descriptorSize", select_overload<int(cv::Feature2D&)>(&Wrappers::Feature2D_descriptorSize_wrap))
+
+    .function("descriptorType", select_overload<int(cv::Feature2D&)>(&Wrappers::Feature2D_descriptorType_wrap))
+
+    .function("empty", select_overload<bool(cv::Feature2D&)>(&Wrappers::Feature2D_empty_wrap))
+
+    ;
+
+    emscripten::class_<cv::FlannBasedMatcher ,base<DescriptorMatcher>>("FlannBasedMatcher")
+    
+    ;
+
+    emscripten::class_<cv::GFTTDetector ,base<Feature2D>>("GFTTDetector")
+    
+    .function("getBlockSize", select_overload<int(cv::GFTTDetector&)>(&Wrappers::GFTTDetector_getBlockSize_wrap),pure_virtual() )
+
+    .function("getK", select_overload<double(cv::GFTTDetector&)>(&Wrappers::GFTTDetector_getK_wrap),pure_virtual() )
+
+    .function("setHarrisDetector", select_overload<void(cv::GFTTDetector&,bool)>(&Wrappers::GFTTDetector_setHarrisDetector_wrap),pure_virtual() )
+
+    .function("setBlockSize", select_overload<void(cv::GFTTDetector&,int)>(&Wrappers::GFTTDetector_setBlockSize_wrap),pure_virtual() )
+
+    .class_function("create",select_overload<Ptr<GFTTDetector>(int,double,double,int,bool,double)>(&Wrappers::create_GFTTDetector_wrapper))
+
+    .function("setQualityLevel", select_overload<void(cv::GFTTDetector&,double)>(&Wrappers::GFTTDetector_setQualityLevel_wrap),pure_virtual() )
+
+    .function("setMaxFeatures", select_overload<void(cv::GFTTDetector&,int)>(&Wrappers::GFTTDetector_setMaxFeatures_wrap),pure_virtual() )
+
+    .function("setK", select_overload<void(cv::GFTTDetector&,double)>(&Wrappers::GFTTDetector_setK_wrap),pure_virtual() )
+
+    .function("getMaxFeatures", select_overload<int(cv::GFTTDetector&)>(&Wrappers::GFTTDetector_getMaxFeatures_wrap),pure_virtual() )
+
+    .function("setMinDistance", select_overload<void(cv::GFTTDetector&,double)>(&Wrappers::GFTTDetector_setMinDistance_wrap),pure_virtual() )
+
+    .function("getMinDistance", select_overload<double(cv::GFTTDetector&)>(&Wrappers::GFTTDetector_getMinDistance_wrap),pure_virtual() )
+
+    .function("getQualityLevel", select_overload<double(cv::GFTTDetector&)>(&Wrappers::GFTTDetector_getQualityLevel_wrap),pure_virtual() )
+
+    .function("getHarrisDetector", select_overload<bool(cv::GFTTDetector&)>(&Wrappers::GFTTDetector_getHarrisDetector_wrap),pure_virtual() )
+
+    ;
+
+    emscripten::class_<cv::KAZE ,base<Feature2D>>("KAZE")
+    
+    .function("setExtended", select_overload<void(cv::KAZE&,bool)>(&Wrappers::KAZE_setExtended_wrap),pure_virtual() )
+
+    .function("setNOctaveLayers", select_overload<void(cv::KAZE&,int)>(&Wrappers::KAZE_setNOctaveLayers_wrap),pure_virtual() )
+
+    .function("getNOctaves", select_overload<int(cv::KAZE&)>(&Wrappers::KAZE_getNOctaves_wrap),pure_virtual() )
+
+    .function("getNOctaveLayers", select_overload<int(cv::KAZE&)>(&Wrappers::KAZE_getNOctaveLayers_wrap),pure_virtual() )
+
+    .function("setNOctaves", select_overload<void(cv::KAZE&,int)>(&Wrappers::KAZE_setNOctaves_wrap),pure_virtual() )
+
+    .function("getUpright", select_overload<bool(cv::KAZE&)>(&Wrappers::KAZE_getUpright_wrap),pure_virtual() )
+
+    .class_function("create",select_overload<Ptr<KAZE>(bool,bool,float,int,int,int)>(&Wrappers::create_KAZE_wrapper))
+
+    .function("getExtended", select_overload<bool(cv::KAZE&)>(&Wrappers::KAZE_getExtended_wrap),pure_virtual() )
+
+    .function("setUpright", select_overload<void(cv::KAZE&,bool)>(&Wrappers::KAZE_setUpright_wrap),pure_virtual() )
+
+    .function("setDiffusivity", select_overload<void(cv::KAZE&,int)>(&Wrappers::KAZE_setDiffusivity_wrap),pure_virtual() )
+
+    .function("getThreshold", select_overload<double(cv::KAZE&)>(&Wrappers::KAZE_getThreshold_wrap),pure_virtual() )
+
+    .function("getDiffusivity", select_overload<int(cv::KAZE&)>(&Wrappers::KAZE_getDiffusivity_wrap),pure_virtual() )
+
+    .function("setThreshold", select_overload<void(cv::KAZE&,double)>(&Wrappers::KAZE_setThreshold_wrap),pure_virtual() )
+
+    ;
+
+    emscripten::class_<cv::KeyPoint >("KeyPoint")
+    
+    .class_function("convert",select_overload<void(const std::vector<KeyPoint>&, std::vector<Point2f>&,const std::vector<int>&)>(&cv::KeyPoint::convert))
+
+    .class_function("convert",select_overload<void(const std::vector<Point2f>&, std::vector<KeyPoint>&,float,float,int,int)>(&cv::KeyPoint::convert))
+
+    .class_function("overlap",select_overload<float(const KeyPoint&,const KeyPoint&)>(&cv::KeyPoint::overlap))
+
+    .property("pt", &cv::KeyPoint::pt)
+
+    .property("size", &cv::KeyPoint::size)
+
+    .property("angle", &cv::KeyPoint::angle)
+
+    .property("response", &cv::KeyPoint::response)
+
+    .property("octave", &cv::KeyPoint::octave)
+
+    .property("class_id", &cv::KeyPoint::class_id)
+
+    ;
+
+    emscripten::class_<cv::LineSegmentDetector ,base<Algorithm>>("LineSegmentDetector")
+    
+    .function("compareSegments", select_overload<int(cv::LineSegmentDetector&,const Size&,const cv::Mat&,const cv::Mat&,cv::Mat&)>(&Wrappers::LineSegmentDetector_compareSegments_wrap),pure_virtual() )
+
+    .function("detect", select_overload<void(cv::LineSegmentDetector&,const cv::Mat&,cv::Mat&,cv::Mat&,cv::Mat&,cv::Mat&)>(&Wrappers::LineSegmentDetector_detect_wrap),pure_virtual() )
+
+    .function("drawSegments", select_overload<void(cv::LineSegmentDetector&,cv::Mat&,const cv::Mat&)>(&Wrappers::LineSegmentDetector_drawSegments_wrap),pure_virtual() )
+
+    ;
+
+    emscripten::class_<cv::MSER ,base<Feature2D>>("MSER")
+    
+    .function("getPass2Only", select_overload<bool(cv::MSER&)>(&Wrappers::MSER_getPass2Only_wrap),pure_virtual() )
+
+    .function("setMinArea", select_overload<void(cv::MSER&,int)>(&Wrappers::MSER_setMinArea_wrap),pure_virtual() )
+
+    .function("getDelta", select_overload<int(cv::MSER&)>(&Wrappers::MSER_getDelta_wrap),pure_virtual() )
+
+    .class_function("create",select_overload<Ptr<MSER>(int,int,int,double,double,int,double,double,int)>(&Wrappers::create_MSER_wrapper))
+
+    .function("getMaxArea", select_overload<int(cv::MSER&)>(&Wrappers::MSER_getMaxArea_wrap),pure_virtual() )
+
+    .function("setMaxArea", select_overload<void(cv::MSER&,int)>(&Wrappers::MSER_setMaxArea_wrap),pure_virtual() )
+
+    .function("setPass2Only", select_overload<void(cv::MSER&,bool)>(&Wrappers::MSER_setPass2Only_wrap),pure_virtual() )
+
+    .function("getMinArea", select_overload<int(cv::MSER&)>(&Wrappers::MSER_getMinArea_wrap),pure_virtual() )
+
+    .function("detectRegions", select_overload<void(cv::MSER&,const cv::Mat&, std::vector<std::vector<Point> >&,std::vector<Rect>&)>(&Wrappers::MSER_detectRegions_wrap),pure_virtual() )
+
+    .function("setDelta", select_overload<void(cv::MSER&,int)>(&Wrappers::MSER_setDelta_wrap),pure_virtual() )
+
+    ;
+
+    emscripten::class_<cv::Moments >("Moments")
+    
+    .property("m00", &cv::Moments::m00)
+
+    .property("m10", &cv::Moments::m10)
+
+    .property("m01", &cv::Moments::m01)
+
+    .property("m20", &cv::Moments::m20)
+
+    .property("m11", &cv::Moments::m11)
+
+    .property("m02", &cv::Moments::m02)
+
+    .property("m30", &cv::Moments::m30)
+
+    .property("m21", &cv::Moments::m21)
+
+    .property("m12", &cv::Moments::m12)
+
+    .property("m03", &cv::Moments::m03)
+
+    .property("mu20", &cv::Moments::mu20)
+
+    .property("mu11", &cv::Moments::mu11)
+
+    .property("mu02", &cv::Moments::mu02)
+
+    .property("mu30", &cv::Moments::mu30)
+
+    .property("mu21", &cv::Moments::mu21)
+
+    .property("mu12", &cv::Moments::mu12)
+
+    .property("mu03", &cv::Moments::mu03)
+
+    .property("nu20", &cv::Moments::nu20)
+
+    .property("nu11", &cv::Moments::nu11)
+
+    .property("nu02", &cv::Moments::nu02)
+
+    .property("nu30", &cv::Moments::nu30)
+
+    .property("nu21", &cv::Moments::nu21)
+
+    .property("nu12", &cv::Moments::nu12)
+
+    .property("nu03", &cv::Moments::nu03)
+
+    ;
+
+    emscripten::class_<cv::ORB ,base<Feature2D>>("ORB")
+    
+    .function("getMaxFeatures", select_overload<int(cv::ORB&)>(&Wrappers::ORB_getMaxFeatures_wrap),pure_virtual() )
+
+    .function("setEdgeThreshold", select_overload<void(cv::ORB&,int)>(&Wrappers::ORB_setEdgeThreshold_wrap),pure_virtual() )
+
+    .function("setFirstLevel", select_overload<void(cv::ORB&,int)>(&Wrappers::ORB_setFirstLevel_wrap),pure_virtual() )
+
+    .class_function("create",select_overload<Ptr<ORB>(int,float,int,int,int,int,int,int,int)>(&Wrappers::create_ORB_wrapper))
+
+    .function("getFastThreshold", select_overload<int(cv::ORB&)>(&Wrappers::ORB_getFastThreshold_wrap),pure_virtual() )
+
+    .function("setMaxFeatures", select_overload<void(cv::ORB&,int)>(&Wrappers::ORB_setMaxFeatures_wrap),pure_virtual() )
+
+    .function("getWTA_K", select_overload<int(cv::ORB&)>(&Wrappers::ORB_getWTA_K_wrap),pure_virtual() )
+
+    .function("getNLevels", select_overload<int(cv::ORB&)>(&Wrappers::ORB_getNLevels_wrap),pure_virtual() )
+
+    .function("setNLevels", select_overload<void(cv::ORB&,int)>(&Wrappers::ORB_setNLevels_wrap),pure_virtual() )
+
+    .function("setFastThreshold", select_overload<void(cv::ORB&,int)>(&Wrappers::ORB_setFastThreshold_wrap),pure_virtual() )
+
+    .function("getScaleFactor", select_overload<double(cv::ORB&)>(&Wrappers::ORB_getScaleFactor_wrap),pure_virtual() )
+
+    .function("setPatchSize", select_overload<void(cv::ORB&,int)>(&Wrappers::ORB_setPatchSize_wrap),pure_virtual() )
+
+    .function("setWTA_K", select_overload<void(cv::ORB&,int)>(&Wrappers::ORB_setWTA_K_wrap),pure_virtual() )
+
+    .function("setScaleFactor", select_overload<void(cv::ORB&,double)>(&Wrappers::ORB_setScaleFactor_wrap),pure_virtual() )
+
+    .function("getPatchSize", select_overload<int(cv::ORB&)>(&Wrappers::ORB_getPatchSize_wrap),pure_virtual() )
+
+    .function("getEdgeThreshold", select_overload<int(cv::ORB&)>(&Wrappers::ORB_getEdgeThreshold_wrap),pure_virtual() )
+
+    .function("getFirstLevel", select_overload<int(cv::ORB&)>(&Wrappers::ORB_getFirstLevel_wrap),pure_virtual() )
+
+    .function("getScoreType", select_overload<int(cv::ORB&)>(&Wrappers::ORB_getScoreType_wrap),pure_virtual() )
+
+    .function("setScoreType", select_overload<void(cv::ORB&,int)>(&Wrappers::ORB_setScoreType_wrap),pure_virtual() )
+
+    ;
+
+    emscripten::class_<cv::SimpleBlobDetector ,base<Feature2D>>("SimpleBlobDetector")
+    
+    .class_function("create",select_overload<Ptr<SimpleBlobDetector>(const SimpleBlobDetector::Params)>(&Wrappers::create_SimpleBlobDetector_wrapper))
+
+    ;
+
+    emscripten::class_<cv::SimpleBlobDetector::Params >("SimpleBlobDetector_Params")
+    
+    .property("thresholdStep", &cv::SimpleBlobDetector::Params::thresholdStep)
+
+    .property("minThreshold", &cv::SimpleBlobDetector::Params::minThreshold)
+
+    .property("maxThreshold", &cv::SimpleBlobDetector::Params::maxThreshold)
+
+    .property("minRepeatability", &cv::SimpleBlobDetector::Params::minRepeatability)
+
+    .property("minDistBetweenBlobs", &cv::SimpleBlobDetector::Params::minDistBetweenBlobs)
+
+    .property("filterByColor", &cv::SimpleBlobDetector::Params::filterByColor)
+
+    .property("blobColor", &cv::SimpleBlobDetector::Params::blobColor)
+
+    .property("filterByArea", &cv::SimpleBlobDetector::Params::filterByArea)
+
+    .property("minArea", &cv::SimpleBlobDetector::Params::minArea)
+
+    .property("maxArea", &cv::SimpleBlobDetector::Params::maxArea)
+
+    .property("filterByCircularity", &cv::SimpleBlobDetector::Params::filterByCircularity)
+
+    .property("minCircularity", &cv::SimpleBlobDetector::Params::minCircularity)
+
+    .property("maxCircularity", &cv::SimpleBlobDetector::Params::maxCircularity)
+
+    .property("filterByInertia", &cv::SimpleBlobDetector::Params::filterByInertia)
+
+    .property("minInertiaRatio", &cv::SimpleBlobDetector::Params::minInertiaRatio)
+
+    .property("maxInertiaRatio", &cv::SimpleBlobDetector::Params::maxInertiaRatio)
+
+    .property("filterByConvexity", &cv::SimpleBlobDetector::Params::filterByConvexity)
+
+    .property("minConvexity", &cv::SimpleBlobDetector::Params::minConvexity)
+
+    .property("maxConvexity", &cv::SimpleBlobDetector::Params::maxConvexity)
+
+    ;
+
+    emscripten::class_<cv::Subdiv2D >("Subdiv2D")
+    
+    .function("initDelaunay", select_overload<void(cv::Subdiv2D&,Rect)>(&Wrappers::Subdiv2D_initDelaunay_wrap))
+
+    .function("edgeOrg", select_overload<int(cv::Subdiv2D&,int, Point2f*)>(&Wrappers::Subdiv2D_edgeOrg_wrap), allow_raw_pointers())
+
+    .function("rotateEdge", select_overload<int(cv::Subdiv2D&,int,int)>(&Wrappers::Subdiv2D_rotateEdge_wrap))
+
+    .function("insert", select_overload<int(cv::Subdiv2D&,Point2f)>(&Wrappers::Subdiv2D_insert_wrap))
+
+    .function("insert", select_overload<void(cv::Subdiv2D&,const std::vector<Point2f>&)>(&Wrappers::Subdiv2D_insert_wrap))
+
+    .function("getEdge", select_overload<int(cv::Subdiv2D&,int,int)>(&Wrappers::Subdiv2D_getEdge_wrap))
+
+    .function("getTriangleList", select_overload<void(cv::Subdiv2D&, std::vector<Vec6f>&)>(&Wrappers::Subdiv2D_getTriangleList_wrap))
+
+    .function("nextEdge", select_overload<int(cv::Subdiv2D&,int)>(&Wrappers::Subdiv2D_nextEdge_wrap))
+
+    .function("edgeDst", select_overload<int(cv::Subdiv2D&,int, Point2f*)>(&Wrappers::Subdiv2D_edgeDst_wrap), allow_raw_pointers())
+
+    .function("getVoronoiFacetList", select_overload<void(cv::Subdiv2D&,const std::vector<int>&, std::vector<std::vector<Point2f> >&, std::vector<Point2f>&)>(&Wrappers::Subdiv2D_getVoronoiFacetList_wrap))
+
+    .function("getVertex", select_overload<Point2f(cv::Subdiv2D&,int, int*)>(&Wrappers::Subdiv2D_getVertex_wrap), allow_raw_pointers())
+
+    .function("getEdgeList", select_overload<void(cv::Subdiv2D&, std::vector<Vec4f>&)>(&Wrappers::Subdiv2D_getEdgeList_wrap))
+
+    .function("symEdge", select_overload<int(cv::Subdiv2D&,int)>(&Wrappers::Subdiv2D_symEdge_wrap))
+
+    .function("findNearest", select_overload<int(cv::Subdiv2D&,Point2f, Point2f*)>(&Wrappers::Subdiv2D_findNearest_wrap), allow_raw_pointers())
+
+    ;
+
+    emscripten::class_<cv::flann::Index >("flann_Index")
+    
+    .function("load", select_overload<bool(cv::flann::Index&,const cv::Mat&,const String&)>(&Wrappers::flann_Index_load_wrap))
+
+    .function("radiusSearch", select_overload<int(cv::flann::Index&,const cv::Mat&,cv::Mat&,cv::Mat&,double,int,const SearchParams&)>(&Wrappers::flann_Index_radiusSearch_wrap))
+
+    .function("getAlgorithm", select_overload<cvflann::flann_algorithm_t(cv::flann::Index&)>(&Wrappers::flann_Index_getAlgorithm_wrap))
+
+    .function("build", select_overload<void(cv::flann::Index&,const cv::Mat&,const IndexParams&,cvflann::flann_distance_t)>(&Wrappers::flann_Index_build_wrap))
+
+    .function("getDistance", select_overload<cvflann::flann_distance_t(cv::flann::Index&)>(&Wrappers::flann_Index_getDistance_wrap))
+
+    .function("release", select_overload<void(cv::flann::Index&)>(&Wrappers::flann_Index_release_wrap))
+
+    .function("save", select_overload<void(cv::flann::Index&,const String&)>(&Wrappers::flann_Index_save_wrap))
+
+    .function("knnSearch", select_overload<void(cv::flann::Index&,const cv::Mat&,cv::Mat&,cv::Mat&,int,const SearchParams&)>(&Wrappers::flann_Index_knnSearch_wrap))
+
     ;
 
     function("Canny", select_overload<void(const cv::Mat&,cv::Mat&,double,double,int,bool)>(&Wrappers::Canny_wrapper));
@@ -1359,21 +2402,17 @@ namespace Wrappers {
 
     function("countNonZero", select_overload<int(const cv::Mat&)>(&Wrappers::countNonZero_wrapper));
 
-    function("createCLAHE", select_overload<Ptr<CLAHE>(double,Size)>(&Wrappers::createCLAHE_wrapper));
+    function("createCLAHE", select_overload<CLAHE*(double,Size)>(&Wrappers::createCLAHE_wrapper), allow_raw_pointers());
 
     function("createHanningWindow", select_overload<void(cv::Mat&,Size,int)>(&Wrappers::createHanningWindow_wrapper));
 
-    function("createLineSegmentDetector", select_overload<Ptr<LineSegmentDetector>(int,double,double,double,double,double,double,int)>(&Wrappers::createLineSegmentDetector_wrapper));
+    function("createLineSegmentDetector", select_overload<LineSegmentDetector*(int,double,double,double,double,double,double,int)>(&Wrappers::createLineSegmentDetector_wrapper), allow_raw_pointers());
 
     function("cvtColor", select_overload<void(const cv::Mat&,cv::Mat&,int,int)>(&Wrappers::cvtColor_wrapper));
 
     function("dct", select_overload<void(const cv::Mat&,cv::Mat&,int)>(&Wrappers::dct_wrapper));
 
     function("demosaicing", select_overload<void(const cv::Mat&,cv::Mat&,int,int)>(&Wrappers::demosaicing_wrapper));
-
-    function("destroyAllWindows", select_overload<void()>(&Wrappers::destroyAllWindows_wrapper));
-
-    function("destroyWindow", select_overload<void(const String&)>(&Wrappers::destroyWindow_wrapper));
 
     function("determinant", select_overload<double(const cv::Mat&)>(&Wrappers::determinant_wrapper));
 
@@ -1390,6 +2429,12 @@ namespace Wrappers {
     function("divide", select_overload<void(double,const cv::Mat&,cv::Mat&,int)>(&Wrappers::divide_wrapper));
 
     function("drawContours", select_overload<void(cv::Mat&,const std::vector<cv::Mat>&,int,const Scalar&,int,int,const cv::Mat&,int,Point)>(&Wrappers::drawContours_wrapper));
+
+    function("drawKeypoints", select_overload<void(const cv::Mat&,const std::vector<KeyPoint>&,cv::Mat&,const Scalar&,int)>(&Wrappers::drawKeypoints_wrapper));
+
+    function("drawMatches", select_overload<void(const cv::Mat&,const std::vector<KeyPoint>&,const cv::Mat&,const std::vector<KeyPoint>&,const std::vector<DMatch>&,cv::Mat&,const Scalar&,const Scalar&,const std::vector<char>&,int)>(&Wrappers::drawMatches_wrapper));
+
+    function("drawMatchesKnn", select_overload<void(const cv::Mat&,const std::vector<KeyPoint>&,const cv::Mat&,const std::vector<KeyPoint>&,const std::vector<std::vector<DMatch> >&,cv::Mat&,const Scalar&,const Scalar&,const std::vector<std::vector<char> >&,int)>(&Wrappers::drawMatchesKnn_wrapper));
 
     function("eigen", select_overload<bool(const cv::Mat&,cv::Mat&,cv::Mat&)>(&Wrappers::eigen_wrapper));
 
@@ -1449,10 +2494,6 @@ namespace Wrappers {
 
     function("getTextSize", select_overload<Size(const String&,int,double,int, int*)>(&Wrappers::getTextSize_wrapper), allow_raw_pointers());
 
-    function("getTrackbarPos", select_overload<int(const String&,const String&)>(&Wrappers::getTrackbarPos_wrapper));
-
-    function("getWindowProperty", select_overload<double(const String&,int)>(&Wrappers::getWindowProperty_wrapper));
-
     function("goodFeaturesToTrack", select_overload<void(const cv::Mat&,cv::Mat&,int,double,double,const cv::Mat&,int,bool,double)>(&Wrappers::goodFeaturesToTrack_wrapper));
 
     function("grabCut", select_overload<void(const cv::Mat&,cv::Mat&,Rect,cv::Mat&,cv::Mat&,int,int)>(&Wrappers::grabCut_wrapper));
@@ -1470,8 +2511,6 @@ namespace Wrappers {
     function("imread", select_overload<Mat(const String&,int)>(&Wrappers::imread_wrapper));
 
     function("imreadmulti", select_overload<bool(const String&,std::vector<Mat>&,int)>(&Wrappers::imreadmulti_wrapper));
-
-    function("imshow", select_overload<void(const String&,const cv::Mat&)>(&Wrappers::imshow_wrapper));
 
     function("imwrite", select_overload<bool(const String&,const cv::Mat&,const std::vector<int>&)>(&Wrappers::imwrite_wrapper));
 
@@ -1537,15 +2576,11 @@ namespace Wrappers {
 
     function("morphologyEx", select_overload<void(const cv::Mat&,cv::Mat&,int,const cv::Mat&,Point,int,int,const Scalar&)>(&Wrappers::morphologyEx_wrapper));
 
-    function("moveWindow", select_overload<void(const String&,int,int)>(&Wrappers::moveWindow_wrapper));
-
     function("mulSpectrums", select_overload<void(const cv::Mat&,const cv::Mat&,cv::Mat&,int,bool)>(&Wrappers::mulSpectrums_wrapper));
 
     function("mulTransposed", select_overload<void(const cv::Mat&,cv::Mat&,bool,const cv::Mat&,double,int)>(&Wrappers::mulTransposed_wrapper));
 
     function("multiply", select_overload<void(const cv::Mat&,const cv::Mat&,cv::Mat&,double,int)>(&Wrappers::multiply_wrapper));
-
-    function("namedWindow", select_overload<void(const String&,int)>(&Wrappers::namedWindow_wrapper));
 
     function("norm", select_overload<double(const cv::Mat&,int,const cv::Mat&)>(&Wrappers::norm_wrapper));
 
@@ -1595,8 +2630,6 @@ namespace Wrappers {
 
     function("resize", select_overload<void(const cv::Mat&,cv::Mat&,Size,double,double,int)>(&Wrappers::resize_wrapper));
 
-    function("resizeWindow", select_overload<void(const String&,int,int)>(&Wrappers::resizeWindow_wrapper));
-
     function("rotatedRectangleIntersection", select_overload<int(const RotatedRect&,const RotatedRect&,cv::Mat&)>(&Wrappers::rotatedRectangleIntersection_wrapper));
 
     function("scaleAdd", select_overload<void(const cv::Mat&,double,const cv::Mat&,cv::Mat&)>(&Wrappers::scaleAdd_wrapper));
@@ -1604,14 +2637,6 @@ namespace Wrappers {
     function("sepFilter2D", select_overload<void(const cv::Mat&,cv::Mat&,int,const cv::Mat&,const cv::Mat&,Point,double,int)>(&Wrappers::sepFilter2D_wrapper));
 
     function("setIdentity", select_overload<void(cv::Mat&,const Scalar&)>(&Wrappers::setIdentity_wrapper));
-
-    function("setTrackbarMax", select_overload<void(const String&,const String&,int)>(&Wrappers::setTrackbarMax_wrapper));
-
-    function("setTrackbarPos", select_overload<void(const String&,const String&,int)>(&Wrappers::setTrackbarPos_wrapper));
-
-    function("setWindowProperty", select_overload<void(const String&,int,double)>(&Wrappers::setWindowProperty_wrapper));
-
-    function("setWindowTitle", select_overload<void(const String&,const String&)>(&Wrappers::setWindowTitle_wrapper));
 
     function("solve", select_overload<bool(const cv::Mat&,const cv::Mat&,cv::Mat&,int)>(&Wrappers::solve_wrapper));
 
@@ -1628,8 +2653,6 @@ namespace Wrappers {
     function("sqrBoxFilter", select_overload<void(const cv::Mat&,cv::Mat&,int,Size,Point,bool,int)>(&Wrappers::sqrBoxFilter_wrapper));
 
     function("sqrt", select_overload<void(const cv::Mat&,cv::Mat&)>(&Wrappers::sqrt_wrapper));
-
-    function("startWindowThread", select_overload<int()>(&Wrappers::startWindowThread_wrapper));
 
     function("subtract", select_overload<void(const cv::Mat&,const cv::Mat&,cv::Mat&,const cv::Mat&,int)>(&Wrappers::subtract_wrapper));
 
@@ -1648,8 +2671,6 @@ namespace Wrappers {
     function("undistortPoints", select_overload<void(const cv::Mat&,cv::Mat&,const cv::Mat&,const cv::Mat&,const cv::Mat&,const cv::Mat&)>(&Wrappers::undistortPoints_wrapper));
 
     function("vconcat", select_overload<void(const std::vector<cv::Mat>&,cv::Mat&)>(&Wrappers::vconcat_wrapper));
-
-    function("waitKey", select_overload<int(int)>(&Wrappers::waitKey_wrapper));
 
     function("warpAffine", select_overload<void(const cv::Mat&,cv::Mat&,const cv::Mat&,Size,int,int,const Scalar&)>(&Wrappers::warpAffine_wrapper));
 
@@ -2445,6 +3466,16 @@ namespace Wrappers {
 
     ;
 
+    emscripten::enum_<cv::TermCriteria::Type>("cv_TermCriteria_Type")
+    
+    .value("COUNT",cv::TermCriteria::Type::COUNT)
+
+    .value("MAX_ITER",cv::TermCriteria::Type::MAX_ITER)
+
+    .value("EPS",cv::TermCriteria::Type::EPS)
+
+    ;
+
     emscripten::enum_<cv::ThresholdTypes>("cv_ThresholdTypes")
     
     .value("THRESH_BINARY",cv::ThresholdTypes::THRESH_BINARY)
@@ -2487,150 +3518,6 @@ namespace Wrappers {
 
     ;
 
-    emscripten::enum_<cv::ml::ANN_MLP::TrainFlags>("cv_ml_ANN_MLP_TrainFlags")
-    
-    .value("UPDATE_WEIGHTS",cv::ml::ANN_MLP::TrainFlags::UPDATE_WEIGHTS)
-
-    .value("NO_INPUT_SCALE",cv::ml::ANN_MLP::TrainFlags::NO_INPUT_SCALE)
-
-    .value("NO_OUTPUT_SCALE",cv::ml::ANN_MLP::TrainFlags::NO_OUTPUT_SCALE)
-
-    ;
-
-    emscripten::enum_<cv::ml::ANN_MLP::TrainingMethods>("cv_ml_ANN_MLP_TrainingMethods")
-    
-    .value("BACKPROP",cv::ml::ANN_MLP::TrainingMethods::BACKPROP)
-
-    .value("RPROP",cv::ml::ANN_MLP::TrainingMethods::RPROP)
-
-    ;
-
-    emscripten::enum_<cv::ml::DTrees::Flags>("cv_ml_DTrees_Flags")
-    
-    .value("PREDICT_AUTO",cv::ml::DTrees::Flags::PREDICT_AUTO)
-
-    .value("PREDICT_SUM",cv::ml::DTrees::Flags::PREDICT_SUM)
-
-    .value("PREDICT_MAX_VOTE",cv::ml::DTrees::Flags::PREDICT_MAX_VOTE)
-
-    .value("PREDICT_MASK",cv::ml::DTrees::Flags::PREDICT_MASK)
-
-    ;
-
-    emscripten::enum_<cv::ml::EM::Types>("cv_ml_EM_Types")
-    
-    .value("COV_MAT_SPHERICAL",cv::ml::EM::Types::COV_MAT_SPHERICAL)
-
-    .value("COV_MAT_DIAGONAL",cv::ml::EM::Types::COV_MAT_DIAGONAL)
-
-    .value("COV_MAT_GENERIC",cv::ml::EM::Types::COV_MAT_GENERIC)
-
-    .value("COV_MAT_DEFAULT",cv::ml::EM::Types::COV_MAT_DEFAULT)
-
-    ;
-
-    emscripten::enum_<cv::ml::ErrorTypes>("cv_ml_ErrorTypes")
-    
-    .value("TEST_ERROR",cv::ml::ErrorTypes::TEST_ERROR)
-
-    .value("TRAIN_ERROR",cv::ml::ErrorTypes::TRAIN_ERROR)
-
-    ;
-
-    emscripten::enum_<cv::ml::KNearest::Types>("cv_ml_KNearest_Types")
-    
-    .value("BRUTE_FORCE",cv::ml::KNearest::Types::BRUTE_FORCE)
-
-    .value("KDTREE",cv::ml::KNearest::Types::KDTREE)
-
-    ;
-
-    emscripten::enum_<cv::ml::LogisticRegression::Methods>("cv_ml_LogisticRegression_Methods")
-    
-    .value("BATCH",cv::ml::LogisticRegression::Methods::BATCH)
-
-    .value("MINI_BATCH",cv::ml::LogisticRegression::Methods::MINI_BATCH)
-
-    ;
-
-    emscripten::enum_<cv::ml::SVM::KernelTypes>("cv_ml_SVM_KernelTypes")
-    
-    .value("CUSTOM",cv::ml::SVM::KernelTypes::CUSTOM)
-
-    .value("LINEAR",cv::ml::SVM::KernelTypes::LINEAR)
-
-    .value("POLY",cv::ml::SVM::KernelTypes::POLY)
-
-    .value("RBF",cv::ml::SVM::KernelTypes::RBF)
-
-    .value("SIGMOID",cv::ml::SVM::KernelTypes::SIGMOID)
-
-    .value("CHI2",cv::ml::SVM::KernelTypes::CHI2)
-
-    .value("INTER",cv::ml::SVM::KernelTypes::INTER)
-
-    ;
-
-    emscripten::enum_<cv::ml::SVM::ParamTypes>("cv_ml_SVM_ParamTypes")
-    
-    .value("C",cv::ml::SVM::ParamTypes::C)
-
-    .value("GAMMA",cv::ml::SVM::ParamTypes::GAMMA)
-
-    .value("P",cv::ml::SVM::ParamTypes::P)
-
-    .value("NU",cv::ml::SVM::ParamTypes::NU)
-
-    .value("COEF",cv::ml::SVM::ParamTypes::COEF)
-
-    .value("DEGREE",cv::ml::SVM::ParamTypes::DEGREE)
-
-    ;
-
-    emscripten::enum_<cv::ml::SVM::Types>("cv_ml_SVM_Types")
-    
-    .value("C_SVC",cv::ml::SVM::Types::C_SVC)
-
-    .value("NU_SVC",cv::ml::SVM::Types::NU_SVC)
-
-    .value("ONE_CLASS",cv::ml::SVM::Types::ONE_CLASS)
-
-    .value("EPS_SVR",cv::ml::SVM::Types::EPS_SVR)
-
-    .value("NU_SVR",cv::ml::SVM::Types::NU_SVR)
-
-    ;
-
-    emscripten::enum_<cv::ml::SampleTypes>("cv_ml_SampleTypes")
-    
-    .value("ROW_SAMPLE",cv::ml::SampleTypes::ROW_SAMPLE)
-
-    .value("COL_SAMPLE",cv::ml::SampleTypes::COL_SAMPLE)
-
-    ;
-
-    emscripten::enum_<cv::ml::StatModel::Flags>("cv_ml_StatModel_Flags")
-    
-    .value("UPDATE_MODEL",cv::ml::StatModel::Flags::UPDATE_MODEL)
-
-    .value("RAW_OUTPUT",cv::ml::StatModel::Flags::RAW_OUTPUT)
-
-    .value("COMPRESSED_INPUT",cv::ml::StatModel::Flags::COMPRESSED_INPUT)
-
-    .value("PREPROCESSED_INPUT",cv::ml::StatModel::Flags::PREPROCESSED_INPUT)
-
-    ;
-
-    emscripten::enum_<cv::ml::VariableTypes>("cv_ml_VariableTypes")
-    
-    .value("VAR_NUMERICAL",cv::ml::VariableTypes::VAR_NUMERICAL)
-
-    .value("VAR_ORDERED",cv::ml::VariableTypes::VAR_ORDERED)
-
-    .value("VAR_CATEGORICAL",cv::ml::VariableTypes::VAR_CATEGORICAL)
-
-    ;
-
     emscripten::enum_<cv::ocl::OclVectorStrategy>("cv_ocl_OclVectorStrategy")
     
     .value("OCL_VECTOR_OWN",cv::ocl::OclVectorStrategy::OCL_VECTOR_OWN)
@@ -2644,10 +3531,10 @@ namespace Wrappers {
     }
 
 namespace Utils{
-    cv::Mat imreadwrapper(const std::string& file , int mode){
-        cv::String str(file.data() ) ;
-        return cv::imread(  str , mode ) ;
-    }
+    // cv::Mat imreadwrapper(const std::string& file , int mode){
+    //    cv::String str(file.data() ) ;
+    //    return cv::imread(  str , mode ) ;
+    // }
 
     //std::string data( const cv::Mat& mat ) {
     //    std::string ret ( (char*) mat.data , mat.total()  * mat.elemSize() ) ;r
@@ -2660,6 +3547,19 @@ namespace Utils{
 
     void u16data(const cv::Mat& mat, emscripten::val onComplete) {
           onComplete(emscripten::memory_view<uint16_t>(mat.total() * mat.elemSize() / 2 , (unsigned short*) mat.data ));
+    }
+
+    cv::Mat&  matFromArray( const emscripten::val& object,  int type ){
+             int w=  object["width"].as<unsigned>() ;
+             int h=  object["height"].as<unsigned>() ;
+             std::string str = object["data"]["buffer"].as<std::string>();
+             cv::Mat* x =  new cv::Mat( h , w , type, (void*)str.data() , 0 ) ;
+             //int x  = object["width"].as<unsigned>() ;  ;
+             return *x ;
+    }
+
+    cv::Size matSize( const cv::Mat& mat ){
+              return  mat.size();
     }
 
 
@@ -2678,8 +3578,10 @@ EMSCRIPTEN_BINDINGS(Utils) {
     register_vector<float>("FloatVector");
     register_vector<std::vector<int>>("IntegerVectorVector");
     register_vector<std::vector<Point>>("PointVectorVector");
+    register_vector<cv::Point>("PointVector");
     register_vector<cv::Vec4i>("Vec4iVector");
     register_vector<cv::Mat>("MatVector");
+    register_vector<cv::KeyPoint>("KeyPointVector");
 
     emscripten::class_<cv::Mat>("Mat")
         .function("elemSize1", select_overload<size_t()const>(&cv::Mat::elemSize1))
@@ -2722,6 +3624,9 @@ EMSCRIPTEN_BINDINGS(Utils) {
         .class_function("ones",select_overload<MatExpr(int,int,int)>(&cv::Mat::ones))
         .class_function("ones",select_overload<MatExpr(Size,int)>(&cv::Mat::ones))
         .class_function("ones",select_overload<MatExpr(int,const int*,int)>(&cv::Mat::ones), allow_raw_pointers())
+        .class_function("zeros",select_overload<MatExpr(int,int,int)>(&cv::Mat::zeros))
+        .class_function("zeros",select_overload<MatExpr(Size,int)>(&cv::Mat::zeros))
+        .class_function("zeros",select_overload<MatExpr(int,const int*,int)>(&cv::Mat::zeros), allow_raw_pointers())
         .function("depth", select_overload<int()const>(&cv::Mat::depth))
         .function("t", select_overload<MatExpr()const>(&cv::Mat::t))
         .function("col", select_overload<Mat(int)const>(&cv::Mat::col))
@@ -2729,6 +3634,7 @@ EMSCRIPTEN_BINDINGS(Utils) {
         .property("rows", &cv::Mat::rows)
         .property("cols", &cv::Mat::cols)
         .function("data", &Utils::u8data)
+        .function("size" , &Utils::matSize)
         .function("u16data", &Utils::u16data)
         .function("at_uchar" , select_overload<unsigned char& (int,int,int)>(&cv::Mat::at<unsigned char>) )
         .function("at_ushort" , select_overload<unsigned short& (int,int,int)>(&cv::Mat::at<unsigned short>) )
@@ -2740,6 +3646,53 @@ EMSCRIPTEN_BINDINGS(Utils) {
         .constructor<>()
         .constructor<int,int,int,int>()
     ;
+
+    emscripten::class_<cv::Ptr<cv::ORB>>("_PtrORB")
+         .function("get" , &cv::Ptr<cv::ORB>::get , allow_raw_pointers());
+    ;
+
+     emscripten::class_<cv::Ptr<cv::AKAZE>>("_PtrAKAZE")
+         .function("get" , &cv::Ptr<cv::AKAZE>::get , allow_raw_pointers());
+    ;
+
+    emscripten::class_<cv::Ptr<cv::BRISK>>("_PtrBRISK")
+         .function("get" , &cv::Ptr<cv::BRISK>::get , allow_raw_pointers());
+    ;
+
+    emscripten::class_<cv::Ptr<cv::DescriptorMatcher>>("_PtrDescriptorMatcher")
+         .function("get" , &cv::Ptr<cv::DescriptorMatcher>::get , allow_raw_pointers());
+    ;
+
+     emscripten::class_<cv::Ptr<cv::FastFeatureDetector>>("_PtrFastFeatureDetector")
+         .function("get" , &cv::Ptr<cv::FastFeatureDetector>::get , allow_raw_pointers());
+    ;
+
+     emscripten::class_<cv::Ptr<cv::GFTTDetector>>("_PtrGFTTDetector")
+         .function("get" , &cv::Ptr<cv::GFTTDetector>::get , allow_raw_pointers());
+    ;
+
+     emscripten::class_<cv::Ptr<cv::KAZE>>("_PtrKAZE")
+         .function("get" , &cv::Ptr<cv::KAZE>::get , allow_raw_pointers());
+    ;
+
+     emscripten::class_<cv::Ptr<cv::MSER>>("_PtrMSER")
+         .function("get" , &cv::Ptr<cv::MSER>::get , allow_raw_pointers());
+    ;
+
+     emscripten::class_<cv::Ptr<cv::SimpleBlobDetector>>("_PtrSimpleBlobDetector")
+         .function("get" , &cv::Ptr<cv::SimpleBlobDetector>::get , allow_raw_pointers());
+    ;
+
+     emscripten::class_<cv::Ptr<cv::CLAHE>>("_PtrCLAHE")
+         .function("get" , &cv::Ptr<cv::CLAHE>::get , allow_raw_pointers());
+    ;
+
+     emscripten::class_<cv::Ptr<cv::LineSegmentDetector>>("_PtrLineSegmentDetector")
+         .function("get" , &cv::Ptr<cv::LineSegmentDetector>::get , allow_raw_pointers());
+    ;
+
+
+
 
     emscripten::class_<cv::String>("String")
         .function("size", select_overload<size_t()const>(&cv::String::size))
@@ -2789,5 +3742,6 @@ EMSCRIPTEN_BINDINGS(Utils) {
         .function("isReal", select_overload<bool()const>(&cv::Scalar_<double>::isReal))
     ;
 
+    function("matFromArray",&Utils::matFromArray ) ;
 
 }
