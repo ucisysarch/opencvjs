@@ -11,7 +11,6 @@
 				font-family: Monospace;
 				background-color: #336677;
 				margin: 0px;
-				overflow: hidden;
 			}
 
 
@@ -152,7 +151,7 @@ left: 50%;
 					var blurred = new cv.Mat();
 					var threshold = Control.blurThreshold;
 					var size = Control.blurSize;
-					cv.blur( src , blurred, new cv.Size(size,size)  , new cv.Point(-1,-1) , 0 ) ;
+					cv.blur( src , blurred, new cv.Size(size,size)  , new cv.Point(-1,-1) , 4 ) ;
 					show_image(blurred, "canvas2")
 					src.delete() ;
 					blurred.delete();
