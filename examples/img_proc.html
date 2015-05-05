@@ -20,7 +20,7 @@
 				position: absolute;
 height: 80%;
 width: 80%;
-margin: -200px 0 0 -300px;
+margin: -100px 0 0 -500px;
 top: 50%;
 left: 50%;
 			}
@@ -78,9 +78,14 @@ left: 50%;
 						//console.log( 'channels: ' , channels , ",elemsize1:" , channelSize , ",cols:", mat.cols, "rows:", mat.rows ) ;
 
 						var canvas = document.getElementById(canvas_id);
+						
 						ctx = canvas.getContext("2d");
-						ctx.fillStyle = "red";
-						ctx.fillRect( 0, 0, mat.cols * 4 , mat.rows  * 4 ) ;
+						ctx.clearRect ( 0 , 0 , canvas.width, canvas.height );
+						
+						canvas.width = mat.cols ;
+						canvas.height = mat.rows ;
+						//ctx.fillStyle = "red";
+						//ctx.fillRect( 0, 0, mat.cols * 4 , mat.rows  * 4 ) ;
 
 						imdata = ctx.createImageData(mat.cols, mat.rows)
 
@@ -108,8 +113,10 @@ left: 50%;
 			    img.onload = function() {
 			        //ctx.drawImage(img, 20, 20);
 
-							var scaleFactor=Math.min((canvas.width/img.width),(canvas.height/img.height));
-    					ctx.drawImage(img,0,0,img.width*scaleFactor,img.height*scaleFactor);
+				        var scaleFactor=Math.min((canvas.width/img.width),(canvas.height/img.height))*2;
+    					canvas.width = img.width*scaleFactor ;
+						canvas.height = img.height*scaleFactor ;
+						ctx.drawImage(img,0,0,img.width*scaleFactor,img.height*scaleFactor);
 			    }
 			    img.src = url;
 				}
@@ -145,7 +152,7 @@ left: 50%;
 					var blurred = new cv.Mat();
 					var threshold = Control.blurThreshold;
 					var size = Control.blurSize;
-					cv.blur( src , blurred, new cv.Size(size,size)  , new cv.Point(-1,-1) , 4 ) ;
+					cv.blur( src , blurred, new cv.Size(size,size)  , new cv.Point(-1,-1) , 0 ) ;
 					show_image(blurred, "canvas2")
 					src.delete() ;
 					blurred.delete();
@@ -219,7 +226,7 @@ left: 50%;
 			var container ;
 			var Control =  {
 				blurThreshold:  100 ,
-				blurSize : 5 ,
+				blurSize : 2 ,
 				canny_threshold:  75  ,
 				makeGray : makeGray ,
 				makeBGRA : makeBGRA ,
@@ -245,7 +252,7 @@ left: 50%;
 				gui.domElement.style.top = "0px";
 				gui.domElement.style.right = "5px";
 
-				//Color Space Change
+				//Color Space Changed
 				var cSpaceFolder = gui.addFolder('Change Color Space');
 				cSpaceFolder.add(Control,'makeGray');
 				cSpaceFolder.add(Control,'makeBGRA');
@@ -253,7 +260,7 @@ left: 50%;
 
 				//Blurring
 				var blurFolder = gui.addFolder('Blurring');
-				blurFolder.add( Control , 'blurSize' ).min(2).max(50);
+				blurFolder.add( Control , 'blurSize' ).min(2).max(20);
 				blurFolder.add(Control,'blur');
 				//blurFolder.open();
 
