@@ -3,7 +3,7 @@
 <html lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>OpenCV.js - Depth Camera Demo</title>
+		<title>OpenCV JS Binding - Image Processing Demo</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
@@ -147,14 +147,17 @@ left: 50%;
 
 			function blur(){
 					var src = cv.matFromArray( getInput() , 24 ) ; // 24 for rgba
-					console.log(src.size());
+					//console.log(src.size());
 					var blurred = new cv.Mat();
 					var threshold = Control.blurThreshold;
-					var size = Control.blurSize;
-					cv.blur( src , blurred, new cv.Size(size,size)  , new cv.Point(-1,-1) , 4 ) ;
+					var size = new cv.Size(Control.blurSize,Control.blurSize) ;
+					var point = new cv.Point(-1,-1) ;
+					cv.blur( src , blurred,  size, point , 4 ) ;
 					show_image(blurred, "canvas2")
 					src.delete() ;
 					blurred.delete();
+					size.delete();
+					point.delete() ;
 			}
 			function findEdges(){
 				var src = cv.matFromArray( getInput() , 24 ) ; // 24 for rgba
