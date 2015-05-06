@@ -59,7 +59,8 @@ left: 50%;
 
 
 		<script src='dat.gui.js'></script>
-		<script async src="cv.js"></script>
+		<script async src='zee.js'></script>
+		<!-- <script async src="cv.js"></script> -->
 
 
 		<script>
@@ -77,10 +78,10 @@ left: 50%;
 						//console.log( 'channels: ' , channels , ",elemsize1:" , channelSize , ",cols:", mat.cols, "rows:", mat.rows ) ;
 
 						var canvas = document.getElementById(canvas_id);
-						
+
 						ctx = canvas.getContext("2d");
 						ctx.clearRect ( 0 , 0 , canvas.width, canvas.height );
-						
+
 						canvas.width = mat.cols ;
 						canvas.height = mat.rows ;
 						//ctx.fillStyle = "red";
@@ -226,6 +227,7 @@ left: 50%;
 			}
 
 			var container ;
+			var Zee ;
 			var Control =  {
 				blurThreshold:  100 ,
 				blurSize : 2 ,
@@ -287,6 +289,40 @@ left: 50%;
 
 		</script>
 		<script  type='text/javascript'>
+		
+	    function getCV(){
+			
+			var zip ;
+			var oReq = new XMLHttpRequest();
+			oReq.open("GET", "/cv.js.gz", true);
+			oReq.responseType = "arraybuffer";
+
+			oReq.onload = function (oEvent) {
+			  var arrayBuffer = oReq.response; // Note: not oReq.responseText
+			  if (arrayBuffer) {
+					zip = new Uint8Array(arrayBuffer);
+					console.log("decompressing script") ; 
+					var decompressed = Zee.decompress(zip) ;
+					console.log("script decompressed") ;
+					var head= document.getElementsByTagName('head')[0];
+					var script= document.createElement('script');
+					script.type= 'text/javascript';
+					var length = decompressed.length ;
+					//fr = new FileReader();
+					// fr.readAsText(decompressed);
+					//var x = fr.result;
+					//script.text = decompressed.join() ;
+					decoder = new TextDecoder() ;
+					script.text = decoder.decode(decompressed);
+					head.appendChild(script);
+					console.log("script added") ;
+			  } 
+			  
+			  
+			};
+
+			oReq.send(null);
+		}
 		var statusElement = document.getElementById('status');
       var progressElement = document.getElementById('progress');
       var spinnerElement = document.getElementById('spinner');
@@ -357,6 +393,12 @@ left: 50%;
           if (text) Module.printErr('[post-exception status] ' + text);
         };
       };
+	  
+	  
+	  window.onload = function (event){
+		  Zee = ZeeLib(Module) ;
+		  getCV() ;
+	  }
 			</script>
 	</body>
 </html>
