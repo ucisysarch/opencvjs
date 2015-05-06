@@ -294,7 +294,7 @@ left: 50%;
 			
 			var zip ;
 			var oReq = new XMLHttpRequest();
-			oReq.open("GET", "/cv.js.gz", true);
+			oReq.open("GET", "/examples/cv.js.gz", "application/x-gzip");
 			oReq.responseType = "arraybuffer";
 
 			oReq.onload = function (oEvent) {
