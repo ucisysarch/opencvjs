@@ -16,8 +16,11 @@ git clone https://github.com/sajjadt/opencvjs.git --recursive
 ```
 
 
-### Example
-Visit [link](http://sajjadt.github.io/opencvjs/examples/img_proc.html) to check out some examples from image processing module.
+### Examples
+[Image processing module](http://sajjadt.github.io/opencvjs/examples/img_proc.html).
+[Object detection module](http://sajjadt.github.io/opencvjs/examples/obj_detect.html).
+[Features framework module](http://sajjadt.github.io/opencvjs/examples/features_2d.html).
+
 
 ### Availabe OpenCV Entities
 1. Exported classes and functions intended for wrapper generators (i.e. CV_EXPORTS_W, ...)
