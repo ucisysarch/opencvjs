@@ -110,13 +110,15 @@ left: 50%;
          inputElement.addEventListener("change", handleFiles, false);
 				function handleFiles(e) {
 					var canvas = document.getElementById('canvas1') ;
+					var canvasWidth = 600 ;
+					var canvasHeight = 400 ;
 				  var ctx = canvas.getContext('2d');
 			    var url = URL.createObjectURL(e.target.files[0]);
 			    var img = new Image();
 			    img.onload = function() {
 			        //ctx.drawImage(img, 20, 20);
 
-				        var scaleFactor=Math.min((canvas.width/img.width),(canvas.height/img.height));
+				        var scaleFactor=Math.min((canvasWidth/img.width),(canvasHeight/img.height));
     					canvas.width = img.width*scaleFactor ;
 						canvas.height = img.height*scaleFactor ;
 						ctx.drawImage(img,0,0,img.width*scaleFactor,img.height*scaleFactor);
