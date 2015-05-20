@@ -18,7 +18,9 @@ git clone https://github.com/sajjadt/opencvjs.git --recursive
 
 ### Examples
 [Image processing module](http://sajjadt.github.io/opencvjs/examples/img_proc.html).
+
 [Object detection module](http://sajjadt.github.io/opencvjs/examples/obj_detect.html).
+
 [Features framework module](http://sajjadt.github.io/opencvjs/examples/features_2d.html).
 
 
