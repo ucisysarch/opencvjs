@@ -29,7 +29,7 @@ left: 50%;
 
 	    canvas{
 				background-color: #999999;
-				
+
 
 			}
 
@@ -115,7 +115,7 @@ left: 50%;
 			    var img = new Image();
 			    img.onload = function() {
 			        //ctx.drawImage(img, 20, 20);
-                        
+
 				        var scaleFactor=Math.min((canvasWidth/img.width),(canvasHeight/img.height));
     					canvas.width = img.width*scaleFactor ;
 						canvas.height = img.height*scaleFactor ;
@@ -151,7 +151,7 @@ left: 50%;
 					src.delete() ;
 					res.delete();
 			}
-			
+
 			function makeYUV(){
 					var src = cv.matFromArray( getInput() , 24 ) ; // 24 for rgba
 					var res = new cv.Mat() ;
@@ -160,7 +160,7 @@ left: 50%;
 					src.delete() ;
 					res.delete();
 			}
-			
+
 			function makeBGRA(){
 					var src = cv.matFromArray( getInput() , 24 ) ; // 24 for rgba
 					var res = new cv.Mat() ;
@@ -171,29 +171,29 @@ left: 50%;
 			}
 
 			function blur(){
-					var src = cv.matFromArray( getInput() , cv.CV_8UC4 ) ; 
-										
+					var src = cv.matFromArray( getInput() , cv.CV_8UC4 ) ;
+
 					cv.cvtColor(src, src , cv.cv_ColorConversionCodes.COLOR_RGBA2RGB.value, 0 )
 					var blurred = cv.Mat.zeros( src.size(), src.type() );
 					var threshold = Control.blurThreshold;
 					var size = new cv.Size(Control.blurSize,Control.blurSize) ;
-					
+
 					cv.blur( src , blurred,  size) ; // , point , 4) ; // ) ;
 					show_image(blurred, "canvas2")
 					src.delete() ;
 					size.delete();
 			}
-			
-			
+
+
 
 			function gaussianBlur(){
 					var src = cv.matFromArray( getInput() , cv.CV_8UC4 ) ;
 					cv.cvtColor(src, src , cv.cv_ColorConversionCodes.COLOR_RGBA2RGB.value, 0 )
 					//console.log(src.size());
 					var blurred = cv.Mat.zeros( src.size(), src.type() );
-					
+
 					var size = new cv.Size(2*Control.blurSize+1,2*Control.blurSize+1) ;
-					
+
 					cv.GaussianBlur( src , blurred,  size, 0 , 0 ) ;
 					show_image(blurred, "canvas2")
 					src.delete() ;
@@ -203,7 +203,7 @@ left: 50%;
 
 
 			function medianBlur(){
-					var src = cv.matFromArray( getInput() , cv.CV_8UC4 ) ; 
+					var src = cv.matFromArray( getInput() , cv.CV_8UC4 ) ;
 					cv.cvtColor(src, src , cv.cv_ColorConversionCodes.COLOR_RGBA2RGB.value, 0 );
 					blurred = cv.Mat.zeros( src.size(), src.type() );
 
@@ -221,33 +221,33 @@ left: 50%;
 				rgbPlanes.delete();
 				return;
 			}
-			
-			
-			
+
+
+
 			function histogram(){
-			
+
 				var numBins = 255 ;
-				
+
 				var src = cv.matFromArray( getInput() ,  cv.CV_8UC4 ) ; // 24 for rgba
 				var rgbPlanes = new cv.MatVector();
 				cv.split( src, rgbPlanes ) ;
-				
-				
+
+
 				// Calculate histogram
 				//rgbPlanes.push_back(src);
 
-				
+
 				var planes = new cv.IntegerVector();
-				
-				
+
+
 				var ranges = new cv.FloatVector();
 				ranges.push_back(0);
 				ranges.push_back(255);
-				
-				
+
+
 				var histSize = new cv.IntegerVector();
 				histSize.push_back(numBins);
-				
+
 				var histr = new cv.Mat() ;
 				var histg = new cv.Mat() ;
 				var histb = new cv.Mat() ;
@@ -257,7 +257,7 @@ left: 50%;
 				cv.calcHist( rgbPlanes, planes , new cv.Mat() ,  histg, histSize, ranges ) ;
 				planes.set(0,2) ;
 				cv.calcHist( rgbPlanes , planes , new cv.Mat() ,  histb, histSize, ranges ) ;
-				
+
 				var total = 0 ;
 				for ( var i = 0 ; i < numBins ; ++i ){
 					console.log( histr.at_float(i) ) ;
@@ -266,47 +266,47 @@ left: 50%;
 				console.log(total) ;
 				//console.log( hist.channels() ) ;
 				//console.log( hist.elemSize1() );
-				
-				
+
+
 				// Normalize
 				cv.normalize(histr, histr );
 				cv.normalize(histg, histg );
 				cv.normalize(histb, histb );
-				
+
 				// Draw histogram
-				var hist_w = 300; 
+				var hist_w = 300;
 				var hist_h = 300;
 				var bin_w = hist_w/numBins  |0 ;
 				var histImage = cv.Mat.ones( new cv.Size(hist_h, hist_w) ,   cv.CV_8UC4 );
-				
+
 				for( var i = 1; i < numBins	 ; i++ )
 				{
-					cv.line( histImage, 
+					cv.line( histImage,
 								new cv.Point( bin_w*(i-1), hist_h - histr.at_float(i-1)*hist_h ) ,
-								new cv.Point( bin_w*(i), hist_h - histr.at_float(i)*hist_h ), 
+								new cv.Point( bin_w*(i), hist_h - histr.at_float(i)*hist_h ),
 								new cv.Scalar( 255, 0, 0)
 							);
-					cv.line( histImage, 
+					cv.line( histImage,
 								new cv.Point( bin_w*(i-1), hist_h - histg.at_float(i-1)*hist_h ) ,
-								new cv.Point( bin_w*(i), hist_h - histg.at_float(i)*hist_h ), 
+								new cv.Point( bin_w*(i), hist_h - histg.at_float(i)*hist_h ),
 								new cv.Scalar( 0, 255, 0)
 							);
-					cv.line( histImage, 
+					cv.line( histImage,
 								new cv.Point( bin_w*(i-1), hist_h - histb.at_float(i-1)*hist_h ) ,
-								new cv.Point( bin_w*(i), hist_h - histb.at_float(i)*hist_h ), 
+								new cv.Point( bin_w*(i), hist_h - histb.at_float(i)*hist_h ),
 								new cv.Scalar( 0, 0, 255)
-							);		
-							
+							);
+
 				}
-				
+
 				show_image( histImage , "canvas2")
-				
+
 			}
-			
+
 			function erode(){
-				var src = cv.matFromArray( getInput() ,  cv.CV_8UC4 ) ; 
+				var src = cv.matFromArray( getInput() ,  cv.CV_8UC4 ) ;
 				cv.cvtColor(src, src , cv.cv_ColorConversionCodes.COLOR_RGBA2RGB.value, 0 );
-				
+
 				var erosion_type = cv.cv_MorphShapes.MORPH_RECT.value  ;
                 var erosion_size = new cv.Size( 2*Control.erosion_size + 1, 2*Control.erosion_size+1 );
 				var element = cv.getStructuringElement( erosion_type ,erosion_size  ) ;
@@ -316,10 +316,10 @@ left: 50%;
 				src.delete();
 				dst.delete();
 				erosion_size.delete();
-				
+
 			}
-			
-			
+
+
 			function dilate(){
 				var src = cv.matFromArray( getInput() ,  cv.CV_8UC4 ) ;
 				cv.cvtColor(src, src , cv.cv_ColorConversionCodes.COLOR_RGBA2RGB.value, 0 );
@@ -336,10 +336,10 @@ left: 50%;
 				dst.delete();
 				erosion_size.delete();
 			}
-			
-			
+
+
 			function findEdges(){
-				var src = cv.matFromArray( getInput() ,  cv.CV_8UC4 ) ; 
+				var src = cv.matFromArray( getInput() ,  cv.CV_8UC4 ) ;
 				var canny_output = new cv.Mat();
 				var blurred = new cv.Mat() ;
 				var cthresh = Control.canny_threshold;
@@ -357,7 +357,7 @@ left: 50%;
 					var blurred = new cv.Mat() ;
 					var cthresh = Control.canny_threshold;
 					cv.blur( src , blurred, new cv.Size(5,5) , new cv.Point(-1,-1) , 4 ) ;
-					
+
 					cv.Canny( blurred, canny_output, cthresh, cthresh*2, 3 , 0 );
 
 
@@ -366,8 +366,8 @@ left: 50%;
 					var hierarchy = new cv.Mat();
 					cv.findContours( canny_output, contours, hierarchy, 3 , 2 , new cv.Point(0, 0) );
 
-					
-					
+
+
 					// Convex hull
 					var hull = new cv.MatVector();
 					for(  i = 0; i < contours.size(); i++ )
@@ -409,10 +409,10 @@ left: 50%;
 				blurThreshold:  100 ,
 				blurSize : 1 ,
 				canny_threshold:  75  ,
-				erosion_size : 1 , 
+				erosion_size : 1 ,
 				makeGray : makeGray ,
 				makeBGRA : makeBGRA ,
-				makeHSV : makeHSV, 
+				makeHSV : makeHSV,
 				makeYUV : makeYUV ,
 				blur:blur,
 				gaussianBlur:gaussianBlur,
@@ -422,7 +422,7 @@ left: 50%;
 				findContours:findContours,
 				histogram:histogram ,
 				erode : erode ,
-				dilate : dilate 
+				dilate : dilate
 			};
 
 
@@ -477,14 +477,14 @@ left: 50%;
 				// Histogram
 				var findContoursFolder = gui.addFolder('Histogram');
 				findContoursFolder.add(Control,'histogram');
-				
+
 				// Erosion-Dilation
 				var erosionDilationFolder = gui.addFolder('Erosion/Dilation');
 				erosionDilationFolder.add( Control , 'erosion_size' ).min(0).max(21);
 				erosionDilationFolder.add(Control,'erode');
 				erosionDilationFolder.add(Control,'dilate');
 
-				
+
 			}
 			init();
 
@@ -599,6 +599,15 @@ left: 50%;
 	  window.onload = function (event){
 		  Zee = ZeeLib(Module) ;
 		  getCV() ;
+			var imageObj = new Image();
+			imageObj.src = "http://sajjadt.github.io/opencvjs/examples/street.png"
+
+			var scaleFactor = 1 ;
+			imageObj.onload = function () {
+				canvas.width = imageObj.width*scaleFactor ;
+				canvas.height = imageObj.height*scaleFactor ;
+				context.drawImage(imageObj, 0, 0);
+			};
 	  }
 			</script>
 	</body>
