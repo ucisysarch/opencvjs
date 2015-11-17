@@ -599,6 +599,10 @@ left: 50%;
 	  window.onload = function (event){
 		  Zee = ZeeLib(Module) ;
 		  getCV() ;
+
+			var canvas = document.getElementById("canvas1");
+			var context = canvas.getContext("2d");
+
 			var imageObj = new Image();
 			imageObj.src = "http://sajjadt.github.io/opencvjs/examples/street.png"
 
