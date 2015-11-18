@@ -313,7 +313,7 @@
 						for ( var j = 0 ;j < eyes.size() ; j+=1 ){
 
 								var eyeRect = eyes.get(j) ;
-								console.log( eyeRect.width + "," + eyeRect.height );
+								//console.log( eyeRect.width + "," + eyeRect.height );
 
 								var p1 = new Module.Point(x+eyeRect.x,y+eyeRect.y) ;
 								var p2 = new Module.Point(x+eyeRect.x+eyeRect.width,y+eyeRect.y+eyeRect.height) ;
@@ -330,10 +330,11 @@
 						gcolor.delete();
 						roi_gray.delete() ;
 						roi_color.delete() ;
+						roiRect.delete();
 
 				}
 
-				show_image(img, "c2") ;
+				//show_image(img, "c2") ;
 
 				s1.delete() ;
 				s2.delete() ;
