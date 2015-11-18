@@ -9,26 +9,16 @@
 		<style>
 			body {
 				font-family: Monospace;
-				background-color: #336677;
+				background-color: #ffffff;
 				margin: 0px;
 			}
 
 
 
-			#showcase {
-				position: absolute;
-height: 80%;
-width: 80%;
-margin: -100px 0 0 -500px;
-top: 50%;
-left: 50%;
-			}
-
-
 
 
 	    canvas{
-				background-color: #999999;
+				background-color: #ffffff;
 
 			}
 
@@ -50,24 +40,33 @@ left: 50%;
 
 <div id="showcase">
 	<div>
-        <canvas  id="canvas1"  ></canvas>
-		<canvas  id="canvas2"  ></canvas>
-	</div>
-	<input type="file" id="input" name="file" />
+            <video id="video" width="640" src="http://ics.uci.edu/~sajjadt/conchords.mp4" controls="true" muted ></video>
+
+        </div>
+        <div>
+            <canvas id="c1" width="640" display="none"></canvas>
+            <canvas id="c2" width="640" height="480"></canvas>
+        </div>
+
 </div>
 
 
 
 		<script src='dat.gui.js'></script>
+		<script src='stats.min.js'></script>
 		<script async src='zee.js'></script>
+
 		<!-- <script async src="cv.js"></script> -->
 
 
 		<script>
+			var processor;
+			var face_cascade;
+			var eye_cascade;
 
-			var face_cascade ;
-      var eye_cascade ;
-			var smile_cascade ;
+			var container ;
+
+
 
 			show_image = function (mat, canvas_id ){
 				mat.data( function(data) {
@@ -106,37 +105,19 @@ left: 50%;
 					});
 			}
 
-	     var inputElement = document.getElementById("input");
-         inputElement.addEventListener("change", handleFiles, false);
-				function handleFiles(e) {
-					var canvas = document.getElementById('canvas1') ;
-					var canvasWidth = 600 ;
-					var canvasHeight = 400 ;
-				  var ctx = canvas.getContext('2d');
-			    var url = URL.createObjectURL(e.target.files[0]);
-			    var img = new Image();
-			    img.onload = function() {
-			        //ctx.drawImage(img, 20, 20);
 
-				        var scaleFactor=Math.min((canvasWidth/img.width),(canvasHeight/img.height));
-    					canvas.width = img.width*scaleFactor ;
-						canvas.height = img.height*scaleFactor ;
-						ctx.drawImage(img,0,0,img.width*scaleFactor,img.height*scaleFactor);
-			    }
-			    img.src = url;
-				}
 
       function getInput(){
-				var canvas = document.getElementById('canvas1');
+				var canvas = document.getElementById('c1');
 				var ctx = canvas.getContext('2d');
 				var imgData = ctx.getImageData(0,0,canvas.width, canvas.height);
 				return imgData;
 			}
 
 			function makeGray(){
-					var src = cv.matFromArray( getInput() , 24 ) ; // 24 for rgba
-					var res = new cv.Mat() ;
-					cv.cvtColor(src, res , cv.cv_ColorConversionCodes.COLOR_RGBA2GRAY.value, 0 )
+					var src = Module.matFromArray( getInput() , 24 ) ; // 24 for rgba
+					var res = new Module.Mat() ;
+					Module.cvtColor(src, res , Module.cv_ColorConversionCodes.COLOR_RGBA2GRAY.value, 0 )
 					show_image(res, "canvas2")
 					src.delete() ;
 					res.delete();
@@ -145,22 +126,22 @@ left: 50%;
 			function detectSmile(){
 					if( face_cascade == undefined ){
 						console.log("Creating the Face cascade classifier");
-						face_cascade = new cv.CascadeClassifier(new cv.String('opencv/data/haarcascades/haarcascade_frontalface_default.xml'));
+						face_cascade = new Module.CascadeClassifier(new Module.String('opencv/data/haarcascades/haarcascade_frontalface_default.xml'));
 					}
 					if( smile_cascade == undefined ){
 						console.log("Creating the eye cascade classifier");
-						smile_cascade = new cv.CascadeClassifier(new cv.String('opencv/data/haarcascades/haarcascade_smile.xml'));
+						smile_cascade = new Module.CascadeClassifier(new Module.String('opencv/data/haarcascades/haarcascade_smile.xml'));
 					}
 
-					var img = cv.matFromArray( getInput() , 24 ) ; // 24 for rgba
-					var img_gray = new cv.Mat() ;
-					var img_color = new cv.Mat() ; // Opencv likes RGB
-					cv.cvtColor(img, img_gray , cv.cv_ColorConversionCodes.COLOR_RGBA2GRAY.value, 0 ) ;
-					cv.cvtColor(img, img_color , cv.cv_ColorConversionCodes.COLOR_RGBA2RGB.value, 0 ) ;
+					var img = Module.matFromArray( getInput() , 24 ) ; // 24 for rgba
+					var img_gray = new Module.Mat() ;
+					var img_color = new Module.Mat() ; // Opencv likes RGB
+					Module.cvtColor(img, img_gray , Module.cv_ColorConversionCodes.COLOR_RGBA2GRAY.value, 0 ) ;
+					Module.cvtColor(img, img_color , Module.cv_ColorConversionCodes.COLOR_RGBA2RGB.value, 0 ) ;
 
-					var faces = new cv.RectVector() ;
-					var s1 = new cv.Size() ;
-					var s2 = new cv.Size() ;
+					var faces = new Module.RectVector() ;
+					var s1 = new Module.Size() ;
+					var s2 = new Module.Size() ;
 					face_cascade.detectMultiScale(img_gray, faces ,1.1, 3 , 0 , s1 , s2 ) ;
 
 
@@ -171,19 +152,19 @@ left: 50%;
 							y = faceRect.y ;
 							w = faceRect.width ;
 							h = faceRect.height;
-							var p1 = new cv.Point(x,y) ;
-							var p2 = new cv.Point(x+w,y+h) ;
-							var color = new cv.Scalar(255,0,0) ;
-							var gcolor = new cv.Scalar(0,255,0) ;
-							cv.rectangle(img_color, p1 , p2 , color ,2);
+							var p1 = new Module.Point(x,y) ;
+							var p2 = new Module.Point(x+w,y+h) ;
+							var color = new Module.Scalar(255,0,0) ;
+							var gcolor = new Module.Scalar(0,255,0) ;
+							Module.rectangle(img_color, p1 , p2 , color ,2);
 							p1.delete() ;
 							p2.delete() ;
-							var roiRect = new cv.Rect(x,y,w,h) ;
+							var roiRect = new Module.Rect(x,y,w,h) ;
 
 							var roi_gray = img_gray.getROI_Rect(roiRect).clone() ;
 							var roi_color = img_color.getROI_Rect(roiRect).clone() ;
 
-							var smiles= new cv.RectVector() ;
+							var smiles= new Module.RectVector() ;
 							smile_cascade.detectMultiScale(roi_gray,smiles,1.1, 3 , 0 , s1 , s2) ;
 
 
@@ -193,10 +174,10 @@ left: 50%;
 									var smileRect = smiles.get(j) ;
 									console.log( smileRect.width + "," + smileRect.height );
 
-									var p1 = new cv.Point(x+smileRect.x,y+smileRect.y) ;
-									var p2 = new cv.Point(x+smileRect.x+smileRect.width,y+smileRect.y+smileRect.height) ;
+									var p1 = new Module.Point(x+smileRect.x,y+smileRect.y) ;
+									var p2 = new Module.Point(x+smileRect.x+smileRect.width,y+smileRect.y+smileRect.height) ;
 
-									cv.rectangle(img_color, p1 , p2 , gcolor ,2);
+									Module.rectangle(img_color, p1 , p2 , gcolor ,2);
 									p1.delete() ;
 									p2.delete();
 									smileRect.delete();
@@ -222,29 +203,36 @@ left: 50%;
 					img_gray.delete();
 			}
 
-			function detectFace(){
+
+
+
+			function detectFaces(){
+
+
 
 				if( face_cascade == undefined ){
 					console.log("Creating the Face cascade classifier");
-					face_cascade = new cv.CascadeClassifier(new cv.String('opencv/data/haarcascades/haarcascade_frontalface_default.xml'));
+					face_cascade = new Module.CascadeClassifier(new Module.String('opencv/data/haarcascades/haarcascade_frontalface_default.xml'));
 				}
 
-				var img = cv.matFromArray( getInput() , 24 ) ; // 24 for rgba
-				var img_gray = new cv.Mat() ;
-				var img_color = new cv.Mat() ; // Opencv likes RGB
-				cv.cvtColor(img, img_gray , cv.cv_ColorConversionCodes.COLOR_RGBA2GRAY.value, 0 ) ;
-				cv.cvtColor(img, img_color , cv.cv_ColorConversionCodes.COLOR_RGBA2RGB.value, 0 ) ;
 
 
-				//eye_cascade = new cv.CascadeClassifier( new cv.String('opencv/data/haarcascades/haarcascade_eye.xml'));
-				//smile_cascade = new  cv.CascadeClassifier( new cv.String('opencv/data/haarcascades/haarcascade_smile.xml'));
+				var img = Module.matFromArray( getInput() , 24 ) ; // 24 for rgba
+				var img_gray = new Module.Mat() ;
+				//var img_color = new Module.Mat() ; // Opencv likes RGB
+				Module.cvtColor(img, img_gray , Module.cv_ColorConversionCodes.COLOR_RGBA2GRAY.value, 0 ) ;
+				//Module.cvtColor(img, img_color , Module.cv_ColorConversionCodes.COLOR_RGBA2RGB.value, 0 ) ;
+
+
+				eye_cascades = new Module.CascadeClassifier( new Module.String('opencv/data/haarcascades/haarcascade_eye.xml'));
+				//smile_cascade = new  Module.CascadeClassifier( new Module.String('opencv/data/haarcascades/haarcascade_smile.xml'));
 
 
 
 
-				var faces = new cv.RectVector() ;
-				var s1 = new cv.Size() ;
-				var s2 = new cv.Size() ;
+				var faces = new Module.RectVector() ;
+				var s1 = new Module.Size() ;
+				var s2 = new Module.Size() ;
 				face_cascade.detectMultiScale(img_gray, faces ,1.1, 3 , 0 , s1 , s2 ) ;
 				s1.delete() ;
 				s2.delete() ;
@@ -252,14 +240,14 @@ left: 50%;
 				for ( var i = 0 ;i < faces.size() ; i+=1 )
 				{
 						var faceRect = faces.get(i) ;
-					  x = faceRect.x ;
+					    x = faceRect.x ;
 						y = faceRect.y ;
 						w = faceRect.width ;
 						h = faceRect.height;
-						var p1 = new cv.Point(x,y) ;
-						var p2 = new cv.Point(x+w,y+h) ;
-						var color = new cv.Scalar(255,0,0) ;
-						cv.rectangle(img_color, p1 , p2 , color ,2);
+						var p1 = new Module.Point(x,y) ;
+						var p2 = new Module.Point(x+w,y+h) ;
+						var color = new Module.Scalar(255,0,0) ;
+						Module.rectangle(img, p1 , p2 , color ,2);
 						faceRect.delete() ;
 						p1.delete() ;
 						p2.delete();
@@ -267,11 +255,11 @@ left: 50%;
 
 				}
 
-				show_image(img_color, "canvas2") ;
+				show_image(img, "c2") ;
 
 
 				img.delete();
-				img_color.delete();
+				//img_color.delete();
 				faces.delete() ;
 				img_gray.delete();
 			}
@@ -279,22 +267,22 @@ left: 50%;
 			function detectEyes(){
 				if( face_cascade == undefined ){
 					console.log("Creating the Face cascade classifier");
-					face_cascade = new cv.CascadeClassifier(new cv.String('opencv/data/haarcascades/haarcascade_frontalface_default.xml'));
+					face_cascade = new Module.CascadeClassifier(new Module.String('opencv/data/haarcascades/haarcascade_frontalface_default.xml'));
 				}
 				if( eye_cascade == undefined ){
 					console.log("Creating the eye cascade classifier");
-					eye_cascade = new cv.CascadeClassifier(new cv.String('opencv/data/haarcascades/haarcascade_eye.xml'));
+					eye_cascade = new Module.CascadeClassifier(new Module.String('opencv/data/haarcascades/haarcascade_eye.xml'));
 				}
 
-				var img = cv.matFromArray( getInput() , 24 ) ; // 24 for rgba
-				var img_gray = new cv.Mat() ;
-				var img_color = new cv.Mat() ; // Opencv likes RGB
-				cv.cvtColor(img, img_gray , cv.cv_ColorConversionCodes.COLOR_RGBA2GRAY.value, 0 ) ;
-				cv.cvtColor(img, img_color , cv.cv_ColorConversionCodes.COLOR_RGBA2RGB.value, 0 ) ;
+				var img = Module.matFromArray( getInput() , 24 ) ; // 24 for rgba
+				var img_gray = new Module.Mat() ;
+				//var img_color = new Module.Mat() ; // Opencv likes RGB
+				Module.cvtColor(img, img_gray , Module.cv_ColorConversionCodes.COLOR_RGBA2GRAY.value, 0 ) ;
+				//Module.cvtColor(img, img_color , Module.cv_ColorConversionCodes.COLOR_RGBA2RGB.value, 0 ) ;
 
-				var faces = new cv.RectVector() ;
-				var s1 = new cv.Size() ;
-				var s2 = new cv.Size() ;
+				var faces = new Module.RectVector() ;
+				var s1 = new Module.Size() ;
+				var s2 = new Module.Size() ;
 				face_cascade.detectMultiScale(img_gray, faces ,1.1, 3 , 0 , s1 , s2 ) ;
 
 
@@ -305,19 +293,19 @@ left: 50%;
 						y = faceRect.y ;
 						w = faceRect.width ;
 						h = faceRect.height;
-						var p1 = new cv.Point(x,y) ;
-						var p2 = new cv.Point(x+w,y+h) ;
-						var color = new cv.Scalar(255,0,0) ;
-						var gcolor = new cv.Scalar(0,255,0) ;
-						cv.rectangle(img_color, p1 , p2 , color ,2);
+						var p1 = new Module.Point(x,y) ;
+						var p2 = new Module.Point(x+w,y+h) ;
+						var color = new Module.Scalar(255,0,0) ;
+						var gcolor = new Module.Scalar(0,255,0) ;
+						Module.rectangle(img, p1 , p2 , color ,2);
 						p1.delete() ;
 						p2.delete() ;
-						var roiRect = new cv.Rect(x,y,w,h) ;
+						var roiRect = new Module.Rect(x,y,w,h) ;
 
 						var roi_gray = img_gray.getROI_Rect(roiRect).clone() ;
-						var roi_color = img_color.getROI_Rect(roiRect).clone() ;
+						var roi_color = img.getROI_Rect(roiRect).clone() ;
 
-						var eyes = new cv.RectVector() ;
+						var eyes = new Module.RectVector() ;
 						eye_cascade.detectMultiScale(roi_gray,eyes,1.1, 3 , 0 , s1 , s2) ;
 
 
@@ -327,10 +315,10 @@ left: 50%;
 								var eyeRect = eyes.get(j) ;
 								console.log( eyeRect.width + "," + eyeRect.height );
 
-								var p1 = new cv.Point(x+eyeRect.x,y+eyeRect.y) ;
-								var p2 = new cv.Point(x+eyeRect.x+eyeRect.width,y+eyeRect.y+eyeRect.height) ;
+								var p1 = new Module.Point(x+eyeRect.x,y+eyeRect.y) ;
+								var p2 = new Module.Point(x+eyeRect.x+eyeRect.width,y+eyeRect.y+eyeRect.height) ;
 
-								cv.rectangle(img_color, p1 , p2 , gcolor ,2);
+								Module.rectangle(img, p1 , p2 , gcolor ,2);
 								p1.delete() ;
 								p2.delete();
 
@@ -345,12 +333,11 @@ left: 50%;
 
 				}
 
-				show_image(img_color, "canvas2") ;
+				show_image(img, "c2") ;
 
 				s1.delete() ;
 				s2.delete() ;
 				img.delete();
-				img_color.delete();
 				faces.delete() ;
 				img_gray.delete();
 
@@ -363,7 +350,7 @@ left: 50%;
 			var Control =  {
 				blurThreshold:  100 ,
 				blurSize : 3 ,
-				detectFace : detectFace,
+				detectFaces : detectFaces,
 				detectEyes : detectEyes ,
 				detectSmile: detectSmile
 			};
@@ -377,25 +364,60 @@ left: 50%;
 				container = document.createElement( 'div' );
 				document.body.appendChild( container );
 
+				var stats = new Stats();
+				stats.domElement.style.position = 'absolute';
+				stats.domElement.style.bottom = '0px';
+				stats.domElement.style.left = '0px';
+				container.appendChild( stats.domElement );
 
 				gui = new dat.GUI({autoPlace: false});
-				document.body.appendChild(gui.domElement);
-				gui.domElement.style.position = "absolute";
-				gui.domElement.style.top = "0px";
-				gui.domElement.style.right = "5px";
+
 
 				// Haar Cascade
 				var cSpaceFolder = gui.addFolder('Haar Cascade');
-				cSpaceFolder.add(Control,'detectFace');
+				cSpaceFolder.add(Control,'detectFaces');
 				cSpaceFolder.add(Control,'detectEyes');
 				cSpaceFolder.add(Control,'detectSmile');
 
+				processor = {
+					  timerCallback: function() {
+						if (this.video.paused || this.video.ended) {
+						  return;
+						}
+						this.computeFrame();
+						self = this;
+						setTimeout(function () {
+							self.timerCallback();
+						  }, 0);
+					  },
 
+					  doLoad: function() {
+						this.video = document.getElementById("video");
+						this.c1 = document.getElementById("c1");
+						this.ctx1 = this.c1.getContext("2d");
+						this.c2 = document.getElementById("c2");
+						this.ctx2 = this.c2.getContext("2d");
+						self = this;
+						this.video.addEventListener("play", function() {
+							self.width = self.video.videoWidth / 2;
+							self.height = self.video.videoHeight / 2;
+							self.timerCallback();
+						  }, false);
+					  },
 
-
-
+					  computeFrame: function() {
+					    var c1 = document.getElementById("c1");
+						var ctx1 = c1.getContext("2d");
+					        ctx1.drawImage(this.video, 0, 0, this.width, this.height);
+						//detectFaces();
+						detectEyes();
+						stats.update();
+						return;
+					  }
+					} ;
 			}
 			init();
+			processor.doLoad();
 
 		</script>
 		<script  type='text/javascript'>
@@ -404,7 +426,7 @@ left: 50%;
 
 			var zip ;
 			var oReq = new XMLHttpRequest();
-			oReq.open("GET", "/opencvjs/examples/cv.js.gz", "application/x-gzip");
+			oReq.open("GET", "/~sajjadt/cv.js.gz", "application/x-gzip");
 			oReq.responseType = "arraybuffer";
 
 			oReq.onload = function (oEvent) {
@@ -508,19 +530,6 @@ left: 50%;
 	  window.onload = function (event){
 		  Zee = ZeeLib(Module) ;
 		  getCV() ;
-			var canvas = document.getElementById("canvas1");
-			var context = canvas.getContext("2d");
-
-			var imageObj = new Image();
-			imageObj.src = "http://sajjadt.github.io/opencvjs/examples/ellen.jpg"
-
-			var scaleFactor = 1 ;
-			imageObj.onload = function () {
-				canvas.width = imageObj.width*scaleFactor ;
-				canvas.height = imageObj.height*scaleFactor ;
-				context.drawImage(imageObj, 0, 0);
-			};
-
 	  }
 			</script>
 	</body>
