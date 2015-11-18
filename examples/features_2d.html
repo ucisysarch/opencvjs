@@ -543,6 +543,19 @@ left: 50%;
 	  window.onload = function (event){
 		  Zee = ZeeLib(Module) ;
 		  getCV() ;
+
+			var canvas = document.getElementById("canvas1");
+			var context = canvas.getContext("2d");
+
+			var imageObj = new Image();
+			imageObj.src = "http://sajjadt.github.io/opencvjs/examples/steet.png"
+
+			var scaleFactor = 1 ;
+			imageObj.onload = function () {
+				canvas.width = imageObj.width*scaleFactor ;
+				canvas.height = imageObj.height*scaleFactor ;
+				context.drawImage(imageObj, 0, 0);
+			};
 	  }
 			</script>
 	</body>
