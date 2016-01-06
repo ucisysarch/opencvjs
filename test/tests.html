@@ -31,6 +31,7 @@
 		<script src="memoryprofiler.js"></script>
 
 		<script src="http://code.jquery.com/qunit/qunit-1.20.0.js"></script>
+		<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.20.0.css" type="text/css" media="screen">
 		<script type="application/javascript;version=1.7" src="test_commons.js"></script>
 		<script type="application/javascript;version=1.7" src="test_mat.js"></script>
 		<script type="application/javascript;version=1.7" src="test_utils.js"></script>
@@ -67,11 +68,7 @@
         })(),
         printErr: function(text) {
           text = Array.prototype.slice.call(arguments).join(' ');
-          if (0) { // XXX disabled for safety typeof dump == 'function') {
-            dump(text + '\n'); // fast, straight to the real console
-          } else {
-            console.error(text);
-          }
+          console.error(text);
         },
         setStatus: function(text) {
           console.log(text);
