@@ -18,10 +18,10 @@
 //    names of its contributors may be used to endorse or promote products
 //    derived from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY UC Irvine ''AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY UC IRVINE ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 // WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-// DISCLAIMED. IN NO EVENT SHALL UC Irvine or contributors BE LIABLE FOR ANY
+// DISCLAIMED. IN NO EVENT SHALL UC IRVINE OR CONTRIBUTORS BE LIABLE FOR ANY
 // DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
 // (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
 // LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
@@ -133,6 +133,13 @@ namespace Utils{
     Mat matMul(const cv::Mat& obj, const Mat& mat, double scale) {
         return  Mat(obj.mul(mat, scale));
     }
+    Mat matT(const cv::Mat& obj) {
+        return  Mat(obj.t());
+    }
+    Mat matInv(const cv::Mat& obj, int type) {
+        return  Mat(obj.inv(type));
+    }
+
 }
 
 EMSCRIPTEN_BINDINGS(Utils) {
@@ -169,7 +176,6 @@ EMSCRIPTEN_BINDINGS(Utils) {
         .constructor(&Utils::createMat2, allow_raw_pointers())
         .function("elemSize1", select_overload<size_t()const>(&cv::Mat::elemSize1))
         //.function("assignTo", select_overload<void(Mat&, int)const>(&cv::Mat::assignTo))
-        .function("inv", select_overload<MatExpr(int)const>(&cv::Mat::inv))
         .function("channels", select_overload<int()const>(&cv::Mat::channels))
         .function("convertTo",  select_overload<void(const Mat&, Mat&, int, double, double)>(&Utils::convertTo))
         .function("total", select_overload<size_t()const>(&cv::Mat::total))
@@ -196,13 +202,12 @@ EMSCRIPTEN_BINDINGS(Utils) {
         .class_function("zeros",select_overload<Mat(int, int, int)>(&Utils::mat_zeros_iii))
         .class_function("zeros",select_overload<Mat(Size, int)>(&Utils::mat_zeros_Si))
         .function("depth", select_overload<int()const>(&cv::Mat::depth))
-        .function("t", select_overload<MatExpr()const>(&cv::Mat::t))
         .function("col", select_overload<Mat(int)const>(&cv::Mat::col))
-
 
         .function("dot", select_overload<double(const Mat&, const Mat&)>(&Utils::matDot))
         .function("mul", select_overload<Mat(const Mat&, const Mat&, double)>(&Utils::matMul))
-
+        .function("inv", select_overload<Mat(const Mat&, int)>(&Utils::matInv))
+        .function("t", select_overload<Mat(const Mat&)>(&Utils::matT))
 
         .property("rows", &cv::Mat::rows)
         .property("cols", &cv::Mat::cols)
@@ -219,16 +224,22 @@ EMSCRIPTEN_BINDINGS(Utils) {
         .function("ptr", select_overload<val(const Mat&, int, int)>(&Utils::matPtrII))
 
         .function("size" , &Utils::getMatSize)
-        .function("at_uchar" , select_overload<unsigned char&(int)>(&cv::Mat::at<unsigned char>) )
-        .function("at_uchar_ii", select_overload<unsigned char&(int, int)>(&cv::Mat::at<unsigned char>) )
-        .function("at_uchar_iii", select_overload<unsigned char&(int, int, int)>(&cv::Mat::at<unsigned char>) )
-        .function("at_ushort", select_overload<unsigned short&(int)>(&cv::Mat::at<unsigned short>) )
-        .function("at_ushort_ii", select_overload<unsigned short&(int, int)>(&cv::Mat::at<unsigned short>) )
-        .function("at_ushort_iii", select_overload<unsigned short&(int, int, int)>(&cv::Mat::at<unsigned short>) )
-        .function("at_float", select_overload<float&(int)>(&cv::Mat::at<float>) )
-        .function("at_float_ii", select_overload<float&(int, int)>(&cv::Mat::at<float>) )
-        .function("at_float_iii", select_overload<float&(int, int, int)>(&cv::Mat::at<float>) )
-        .function( "getROI_Rect", select_overload<Mat(const Rect&)const>(&cv::Mat::operator()) );
+        .function("get_uchar_at" , select_overload<unsigned char&(int)>(&cv::Mat::at<unsigned char>))
+        .function("get_uchar_at", select_overload<unsigned char&(int, int)>(&cv::Mat::at<unsigned char>))
+        .function("get_uchar_at", select_overload<unsigned char&(int, int, int)>(&cv::Mat::at<unsigned char>))
+        .function("get_ushort_at", select_overload<unsigned short&(int)>(&cv::Mat::at<unsigned short>))
+        .function("get_ushort_at", select_overload<unsigned short&(int, int)>(&cv::Mat::at<unsigned short>))
+        .function("get_ushort_at", select_overload<unsigned short&(int, int, int)>(&cv::Mat::at<unsigned short>))
+        .function("get_int_at" , select_overload<int&(int)>(&cv::Mat::at<int>) )
+        .function("get_int_at", select_overload<int&(int, int)>(&cv::Mat::at<int>) )
+        .function("get_int_at", select_overload<int&(int, int, int)>(&cv::Mat::at<int>) )
+        .function("get_double_at", select_overload<double&(int, int, int)>(&cv::Mat::at<double>))
+        .function("get_double_at", select_overload<double&(int)>(&cv::Mat::at<double>))
+        .function("get_double_at", select_overload<double&(int, int)>(&cv::Mat::at<double>))
+        .function("get_float_at", select_overload<float&(int)>(&cv::Mat::at<float>))
+        .function("get_float_at", select_overload<float&(int, int)>(&cv::Mat::at<float>))
+        .function("get_float_at", select_overload<float&(int, int, int)>(&cv::Mat::at<float>))
+        .function( "getROI_Rect", select_overload<Mat(const Rect&)const>(&cv::Mat::operator()));
 
     emscripten::class_<cv::Vec<int,4>>("Vec4i")
         .constructor<>()

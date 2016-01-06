@@ -121,6 +121,21 @@ QUnit.test("test_mat_creation", function(assert) {
         size.delete();
         mat.delete();
     }
+    //   clone
+    {
+    let mat = cv.Mat.ones(5, 5, cv.CV_8UC1);
+        let mat2 = mat.clone();
+
+        assert.equal(mat.channels, mat2.channels);
+        assert.equal(mat.size()[0], mat2.size()[0]);
+        assert.equal(mat.size()[1], mat2.size()[1]);
+
+        assert.deepEqual(mat.data(), mat2.data());
+
+
+        mat.delete();
+        mat2.delete();
+    }
 });
 
 QUnit.test("test_mat_ptr", function(assert) {
@@ -375,28 +390,14 @@ QUnit.test("test_mat_miscs", function(assert) {
         mat3.delete();
     }
 
-    //   clone
-    {
-    let mat = cv.Mat.ones(5, 5, cv.CV_8UC1);
-        let mat2 = mat.clone();
-
-        assert.equal(mat.channels, mat2.channels);
-        assert.equal(mat.size()[0], mat2.size()[0]);
-        assert.equal(mat.size()[1], mat2.size()[1]);
-
-        assert.deepEqual(mat.data(), mat2.data());
-
-
-        mat.delete();
-        mat2.delete();
-    }
 });
 
 
-QUnit.test("test_memory_view", function(assert) {
+QUnit.test("test mat access", function(assert) {
+    // test memory view
     {
         let data = new Uint8Array([0, 0, 0, 255, 0, 1, 2, 3]),
-        dataPtr = cv._malloc(8);
+            dataPtr = cv._malloc(8);
 
         let dataHeap = new Uint8Array(cv.HEAPU8.buffer, dataPtr, 8);
         dataHeap.set(new Uint8Array(data.buffer));
@@ -421,4 +422,103 @@ QUnit.test("test_memory_view", function(assert) {
         assert.deepEqual(float32View, mat.data32f());
         assert.deepEqual(float64View, mat.data64f());
     }
+
+    // test get_uchar(i)
+    {
+        let data = new Uint8Array([0, 0, 0, 255, 0, 1, 2, 3]),
+        dataPtr = cv._malloc(8);
+
+        let dataHeap = new Uint8Array(cv.HEAPU8.buffer, dataPtr, 8);
+        dataHeap.set(new Uint8Array(data.buffer));
+
+        let mat = new cv.Mat([8, 1], cv.CV_8UC1, dataPtr, 0);
+
+        assert.equal(mat.get_uchar_at(0), 0);
+        assert.equal(mat.get_uchar_at(1), 0);
+        assert.equal(mat.get_uchar_at(2), 0);
+        assert.equal(mat.get_uchar_at(3), 255);
+        assert.equal(mat.get_uchar_at(4), 0);
+        assert.equal(mat.get_uchar_at(5), 1);
+        assert.equal(mat.get_uchar_at(6), 2);
+        assert.equal(mat.get_uchar_at(7), 3);
+    }
+
+    // test get_ushort(i)
+    {
+        let data = new Uint16Array([0, 1000, 65000, 255, 0, 1, 2, 3]),
+            dataPtr = cv._malloc(16);
+
+        let dataHeap = new Uint16Array(cv.HEAPU8.buffer, dataPtr, 8);
+        dataHeap.set(new Uint16Array(data.buffer));
+
+        let mat = new cv.Mat([8, 1], cv.CV_16SC1, dataPtr, 0);
+
+        assert.equal(mat.get_ushort_at(0), 0);
+        assert.equal(mat.get_ushort_at(1), 1000);
+        assert.equal(mat.get_ushort_at(2), 65000);
+        assert.equal(mat.get_ushort_at(3), 255);
+        assert.equal(mat.get_ushort_at(4), 0);
+        assert.equal(mat.get_ushort_at(5), 1);
+        assert.equal(mat.get_ushort_at(6), 2);
+        assert.equal(mat.get_ushort_at(7), 3);
+    }
+
+    // test get_int(i)
+    {
+        let data = new Int32Array([0, -1000, 65000, 255, -2000000, -1, 2, 3]),
+            dataPtr = cv._malloc(32);
+
+        let dataHeap = new Int32Array(cv.HEAPU32.buffer, dataPtr, 8);
+        dataHeap.set(new Int32Array(data.buffer));
+
+        let mat = new cv.Mat([8, 1], cv.CV_32SC1, dataPtr, 0);
+
+        assert.equal(mat.get_int_at(0), 0);
+        assert.equal(mat.get_int_at(1), -1000);
+        assert.equal(mat.get_int_at(2), 65000);
+        assert.equal(mat.get_int_at(3), 255);
+        assert.equal(mat.get_int_at(4), -2000000);
+        assert.equal(mat.get_int_at(5), -1);
+        assert.equal(mat.get_int_at(6), 2);
+        assert.equal(mat.get_int_at(7), 3);
+    }
+
+    // test get_float(i)
+    {
+        const EPSILON = 0.001;
+        let data = new Float32Array([0, -10.5, 650.001, 255, -20.1, -1.2, 2, 3.5]),
+            dataPtr = cv._malloc(32);
+
+        let dataHeap = new Float32Array(cv.HEAPU32.buffer, dataPtr, 8);
+        dataHeap.set(new Float32Array(data.buffer));
+
+        let mat = new cv.Mat([8, 1], cv.CV_32FC1, dataPtr, 0);
+
+        assert.equal(Math.abs(mat.get_float_at(0)-0)       < EPSILON, true);
+        assert.equal(Math.abs(mat.get_float_at(1)+10.5)    < EPSILON, true);
+        assert.equal(Math.abs(mat.get_float_at(2)-650.001) < EPSILON, true);
+        assert.equal(Math.abs(mat.get_float_at(3)-255)     < EPSILON, true);
+        assert.equal(Math.abs(mat.get_float_at(4)+20.1)    < EPSILON, true);
+        assert.equal(Math.abs(mat.get_float_at(5)+1.2)     < EPSILON, true);
+        assert.equal(Math.abs(mat.get_float_at(6)-2)       < EPSILON, true);
+        assert.equal(Math.abs(mat.get_float_at(7)-3.5)     < EPSILON, true);
+    }
+
+    // test get_int(i,j)
+    {
+        let mat = cv.Mat.eye([3, 3], cv.CV_32SC1);
+
+        assert.equal(mat.get_int_at(0, 0), 1);
+        assert.equal(mat.get_int_at(0, 1), 0);
+        assert.equal(mat.get_int_at(0, 2), 0);
+        assert.equal(mat.get_int_at(1, 0), 0);
+        assert.equal(mat.get_int_at(1, 1), 1);
+        assert.equal(mat.get_int_at(1, 2), 0);
+        assert.equal(mat.get_int_at(2, 0), 0);
+        assert.equal(mat.get_int_at(2, 1), 0);
+        assert.equal(mat.get_int_at(2, 2), 1);
+
+        mat.delete();
+    }
+
 });
