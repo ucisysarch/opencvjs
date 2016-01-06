@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>OpenCV JS Binding - Features 2d Demo</title>
+		<title>OpenCV JS Binding - Image Processing Demo</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
@@ -12,430 +11,354 @@
 				background-color: #336677;
 				margin: 0px;
 			}
-
-
-
 			#showcase {
 				position: absolute;
-height: 80%;
-width: 80%;
-margin: -100px 0 0 -500px;
-top: 50%;
-left: 50%;
+				height: 80%;
+				width: 80%;
+				margin: -100px 0 0 -500px;
+				top: 50%;
+				left: 50%;
 			}
-
-
-
-
-	    canvas{
+	        canvas{
 				background-color: #999999;
-
 			}
-
-
 			a {
-
 				color: #0040ff;
-
 			}
 		</style>
 	</head>
 	<body>
-			<div class="spinner" id='spinner'></div>
+	<div class="spinner" id='spinner'></div>
     <div class="emscripten" id="status">Downloading...</div>
     <div class="emscripten">
       <progress value="0" max="100" id="progress" hidden=1></progress>
     </div>
 
-
-<div id="showcase">
-	<div>
-        <canvas  id="canvas1"  ></canvas>
-		<canvas  id="canvas2"  ></canvas>
+	<div id="showcase">
+		<div>
+	        <canvas  id="canvas1"  ></canvas>
+			<canvas  id="canvas2"  ></canvas>
+		</div>
+		<input type="file" id="input" name="file" />
 	</div>
-	<input type="file" id="input" name="file" />
-</div>
 
-
-
-		<script src='dat.gui.js'></script>
-		<script async src='zee.js'></script>
-		<!-- <script async src="cv.js"></script> -->
-
+	<script src='dat.gui.js'></script>
+	<script async src='zee.js'></script>
+	<script async src="cv.js"></script>
 
 		<script>
 
-			var face_cascade ;
-      var eye_cascade ;
-			var smile_cascade ;
+		var face_cascade ;
+  		var eye_cascade ;
+		var smile_cascade ;
 
-			show_image = function (mat, canvas_id ){
-				mat.data( function(data) {
-						// output is a Uint8Array that aliases directly into the Emscripten heap
+		show_image = function (mat, canvas_id ){
+			var data = mat.data(); 	// output is a Uint8Array that aliases directly into the Emscripten heap
 
+			channels = mat.channels();
+			channelSize = mat.elemSize1();
 
+			var canvas = document.getElementById(canvas_id);
 
-						channels = mat.channels() ;
-						channelSize = mat.elemSize1() ;
+			ctx = canvas.getContext("2d");
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-						//console.log( 'channels: ' , channels , ",elemsize1:" , channelSize , ",cols:", mat.cols, "rows:", mat.rows ) ;
+			canvas.width = mat.cols;
+			canvas.height = mat.rows;
 
-						var canvas = document.getElementById(canvas_id);
+			imdata = ctx.createImageData(mat.cols, mat.rows);
 
-						ctx = canvas.getContext("2d");
-						ctx.clearRect ( 0 , 0 , canvas.width, canvas.height );
-
-						canvas.width = mat.cols ;
-						canvas.height = mat.rows ;
-						//ctx.fillStyle = "red";
-						//ctx.fillRect( 0, 0, mat.cols * 4 , mat.rows  * 4 ) ;
-
-						imdata = ctx.createImageData(mat.cols, mat.rows)
-
-						for (var i = 0,j=0; i < data.length; i += channels, j+=4) {
-
-							imdata.data[j] = data[i];
-							imdata.data[j + 1] = data[i+1%channels];
-							imdata.data[j + 2] = data[i+2%channels];
-							imdata.data[j + 3] = 255;
-						}
-
-
-						ctx.putImageData( imdata , 0, 0) ;
-
-					});
+			for (var i = 0,j=0; i < data.length; i += channels, j+=4) {
+				imdata.data[j] = data[i];
+				imdata.data[j + 1] = data[i+1%channels];
+				imdata.data[j + 2] = data[i+2%channels];
+				imdata.data[j + 3] = 255;
 			}
+			ctx.putImageData(imdata, 0, 0);
+		}
 
-	     var inputElement = document.getElementById("input");
-         inputElement.addEventListener("change", handleFiles, false);
-				function handleFiles(e) {
-					var canvas = document.getElementById('canvas1') ;
-					var canvasWidth = 600 ;
-					var canvasHeight = 400 ;
-				  var ctx = canvas.getContext('2d');
-			    var url = URL.createObjectURL(e.target.files[0]);
-			    var img = new Image();
-			    img.onload = function() {
-			        //ctx.drawImage(img, 20, 20);
+		var inputElement = document.getElementById("input");
+	 	inputElement.addEventListener("change", handleFiles, false);
+		function handleFiles(e) {
+			var canvas = document.getElementById('canvas1');
+			var canvasWidth = 600 ;
+			var canvasHeight = 400 ;
+			var ctx = canvas.getContext('2d');
+			var url = URL.createObjectURL(e.target.files[0]);
+			var img = new Image();
+			img.onload = function() {
+				//ctx.drawImage(img, 20, 20);
 
-				      var scaleFactor=Math.min((canvasWidth/img.width),(canvasHeight/img.height));
-    					canvas.width = img.width*scaleFactor ;
-							canvas.height = img.height*scaleFactor ;
-							ctx.drawImage(img,0,0,img.width*scaleFactor,img.height*scaleFactor);
-			    }
-			    img.src = url;
+				var scaleFactor=Math.min((canvasWidth/img.width),(canvasHeight/img.height));
+				canvas.width = img.width*scaleFactor ;
+				canvas.height = img.height*scaleFactor ;
+				ctx.drawImage(img,0,0,img.width*scaleFactor,img.height*scaleFactor);
+			}
+			img.src = url;
+		}
+
+		function getInput() {
+			var canvas = document.getElementById('canvas1');
+			var ctx = canvas.getContext('2d');
+			var imgData = ctx.getImageData(0,0,canvas.width, canvas.height);
+			return imgData;
+		}
+
+		function orb() {
+			var img = cv.matFromArray(getInput(), 24); // 24 for rgba
+			var img_color = new cv.Mat(); // Opencv likes RGB
+			cv.cvtColor(img, img_color, cv.ColorConversionCodes.COLOR_RGBA2RGB.value, 0);
+			img.delete();
+
+			var noArray = new cv.Mat();
+
+			// Initiate STAR detector
+			var orb = new cv.ORB(500, 1.2, 8, 31, 0, 2, 0, 31, 20);
+
+			// find the keypoints with ORB
+			var kp = new cv.KeyPointVector();
+			orb.detect(img_color, kp, noArray);
+
+			// compute the descriptors with ORB
+			var des = new cv.Mat();
+			orb.compute(img_color, kp, des);
+
+			// draw only keypoints location,not size and orientation
+			var img2 = new cv.Mat();
+			var color = new cv.Scalar(0, 255, 0);
+			cv.drawKeypoints(img_color, kp, img2, color, 0);
+			show_image(img2, "canvas2");
+
+			img2.delete();
+			kp.delete();
+			color.delete();
+			orb.delete();
+			des.delete();
+			img_color.delete();
+		}
+
+		function brisk() {
+			var img = cv.matFromArray(getInput(), 24); // 24 for rgba
+			var img_color = new cv.Mat(); // Opencv likes RGB
+			cv.cvtColor(img, img_color, cv.ColorConversionCodes.COLOR_RGBA2RGB.value, 0);
+			img.delete();
+
+			// Initiate STAR detector
+			var brisk = new cv.BRISK(30, 1, 3);
+
+			// find the keypoints with ORB
+			var kp = new cv.KeyPointVector();
+			brisk.detect(img_color,kp, new cv.Mat());
+
+			// compute the descriptors with ORB
+			var des = new cv.Mat();
+			brisk.compute(img_color, kp, des);
+
+			// draw only keypoints location,not size and orientation
+			var img2 = new cv.Mat();
+			var color = new cv.Scalar(0,255,0);
+			cv.drawKeypoints(img_color, kp, img2, color, 0);
+			show_image(img2, "canvas2");
+
+			kp.delete();
+			color.delete();
+			brisk.delete();
+			des.delete();
+			img_color.delete();
+		}
+
+
+		function mser() {
+			var img = cv.matFromArray(getInput(), 24); // 24 for rgba
+			var img_color = new cv.Mat(); // Opencv likes RGB
+			cv.cvtColor(img, img_color, cv.ColorConversionCodes.COLOR_RGBA2RGB.value, 0);
+			img.delete();
+
+			// Initiate STAR detector
+			var mser = new cv.MSER(5, 60, 14400, 0.25, 0.2, 200, 1.01, 0.003, 5);
+
+			var contours = new cv.PointVectorVector();
+			var kp = new cv.KeyPointVector();
+			var boxes = new cv.RectVector();
+
+			mser.detectRegions(img_color, contours, boxes);
+			var img2 = img_color.clone();
+
+			var channels = img2.channels();
+			var cols = img2.cols;
+
+			var data = img2.data();
+			for (var i = 0 ;i < contours.size(); i+=1) {
+				var contour = contours.get(i);
+				for (var j = 0 ; j < contour.size(); j+=1) {
+					var p = contour.get(j);
+					data[(p[1] * cols + p[0] )* channels] = 255;
 				}
-
-      function getInput(){
-				var canvas = document.getElementById('canvas1');
-				var ctx = canvas.getContext('2d');
-				var imgData = ctx.getImageData(0,0,canvas.width, canvas.height);
-				return imgData;
+				contour.delete();
 			}
 
-			function orb(){
+			contours.delete();
+			mser.delete();
 
-				var img = cv.matFromArray( getInput() , 24 ) ; // 24 for rgba
-				var img_color = new cv.Mat() ; // Opencv likes RGB
-				cv.cvtColor(img, img_color , cv.cv_ColorConversionCodes.COLOR_RGBA2RGB.value, 0 ) ;
-				img.delete() ;
+			show_image(img2, "canvas2");
+			img2.delete();
+			img_color.delete();
+			kp.delete();
+			boxes.delete();
+		}
 
+		function shiThomasCornerDetection() {
 
-				// Initiate STAR detector
-				var ptrOrb = cv.ORB.create(500,1.2, 8, 31,0, 2,0, 31,20) ;
-				var orb = ptrOrb.get() ;
+			var img = cv.matFromArray(getInput(), 24); // 24 for rgba
+			var img_gray = new cv.Mat();
+			var img_color = new cv.Mat(); // Opencv likes RGB
+			cv.cvtColor(img, img_gray, cv.ColorConversionCodes.COLOR_RGBA2GRAY.value, 0);
+			cv.cvtColor(img, img_color, cv.ColorConversionCodes.COLOR_RGBA2RGB.value, 0);
+			img.delete();
 
+			var corners = new cv.Mat();
+			var qualityLevel = 0.01;
+			var minDistance = 10;
+			var blockSize = 3;
+			var useHarrisDetector = false;
+			var k = 0.04;
+			var maxCorners = Control.maxCorners ;
 
-				// find the keypoints with ORB
-				var kp = new cv.KeyPointVector() ;
-				orb.detect(img_color,kp , new cv.Mat() );
+			var copy = new cv.Mat();
+			copy = img_color.clone();
 
-				// compute the descriptors with ORB
-				var des = new cv.Mat() ;
-				orb.compute(img_color, kp , des )  ;
+			/// Apply corner detection
+			cv.goodFeaturesToTrack(img_gray,
+									corners,
+									maxCorners,
+									qualityLevel,
+									minDistance,
+									new cv.Mat(),
+									blockSize,
+									useHarrisDetector,
+									k);
+			img_gray.delete();
+			img_color.delete();
 
-				// draw only keypoints location,not size and orientation
-				var img2 = new cv.Mat() ;
-				var color = new cv.Scalar(0,255,0) ;
-				cv.drawKeypoints(img_color,kp,img2 , color,0) ;
-				show_image( img2 , "canvas2" ) ;
-
-				img2.delete() ;
-				kp.delete() ;
-				color.delete() ;
-				orb.delete() ;
-				des.delete() ;
-				img_color.delete() ;
-
-
+			/// Draw corners detected
+			console.log("Number of corners detected: " + corners.rows, corners.cols, corners.channels(), corners.elemSize1());
+			var r = 4;
+			var data = corners.data32s();
+			for(var i = 0; i < corners.rows; i++ )
+			{
+				var x = corners.ptr(i, 0);
+				var y = corners.ptr(i, 1);
+				var color =  new cv.Scalar(10,200,10);
+				cv.circle(copy, [x, y], r, color, -1, 8, 0);
+				color.delete();
 			}
+			/// Show what you got
+			show_image(copy, "canvas2");
+			copy.delete();
+			corners.delete();
+		}
 
-			function brisk(){
+		function harrisCornerDetection() {
 
-				var img = cv.matFromArray( getInput() , 24 ) ; // 24 for rgba
-				var img_color = new cv.Mat() ; // Opencv likes RGB
-				cv.cvtColor(img, img_color , cv.cv_ColorConversionCodes.COLOR_RGBA2RGB.value, 0 ) ;
-				img.delete() ;
-
-
-				// Initiate STAR detector
-				var ptrBrisk = cv.BRISK.create(30,1,3) ;
-				var brisk = ptrBrisk.get() ;
-
-
-				// find the keypoints with ORB
-				var kp = new cv.KeyPointVector() ;
-				brisk.detect(img_color,kp , new cv.Mat() );
-
-				// compute the descriptors with ORB
-				var des = new cv.Mat() ;
-				brisk.compute(img_color, kp , des )  ;
-
-				// draw only keypoints location,not size and orientation
-				var img2 = new cv.Mat() ;
-				var color = new cv.Scalar(0,255,0) ;
-				cv.drawKeypoints(img_color,kp,img2 , color,0) ;
-				show_image( img2 , "canvas2" ) ;
+			var img = cv.matFromArray(getInput(), 24); // 24 for rgba
+			var img_gray = new cv.Mat();
+			var img_color = new cv.Mat(); // Opencv likes RGB
+			cv.cvtColor(img, img_gray, cv.ColorConversionCodes.COLOR_RGBA2GRAY.value, 0);
+			cv.cvtColor(img, img_color, cv.ColorConversionCodes.COLOR_RGBA2RGB.value, 0);
+			img.delete();
 
 
-				img2.delete() ;
-				kp.delete() ;
-				color.delete() ;
-				brisk.delete() ;
-				des.delete() ;
-				img_color.delete() ;
+			var size = img_color.size();
+			var dst = cv.Mat.zeros(size.get(0), size.get(1), cv.CV_32FC1);
 
+			/// Detector parameters
+
+			var thresh = Control.threshold;
+			var max_thresh = 255;
+
+			var blockSize = 2;
+			var apertureSize = 3;
+			var k = 0.04;
+
+			/// Detecting corners
+			cv.cornerHarris(img_gray, dst, blockSize, apertureSize, k);
+
+			/// Normalizing
+			var dst_norm = new cv.Mat();
+			var dst_norm_scaled = new cv.Mat();
+			cv.normalize(dst, dst_norm, 0, 255, 32, cv.CV_32FC1, new cv.Mat());
+			cv.convertScaleAbs(dst_norm, dst_norm_scaled);
+
+			/// Drawing a circle around corners
+			for(var j = 0; j < dst_norm.rows ; j++ )
+			{ for(var i = 0; i < dst_norm.cols; i++ )
+			  {
+			    if( dst_norm.at_float_ii(j,i) > thresh )
+			      {
+									var point = new cv.Point(i,j);
+									var color = new cv.Scalar(0);
+			        cv.circle(dst_norm_scaled, point, 5,  color, 2, 8, 0);
+								  point.delete();
+									color.delete();
+			      }
+			  }
 			}
-
-
-			function mser(){
-
-				var img = cv.matFromArray( getInput() , 24 ) ; // 24 for rgba
-				var img_color = new cv.Mat() ; // Opencv likes RGB
-				cv.cvtColor(img, img_color , cv.cv_ColorConversionCodes.COLOR_RGBA2RGB.value, 0 ) ;
-				img.delete() ;
-
-
-				// Initiate STAR detector
-				var ptrMSER = cv.MSER.create(5, 60, 14400,0.25,0.2,200, 1.01,0.003, 5 ) ;
-				var mser = ptrMSER.get() ;
-
-				var contours = new cv.PointVectorVector() ;
-				var kp = new cv.KeyPointVector() ;
-				var boxes = new cv.RectVector() ;
-
-				mser.detectRegions(img_color, contours, boxes );
-				var img2 = img_color.clone() ;
-
-				var channels = img2.channels() ;
-				var cols = img2.cols ;
-
-				img2.data( function(data) { //uchar pointer
-					for (var i = 0 ;i < contours.size() ; i+=1){
-						var contour = contours.get(i);
-						for (var j = 0 ; j < contour.size() ; j+=1 ){
-								var p = contour.get(j) ;
-								data[(p.y* cols + p.x )* channels] = 255;
-								p.delete() ;
-						}
-						contour.delete() ;
-					}
-				});
-
-				contours.delete() ;
-				mser.delete() ;
-
-
-				show_image( img2 , "canvas2");
-				img2.delete();
-				img_color.delete() ;
-				kp.delete() ;
-				boxes.delete() ;
-
-
-			}
-
-			function shiThomasCornerDetection(){
-
-					var img = cv.matFromArray( getInput() , 24 ) ; // 24 for rgba
-					var img_gray = new cv.Mat() ;
-					var img_color = new cv.Mat() ; // Opencv likes RGB
-					cv.cvtColor(img, img_gray , cv.cv_ColorConversionCodes.COLOR_RGBA2GRAY.value, 0 ) ;
-					cv.cvtColor(img, img_color , cv.cv_ColorConversionCodes.COLOR_RGBA2RGB.value, 0 ) ;
-					img.delete() ;
-
-
-
-					var corners = new cv.Point2fVector() ;
-				  var qualityLevel = 0.01;
-				  var minDistance = 10;
-				  var blockSize = 3;
-				  var useHarrisDetector = false;
-				  var k = 0.04;
-					var maxCorners =  Control.maxCorners ;
-
-					var copy = new cv.Mat() ;
-					copy = img_color.clone();
-
-				  /// Apply corner detection
-				  cv.goodFeaturesToTrack( img_gray,
-				               corners,
-				               maxCorners,
-				               qualityLevel,
-				               minDistance,
-				               new cv.Mat(),
-				               blockSize,
-				               useHarrisDetector,
-				               k );
-					  img_gray.delete() ;
-						img_color.delete() ;
-
-					  /// Draw corners detected
-					  console.log("Number of corners detected: " + corners.size() );
-					  var r = 4;
-					  for( var i = 0; i < corners.size(); i++ )
-					  {
-							var point = new cv.Point();
-							point.x = corners.get(i).x ;
-							point.y = corners.get(i).y ;
-							var color =  new cv.Scalar(10,200,10) ;
-							cv.circle( copy, point, r, color , -1, 8, 0 );
-							point.delete() ;
-							color.delete();
-						}
-
-					  /// Show what you got
-					  show_image( copy , "canvas2");
-						copy.delete();
-						corners.delete();
-
-
-			}
-
-			function harrisCornerDetection(){
-
-				var img = cv.matFromArray( getInput() , 24 ) ; // 24 for rgba
-				var img_gray = new cv.Mat() ;
-				var img_color = new cv.Mat() ; // Opencv likes RGB
-				cv.cvtColor(img, img_gray , cv.cv_ColorConversionCodes.COLOR_RGBA2GRAY.value, 0 ) ;
-				cv.cvtColor(img, img_color , cv.cv_ColorConversionCodes.COLOR_RGBA2RGB.value, 0 ) ;
-				img.delete() ;
-
-
-  			var dst = cv.Mat.zeros( img_color.size(), cv.CV_32FC1 );
-
-			  /// Detector parameters
-
-				var thresh = Control.threshold;
-				var max_thresh = 255;
-
-			  var blockSize = 2;
-			  var apertureSize = 3;
-			  var k = 0.04;
-
-			  /// Detecting corners
-			  cv.cornerHarris( img_gray, dst, blockSize, apertureSize, k );
-
-			  /// Normalizing
-				var dst_norm = new cv.Mat();
-				var dst_norm_scaled = new cv.Mat();
-			  cv.normalize( dst, dst_norm, 0, 255, 32 , cv.CV_32FC1, new cv.Mat() );
-			  cv.convertScaleAbs( dst_norm, dst_norm_scaled );
-
-			  /// Drawing a circle around corners
-			  for( var j = 0; j < dst_norm.rows ; j++ )
-			     { for( var i = 0; i < dst_norm.cols; i++ )
-			          {
-			            if(  dst_norm.at_float_ii(j,i) > thresh )
-			              {
-											var point = new cv.Point(i,j);
-											var color = new cv.Scalar(0) ;
-			                cv.circle( dst_norm_scaled, point, 5,  color, 2, 8, 0 );
-										  point.delete();
-											color.delete() ;
-			              }
-			          }
-			     }
-			  /// Showing the result
-			  show_image(  dst_norm_scaled , "canvas2" );
-				dst.delete();
-				dst_norm.delete() ;
-				dst_norm_scaled.delete() ;
-				img_gray.delete() ;
-				img_color.delete();
-
-			}
-
-
-
-
-			var container ;
-			var Zee ;
-			var Control =  {
-				threshold : 200 ,
-				maxCorners : 10 ,
-				Harris : harrisCornerDetection,
-				ShiThomas : shiThomasCornerDetection ,
-				orb : orb ,
-				brisk : brisk ,
-				mser : mser
-			};
-
-
-
-
-
-			function init() {
-
-				container = document.createElement( 'div' );
-				document.body.appendChild( container );
-
-
-				gui = new dat.GUI({autoPlace: false});
-				document.body.appendChild(gui.domElement);
-				gui.domElement.style.position = "absolute";
-				gui.domElement.style.top = "0px";
-				gui.domElement.style.right = "5px";
-
-				//Color Space Changed
-				var cornereFolder = gui.addFolder('Corner Detectoin');
-				cornereFolder.add( Control , 'threshold' ).min(120).max(255);
-				cornereFolder.add(Control,'Harris');
-				cornereFolder.add( Control , 'maxCorners' ).min(1).max(50);
-				cornereFolder.add(Control,'ShiThomas');
-
-
-
-				//cSpaceFolder.add(Control,'detectSmile');
-
-				var orbFolder = gui.addFolder('ORB Feature Extraction');
-				orbFolder.add(Control,'orb');
-
-				var orbFolder = gui.addFolder('BRISK Feature Extraction');
-				orbFolder.add(Control,'brisk');
-
-
-				var orbFolder = gui.addFolder('MSER Feature Extraction');
-				orbFolder.add(Control,'mser');
-
-
-				//cSpaceFolder.add(Control,'Feature Detection');
-				//cSpaceFolder.open();
-
-				//Blurring
-				//var blurFolder = gui.addFolder('Matching');
-
-
-
-
-
-			}
-			init();
+			/// Showing the result
+			show_image( dst_norm_scaled, "canvas2");
+			dst.delete();
+			dst_norm.delete();
+			dst_norm_scaled.delete();
+			img_gray.delete();
+			img_color.delete();
+			size.delete();
+
+		}
+
+		var container ;
+		var Zee ;
+		var Control =  {
+			threshold : 200 ,
+			maxCorners : 10 ,
+			Harris : harrisCornerDetection,
+			ShiThomas : shiThomasCornerDetection ,
+			orb : orb ,
+			brisk : brisk ,
+			mser : mser
+		};
+
+		function init() {
+			container = document.createElement('div');
+			document.body.appendChild(container);
+
+			gui = new dat.GUI({autoPlace: false});
+			document.body.appendChild(gui.domElement);
+			gui.domElement.style.position = "absolute";
+			gui.domElement.style.top = "0px";
+			gui.domElement.style.right = "5px";
+
+			//Color Space Changed
+			var cornereFolder = gui.addFolder('Corner Detectoin');
+			cornereFolder.add(Control, 'threshold' ).min(120).max(255);
+			cornereFolder.add(Control,'Harris');
+			cornereFolder.add(Control, 'maxCorners' ).min(1).max(50);
+			cornereFolder.add(Control,'ShiThomas');
+
+			var orbFolder = gui.addFolder('ORB Feature Extraction');
+			orbFolder.add(Control,'orb');
+
+			var orbFolder = gui.addFolder('BRISK Feature Extraction');
+			orbFolder.add(Control,'brisk');
+
+			var orbFolder = gui.addFolder('MSER Feature Extraction');
+			orbFolder.add(Control,'mser');
+
+		}
+		init();
 
 		</script>
 		<script  type='text/javascript'>
 
-	    function getCV(){
+	    function getCV() {
 
 			var zip ;
 			var oReq = new XMLHttpRequest();
@@ -446,9 +369,9 @@ left: 50%;
 			  var arrayBuffer = oReq.response; // Note: not oReq.responseText
 			  if (arrayBuffer) {
 					zip = new Uint8Array(arrayBuffer);
-					console.log("decompressing script") ;
-					var decompressed = Zee.decompress(zip) ;
-					console.log("script decompressed") ;
+					console.log("decompressing script");
+					var decompressed = Zee.decompress(zip);
+					console.log("script decompressed");
 					var head= document.getElementsByTagName('head')[0];
 					var script= document.createElement('script');
 					script.type= 'text/javascript';
@@ -456,11 +379,11 @@ left: 50%;
 					//fr = new FileReader();
 					// fr.readAsText(decompressed);
 					//var x = fr.result;
-					//script.text = decompressed.join() ;
-					decoder = new TextDecoder() ;
+					//script.text = decompressed.join();
+					decoder = new TextDecoder();
 					script.text = decoder.decode(decompressed);
 					head.appendChild(script);
-					console.log("script added") ;
+					console.log("script added");
 			  }
 
 
@@ -469,8 +392,8 @@ left: 50%;
 			oReq.send(null);
 		}
 		var statusElement = document.getElementById('status');
-      var progressElement = document.getElementById('progress');
-      var spinnerElement = document.getElementById('spinner');
+		var progressElement = document.getElementById('progress');
+		var spinnerElement = document.getElementById('spinner');
 		var Module = {
         preRun: [],
         postRun: [],
@@ -541,8 +464,8 @@ left: 50%;
 
 
 	  window.onload = function (event){
-		  Zee = ZeeLib(Module) ;
-		  getCV() ;
+		  Zee = ZeeLib(Module);
+		  //getCV();
 
 			var canvas = document.getElementById("canvas1");
 			var context = canvas.getContext("2d");
