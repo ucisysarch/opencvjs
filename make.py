@@ -2,8 +2,6 @@
 import os, sys, re, json, shutil
 from subprocess import Popen, PIPE, STDOUT
 
-
-
 # Startup
 exec(open(os.path.expanduser('~/.emscripten'), 'r').read())
 
@@ -30,13 +28,11 @@ import tools.shared as emscripten
 #TODO No Filesystem
 #emcc_args = sys.argv[1:] or '-O3 --llvm-lto 1 -s NO_EXIT_RUNTIME=1 -s ASSERTIOSN=1 -s AGGRESSIVE_VARIABLE_ELIMINATION=1 -s NO_DYNAMIC_EXECUTION=0 --memory-init-file 0 -s NO_FILESYSTEM#=1 -s NO_BROWSER=1'.split(' ')
 
+# TODO: -msse2, SIMD.js is complaint with SSE2
 
-emcc_args = '-O3 --llvm-lto 1 -s NO_EXIT_RUNTIME=1 -s ASSERTIONS=1 -s AGGRESSIVE_VARIABLE_ELIMINATION=1 -s NO_DYNAMIC_EXECUTION=0 --memory-init-file 0 -s NO_FILESYSTEM=0 -s NO_BROWSER=0'.split(' ')
+emcc_args = '-O3 --llvm-lto 1 -s NO_EXIT_RUNTIME=1 -s ASSERTIONS=1 -s AGGRESSIVE_VARIABLE_ELIMINATION=0 -s NO_DYNAMIC_EXECUTION=0 --memory-init-file 0 -s NO_FILESYSTEM=0 -s NO_BROWSER=0'.split(' ')
+#emcc_args += '-s ALLOW_MEMORY_GROWTH=1'  # resizable heap
 
-emcc_args += [ '-s', 'TOTAL_MEMORY=%d' % (64*1024*1024)] # default 64MB. Compile with ALLOW_MEMORY_GROWTH if you want a growable heap (slower though).
-#emcc_args += ['-s', 'ALLOW_MEMORY_GROWTH=1'] # resizable heap, with some amount of slowness
-
-emcc_args += '-s EXPORT_NAME="cv" -s MODULARIZE=1'.split(' ')
 
 print
 print '--------------------------------------------------'
@@ -44,8 +40,6 @@ print 'Building opencv.js, build type:', emcc_args
 print '--------------------------------------------------'
 print
 
-
-# Utilities
 
 stage_counter = 0
 def stage(text):
@@ -63,120 +57,167 @@ try:
     this_dir = os.getcwd()
     os.chdir('opencv')
     if not os.path.exists('build'):
-       os.makedirs('build')
+        os.makedirs('build')
     os.chdir('build')
 
-    
     stage('OpenCV Configuration')
-
-    configuration = ['cmake' , '-DBUILD_DOCS=OFF', '-DBUILD_PACKAGE=OFF', '-DBUILD_WITH_DEBUG_INFO=OFF' ,'-DBUILD_opencv_bioinspired=OFF' ,'-DBUILD_opencv_calib3d=OFF',  '-DBUILD_opencv_cuda=OFF','-DBUILD_opencv_cudaarithm=OFF', '-DBUILD_opencv_cudabgsegm=OFF', '-DBUILD_opencv_cudacodec=OFF', '-DBUILD_opencv_cudafeatures2d=OFF', '-DBUILD_opencv_cudafilters=OFF', '-DBUILD_opencv_cudaimgproc=OFF','-DBUILD_opencv_cudaoptflow=OFF', '-DBUILD_opencv_cudastereo=OFF' ,'-DBUILD_opencv_cudawarping=OFF', '-DBUILD_opencv_gpu=OFF', '-DBUILD_opencv_gpuarithm=OFF','-DBUILD_opencv_gpubgsegm=OFF', '-DBUILD_opencv_gpucodec=OFF', '-DBUILD_opencv_gpufeatures2d=OFF', '-DBUILD_opencv_gpufilters=OFF', '-DBUILD_opencv_gpuimgproc=OFF', '-DBUILD_opencv_gpuoptflow=OFF' ,'-DBUILD_opencv_gpustereo=OFF','-DBUILD_opencv_gpuwarping=OFF', '-DBUILD_opencv_highgui=ON', '-DBUILD_opencv_java=OFF', '-DBUILD_opencv_legacy=OFF', '-DBUILD_opencv_ml=ON', '-DBUILD_opencv_nonfree=OFF', '-DBUILD_opencv_optim=OFF', '-DBUILD_opencv_photo=OFF', '-DBUILD_opencv_shape=OFF', '-DBUILD_opencv_softcascade=OFF', '-DBUILD_opencv_stitching=OFF', '-DBUILD_opencv_superres=OFF', '-DBUILD_opencv_ts=OFF',  '-DBUILD_opencv_videostab=OFF', '-DENABLE_PRECOMPILED_HEADERS=ON', '-DWITH_1394=OFF','-DWITH_CUDA=OFF', '-DWITH_CUFFT=OFF', '-DWITH_EIGEN=OFF', '-DWITH_FFMPEG=OFF', '-DWITH_GIGEAPI=OFF', '-DWITH_GSTREAMER=OFF', '-DWITH_GTK=OFF', '-DWITH_JASPER=OFF', '-DWITH_JPEG=ON', '-DWITH_OPENCL=OFF', '-DWITH_OPENCLAMDBLAS=OFF', '-DWITH_OPENCLAMDFFT=OFF', '-DWITH_OPENEXR=OFF', '-DWITH_PNG=ON', '-DWITH_PVAPI=OFF', '-DWITH_TIFF=OFF', '-DWITH_LIBV4L=OFF', '-DWITH_WEBP=ON' ,'-DBUILD_opencv_apps=OFF', '-DBUILD_PERF_TESTS=OFF',  '-DBUILD_SHARED_LIBS=OFF' , '..']
-
-
+    configuration = ['cmake',
+                     '-DCMAKE_BUILD_TYPE=RELEASE',
+                     '-DBUILD_DOCS=OFF',
+                     '-DBUILD_EXAMPLES=OFF',
+                     '-DBUILD_PACKAGE=OFF',
+                     '-DBUILD_WITH_DEBUG_INFO=OFF',
+                     '-DBUILD_opencv_bioinspired=OFF',
+                     '-DBUILD_opencv_calib3d=OFF',
+                     '-DBUILD_opencv_cuda=OFF',
+                     '-DBUILD_opencv_cudaarithm=OFF',
+                     '-DBUILD_opencv_cudabgsegm=OFF',
+                     '-DBUILD_opencv_cudacodec=OFF',
+                     '-DBUILD_opencv_cudafeatures2d=OFF',
+                     '-DBUILD_opencv_cudafilters=OFF',
+                     '-DBUILD_opencv_cudaimgproc=OFF',
+                     '-DBUILD_opencv_cudaoptflow=OFF',
+                     '-DBUILD_opencv_cudastereo=OFF',
+                     '-DBUILD_opencv_cudawarping=OFF',
+                     '-DBUILD_opencv_gpu=OFF',
+                     '-DBUILD_opencv_gpuarithm=OFF',
+                     '-DBUILD_opencv_gpubgsegm=OFF',
+                     '-DBUILD_opencv_gpucodec=OFF',
+                     '-DBUILD_opencv_gpufeatures2d=OFF',
+                     '-DBUILD_opencv_gpufilters=OFF',
+                     '-DBUILD_opencv_gpuimgproc=OFF',
+                     '-DBUILD_opencv_gpuoptflow=OFF',
+                     '-DBUILD_opencv_gpustereo=OFF',
+                     '-DBUILD_opencv_gpuwarping=OFF',
+                     '-BUILD_opencv_hal=ON',
+                     '-DBUILD_opencv_highgui=ON',
+                     '-DBUILD_opencv_java=OFF',
+                     '-DBUILD_opencv_legacy=ON',
+                     '-DBUILD_opencv_ml=ON',
+                     '-DBUILD_opencv_nonfree=OFF',
+                     '-DBUILD_opencv_optim=OFF',
+                     '-DBUILD_opencv_photo=ON',
+                     '-DBUILD_opencv_shape=ON',
+                     '-DBUILD_opencv_objdetect=ON',
+                     '-DBUILD_opencv_softcascade=ON',
+                     '-DBUILD_opencv_stitching=OFF',
+                     '-DBUILD_opencv_superres=OFF',
+                     '-DBUILD_opencv_ts=OFF',
+                     '-DBUILD_opencv_videostab=OFF',
+                     '-DENABLE_PRECOMPILED_HEADERS=ON',
+                     '-DWITH_1394=OFF',
+                     '-DWITH_CUDA=OFF',
+                     '-DWITH_CUFFT=OFF',
+                     '-DWITH_EIGEN=OFF',
+                     '-DWITH_FFMPEG=OFF',
+                     '-DWITH_GIGEAPI=OFF',
+                     '-DWITH_GSTREAMER=OFF',
+                     '-DWITH_GTK=OFF',
+                     '-DWITH_JASPER=OFF',
+                     '-DWITH_JPEG=ON',
+                     '-DWITH_OPENCL=OFF',
+                     '-DWITH_OPENCLAMDBLAS=OFF',
+                     '-DWITH_OPENCLAMDFFT=OFF',
+                     '-DWITH_OPENEXR=OFF',
+                     '-DWITH_PNG=ON',
+                     '-DWITH_PVAPI=OFF',
+                     '-DWITH_TIFF=OFF',
+                     '-DWITH_LIBV4L=OFF',
+                     '-DWITH_WEBP=OFF',
+                     '-DBUILD_opencv_apps=OFF',
+                     '-DBUILD_PERF_TESTS=OFF',
+                     '-DBUILD_TESTS=OFF',
+                     '-DBUILD_SHARED_LIBS=OFF',
+                     '-DWITH_IPP=OFF',
+                     '-DENABLE_SSE=OFF',
+                     '-DENABLE_SSE2=OFF',
+                     '-DENABLE_SSE3=OFF',
+                     '-DENABLE_SSE41=OFF',
+                     '-DENABLE_SSE42=OFF',
+                     '-DENABLE_AVX=OFF',
+                     '-DENABLE_AVX2=OFF',
+                     '-DCMAKE_CXX_FLAGS=%s' % ' '.join(emcc_args),
+                     '-DCMAKE_EXE_LINKER_FLAGS=%s' % ' '.join(emcc_args),
+                     '-DCMAKE_CXX_FLAGS_DEBUG=%s' % ' '.join(emcc_args),
+                     '-DCMAKE_CXX_FLAGS_RELWITHDEBINFO=%s' % ' '.join(emcc_args),
+                     '-DCMAKE_C_FLAGS_RELWITHDEBINFO=%s' % ' '.join(emcc_args),
+                     '-DCMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO=%s' % ' '.join(emcc_args),
+                     '-DCMAKE_MODULE_LINKER_FLAGS_RELEASE=%s' % ' '.join(emcc_args),
+                     '-DCMAKE_MODULE_LINKER_FLAGS_DEBUG=%s' % ' '.join(emcc_args),
+                     '-DCMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO=%s' % ' '.join(emcc_args),
+                     '-DCMAKE_SHARED_LINKER_FLAGS_RELEASE=%s' % ' '.join(emcc_args),
+                     '-DCMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO=%s' % ' '.join(emcc_args),
+                     '-DCMAKE_SHARED_LINKER_FLAGS_DEBUG=%s' % ' '.join(emcc_args),
+                     '..']
     emscripten.Building.configure(configuration)
 
-    stage('OpenCV Make')
 
-    emscripten.Building.make(['make', '-j'])
+    stage('Making OpenCV')
 
+    emcc_args += ('-s TOTAL_MEMORY=%d' % (128*1024*1024)).split(' ') # default 128MB.
+    emcc_args += '-s EXPORT_NAME="cv" -s MODULARIZE=1'.split(' ')
 
-    stage('Generate Bindings')
+    emscripten.Building.make(['make', '-j1'])
+
+    stage('Generating Bindings')
     INCLUDE_DIRS = [
-             os.path.join('..', 'modules' , 'core' , 'include'),
-             os.path.join('..', 'modules' , 'flann' , 'include'),
-             os.path.join('..', 'modules' , 'ml' , 'include'),
-             os.path.join('..', 'modules' , 'imgproc' , 'include'),
-             os.path.join('..', 'modules' , 'calib3d' , 'include'),
-             os.path.join('..', 'modules' , 'features2d' , 'include'),
-             os.path.join('..', 'modules' , 'video' , 'include'),
-             os.path.join('..', 'modules' , 'objdetect' , 'include'),
-             os.path.join('..', 'modules' , 'imgcodecs' , 'include'),
-             os.path.join('..', 'modules' , 'videoio' , 'include'),
-             os.path.join('..', 'modules' , 'highgui' , 'include') ,
-             os.path.join('..', 'modules' , 'hal' , 'include')
+             os.path.join('..', 'modules', 'core', 'include'),
+             os.path.join('..', 'modules', 'flann', 'include'),
+             os.path.join('..', 'modules', 'ml', 'include'),
+             os.path.join('..', 'modules', 'photo', 'include'),
+             os.path.join('..', 'modules', 'shape', 'include'),
+             os.path.join('..', 'modules', 'imgproc', 'include'),
+             os.path.join('..', 'modules', 'calib3d', 'include'),
+             os.path.join('..', 'modules', 'features2d', 'include'),
+             os.path.join('..', 'modules', 'video', 'include'),
+             os.path.join('..', 'modules', 'objdetect', 'include'),
+             os.path.join('..', 'modules', 'imgcodecs', 'include'),
+             os.path.join('..', 'modules', 'hal', 'include')
     ]
     include_dir_args = ['-I'+item for item in INCLUDE_DIRS]
-    print  include_dir_args 
-    emcc_binding_args = [ '--bind' ]
+    emcc_binding_args = ['--bind']
     emcc_binding_args += include_dir_args
-    #TODO Generate separate bindings for each module
-    emscripten.Building.emcc('../../bindings.cpp', emcc_binding_args ,  'bindings.bc')
-    assert os.path.exists('bindings.bc') 
 
-    #stage('Generate Helper Methods')
-    #emcc_binding_args = [ '-std=c++11' ]
-    #emcc_binding_args += include_dir_args
-    #emscripten.Building.emcc('../../helper.cpp', emcc_binding_args ,  'helper.bc')
+    emscripten.Building.emcc('../../bindings.cpp', emcc_binding_args, 'bindings.bc')
+    assert os.path.exists('bindings.bc')
 
-    stage('Generate JS Libraries')
+    stage('Building OpenCV.js')
+    opencv = os.path.join('..', '..', 'build', 'cv.js')
 
-    core = os.path.join('..', '..', 'builds', 'core.js')
-    imgproc = os.path.join('..', '..', 'builds', 'imgproc.js')
-    imgcodecs = os.path.join('..', '..', 'builds', 'imgcodecs.js')
-    ml =  os.path.join('..', '..', 'builds', 'ml.js')
-    flann = os.path.join('..', '..', 'builds', 'flann.js')
-    objdetect =  os.path.join('..', '..', 'builds', 'objdetect.js')
-    features2d =  os.path.join('..', '..', 'builds', 'features2d.js')
-    highgui =  os.path.join('..', '..', 'builds', 'highgui.js')
-    opencv =  os.path.join('..', '..', 'builds', 'cv.html')
-    
-    
-    #TODO emscripten.Building.emcc('libopencv_imgproc.bc', emcc_args + ['--pre-js', 'bindings_symbols.js')],  imgproc)
-    
-    
-    
-    #emscripten.Building.emcc(os.path.join( 'lib' , 'libopencv_core.a' ), ['bindings.bc' ] + emcc_args + [ '--bind' ] ,  core)  
-    #emscripten.Building.emcc(os.path.join('lib' ,'libopencv_imgproc.a'), ['bindings.bc' ] + emcc_args  + ['--bind']    ,  imgproc)
-    #emscripten.Building.emcc(os.path.join('lib' ,'libopencv_imgcodecs.a'), ['bindings.bc' ] + emcc_args  + [ '--bind']  ,  imgcodecs)
-    #emscripten.Building.emcc(os.path.join('lib' ,'libopencv_ml.a'), ['bindings.bc' ] + emcc_args +   [ '--bind']  ,  ml)
-    #emscripten.Building.emcc(os.path.join('lib' ,'libopencv_flann.a'), ['bindings.bc' ] + emcc_args +   [ '--bind']   ,  flann)
-    #emscripten.Building.emcc(os.path.join('lib' ,'libopencv_objdetect.a'), ['bindings.bc' ] + emcc_args +  ['--bind']   ,  objdetect)
-    #emscripten.Building.emcc(os.path.join('lib' ,'libopencv_features2d.a'), ['bindings.bc' ] + emcc_args +   [ '--bind'  ]   ,  features2d)
-    
-    
-    #assert os.path.exists(core), 'Failed to create script code'
-    #assert os.path.exists(imgproc), 'Failed to create script code'
-    #assert os.path.exists(imgcodecs), 'Failed to create script code'
-    #assert os.path.exists(ml), 'Failed to create script code'
-    #assert os.path.exists(flann), 'Failed to create script code'
-    #assert os.path.exists(objdetect), 'Failed to create script code'
-    #assert os.path.exists(features2d), 'Failed to create script code'
-    
-    #TODO remove this
     input_files = [
                 'bindings.bc',
-                os.path.join('lib' ,'libopencv_core.a'),
-                os.path.join('lib' ,'libopencv_imgproc.a'),
-                os.path.join('lib' ,'libopencv_imgcodecs.a'),
-                os.path.join('lib' ,'libopencv_ml.a'),
-                os.path.join('lib' ,'libopencv_flann.a'),
-                os.path.join('lib' ,'libopencv_objdetect.a'), 
-                os.path.join('lib' ,'libopencv_features2d.a') ,
-                os.path.join('lib' ,'libopencv_highgui.a') ,
-                os.path.join('3rdparty' , 'lib' ,'liblibjpeg.a'),
-                os.path.join('3rdparty' , 'lib' ,'liblibpng.a'),
-                os.path.join('3rdparty' , 'lib' ,'liblibwebp.a'), 
-                os.path.join('3rdparty' , 'lib' ,'libzlib.a') 
+                os.path.join('lib','libopencv_core.a'),
+                os.path.join('lib','libopencv_imgproc.a'),
+                os.path.join('lib','libopencv_imgcodecs.a'),
+
+                os.path.join('lib','libopencv_ml.a'),
+                os.path.join('lib','libopencv_flann.a'),
+                os.path.join('lib','libopencv_objdetect.a'),
+                os.path.join('lib','libopencv_features2d.a') ,
+
+                os.path.join('lib','libopencv_shape.a'),
+                os.path.join('lib','libopencv_photo.a'),
+                os.path.join('lib','libopencv_video.a'),
+
+                # external libraries
+                os.path.join('3rdparty', 'lib', 'liblibjpeg.a'),
+                os.path.join('3rdparty', 'lib', 'liblibpng.a'),
+                os.path.join('3rdparty', 'lib', 'libzlib.a'),
+                #os.path.join('3rdparty', 'lib', 'liblibtiff.a'),
+                #os.path.join('3rdparty', 'lib', 'liblibwebp.a'),
                 ]
-    emcc_args += [ '--preload-file' , 'images/' ] #For testing purposes
-    emscripten.Building.emcc( input_files[0] , input_files[1:] + emcc_args  +  [ '--bind' ] ,  opencv )
-    
-    
-    #stage('wrap')
 
-    #wrapped = '''
-    #// This is CV::Core, a JavaScript binding for OpenCV Core Library.
-    #''' + open(core).read() + '''
-    #'''
+    emscripten.Building.link(input_files, 'libOpenCV.bc')
+    emcc_args += '--preload-file ../../test/data/'.split(' ') #For testing purposes
+    emcc_args += ['--bind']
+    emcc_args += ['--memoryprofiler']
 
-    #open(core, 'w').write(wrapped)
-    
-    #wrapped = '''
-    # // This is CV::ImgProc, a port of OpenCV ImgProc Library to JavaScript.
-    #''' + open(imgproc).read() + '''
-    #'''
-    #open(imgproc, 'w').write(wrapped)
-    
-    
-    
+    emscripten.Building.emcc('libOpenCV.bc', emcc_args, opencv)
+    stage('Wrapping')
+    with open(opencv, "a") as file:
+        file.write("""
+cv = cv();
+""");
+
 finally:
     os.chdir(this_dir)
