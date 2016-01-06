@@ -1,10 +1,9 @@
-## Work in Progres... 
-# opencvjs
+# OpenCV.js
 
-This is a JavaScript binding for popular OpenCV library using Emscripten compiler and Embind. 
+This is a JavaScript binding that exposes OpenCV library to the web platform. This project is made possible by support of Intel Corporation.
 
-### Usage
-0. Get the source code
+### How to Build
+0. Get the source codes
 ```
 git clone https://github.com/sajjadt/opencvjs.git --recursive
 ```
@@ -15,6 +14,22 @@ git clone https://github.com/sajjadt/opencvjs.git --recursive
   python make.py
 ```
 
+### Exported OpenCV subset
+Classes and functions that are intended for binding generators (i.e. come with wrapping macros such as CV_EXPORTS_W and CV_WRAP) are exposed. Hence, supported OpenCV subset is comparable to OpenCV python binding.
+
+Currently, the following modules are supported:
+
+1. Core
+2. Image processing
+3. Photo
+4. Shape
+5. Video
+6. Object detection
+7. Features framework
+8. Image codecs
+
+### How it looks
+
 
 ### Examples
 [Image processing module](http://sajjadt.github.io/opencvjs/examples/img_proc.html).
@@ -22,13 +37,3 @@ git clone https://github.com/sajjadt/opencvjs.git --recursive
 [Object detection module](http://sajjadt.github.io/opencvjs/examples/obj_detect.html).
 
 [Features framework module](http://sajjadt.github.io/opencvjs/examples/features_2d.html).
-
-
-### Availabe OpenCV Entities
-1. Exported classes and functions intended for wrapper generators (i.e. CV_EXPORTS_W, ...)
-2. Enums
-
-### Notes
-3. Default parameteres are also supported
-4. Final script is compressed using Zee.js
-
