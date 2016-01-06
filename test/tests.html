@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>=
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>OpenCV JS Tests</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				font-family: Monospace;
+				background-color: #ffffff;
+				margin: 0px;
+			}
+	    canvas{
+				background-color: #ffffff;
+
+			}
+			a {
+				color: #0040ff;
+			}
+		</style>
+	</head>
+	<body>
+
+		<div id="qunit"></div>
+		<div id="qunit-fixture"></div>
+
+
+		<script async src="cv.js"></script>
+		<script src="memoryprofiler.js"></script>
+
+		<script src="http://code.jquery.com/qunit/qunit-1.20.0.js"></script>
+		<script type="application/javascript;version=1.7" src="test_commons.js"></script>
+		<script type="application/javascript;version=1.7" src="test_mat.js"></script>
+		<script type="application/javascript;version=1.7" src="test_utils.js"></script>
+		<script type="application/javascript;version=1.7" src="test_imgproc.js"></script>
+		<script type="application/javascript;version=1.7" src="test_photo.js"></script>
+		<script type="application/javascript;version=1.7" src="test_features2d.js"></script>
+		<script type="application/javascript;version=1.7" src="test_objdetect.js"></script>
+		<script type="application/javascript;version=1.7" src="test_io.js"></script>
+		<script type="application/javascript;version=1.7" src="test_shape.js"></script>
+		<script type="application/javascript;version=1.7" src="test_video.js"></script>
+		<script type="application/javascript;version=1.7" src="test_ml.js"></script>
+
+		<script  type='text/javascript'>
+
+		var Module = {
+        preRun: [memoryprofiler_add_hooks],
+        postRun: [] ,
+        print: (function() {
+          var element = document.getElementById('output');
+          if (element) element.value = ''; // clear browser cache
+          return function(text) {
+            text = Array.prototype.slice.call(arguments).join(' ');
+            // These replacements are necessary if you render to raw HTML
+            //text = text.replace(/&/g, "&amp;");
+            //text = text.replace(/</g, "&lt;");
+            //text = text.replace(/>/g, "&gt;");
+            //text = text.replace('\n', '<br>', 'g');
+            console.log(text);
+            if (element) {
+              element.value += text + "\n";
+              element.scrollTop = element.scrollHeight; // focus on bottom
+            }
+          };
+        })(),
+        printErr: function(text) {
+          text = Array.prototype.slice.call(arguments).join(' ');
+          if (0) { // XXX disabled for safety typeof dump == 'function') {
+            dump(text + '\n'); // fast, straight to the real console
+          } else {
+            console.error(text);
+          }
+        },
+        setStatus: function(text) {
+          console.log(text);
+        },
+        totalDependencies: 0,
+        monitorRunDependencies: function(left) {
+        }
+      };
+      Module.setStatus('Downloading...');
+      window.onerror = function(event) {
+        // TODO: do not warn on ok events like simulating an infinite loop or exitStatus
+        Module.setStatus('Exception thrown, see JavaScript console');
+        Module.setStatus = function(text) {
+          if (text) Module.printErr('[post-exception status] ' + text);
+        };
+      };
+			</script>
+	</body>
+</html>
