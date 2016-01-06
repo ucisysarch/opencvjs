@@ -66,12 +66,12 @@ namespace Utils{
         return emscripten::val(emscripten::memory_view<uint8_t>(mat.step1(1), mat.ptr(i,j)));
     }
 
-    cv::Mat&  matFromArray(const emscripten::val& object, int type) {
+    emscripten::val  matFromArray(const emscripten::val& object, int type) {
         int w=  object["width"].as<unsigned>();
         int h=  object["height"].as<unsigned>();
         std::string str = object["data"]["buffer"].as<std::string>();
-        cv::Mat* x =  new cv::Mat(h, w, type, (void*)str.data(), 0);
-        return *x;
+        
+        return emscripten::val(cv::Mat(h, w, type, (void*)str.data(), 0));
     }
 
     cv::Mat* createMat(Size size, int type, intptr_t data, size_t step) {
