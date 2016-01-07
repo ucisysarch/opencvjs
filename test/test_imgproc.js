@@ -560,7 +560,7 @@ QUnit.test("test_filter", function(assert) {
       let dst = new cv.Mat();
       let none = new cv.Mat();
 
-      cv.absdiff(mat1, mat2, dst, none);
+      cv.absdiff(mat1, mat2, dst);
       // Verify result.
       let view = dst.data();
       let size = dst.size();
