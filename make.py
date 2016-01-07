@@ -183,6 +183,9 @@ try:
 
     stage('Building OpenCV.js')
     opencv = os.path.join('..', '..', 'build', 'cv.js')
+    data = os.path.join('..', '..', 'build', 'cv.data')
+
+    tests = os.path.join('..', '..', 'test')
 
     input_files = [
                 'bindings.bc',
@@ -218,6 +221,11 @@ try:
         file.write("""
 cv = cv();
 """);
+
+
+    shutil.copy2(opencv, tests)
+    if os.path.exists(data):
+        shutil.copy2(data, tests)
 
 finally:
     os.chdir(this_dir)
