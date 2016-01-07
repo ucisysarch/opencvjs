@@ -1,6 +1,6 @@
 # OpenCV.js
 
-This is a JavaScript binding that exposes OpenCV library to the web platform. This project is made possible by support of Intel Corporation.
+This is a JavaScript binding that exposes OpenCV library to the web. This project is made possible by support of Intel corporation.
 
 ### How to Build
 0. Get the source codes
@@ -8,8 +8,17 @@ This is a JavaScript binding that exposes OpenCV library to the web platform. Th
 git clone https://github.com/sajjadt/opencvjs.git --recursive
 ```
 
-1. Install Emscripten
-2. Execute make.py
+1. Install Emscripten 1.35.0 using [Emscripten SDK](https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html)
+```
+./emsdk install emscripten-1.35.0
+./emsdk activate emscripten-1.35.0
+```
+
+2. Patch the Emscripten
+```
+patch -p1 < PATH/TO/patch_emscripten_1_35_0.diff
+```
+3. Compile OpenCV and generate bindings by executing make.py script
 ```
   python make.py
 ```
@@ -28,12 +37,6 @@ Currently, the following modules are supported:
 7. Features framework
 8. Image codecs
 
-### How it looks
-
 
 ### Examples
-[Image processing module](http://sajjadt.github.io/opencvjs/examples/img_proc.html).
-
-[Object detection module](http://sajjadt.github.io/opencvjs/examples/obj_detect.html).
-
-[Features framework module](http://sajjadt.github.io/opencvjs/examples/features_2d.html).
+Test suite contains several examples demonstrating how different modules can be used.
