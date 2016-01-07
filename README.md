@@ -8,10 +8,10 @@ This is a JavaScript binding that exposes OpenCV library to the web. This projec
 git clone https://github.com/sajjadt/opencvjs.git --recursive
 ```
 
-1. Install Emscripten 1.35.0 using [Emscripten SDK](https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html)
+1. Install emscripten 1.35.0 using [Emscripten SDK](https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html).
 ```
-./emsdk install emscripten-1.35.0
-./emsdk activate emscripten-1.35.0
+./emsdk install emsdk-1.35.0-64bit
+./emsdk activate emsdk-1.35.0-64bit
 ```
 
 2. Patch the Emscripten
@@ -36,6 +36,7 @@ Currently, the following modules are supported:
 6. Object detection
 7. Features framework
 8. Image codecs
+
 
 
 ### Examples
