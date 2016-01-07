@@ -5,7 +5,7 @@ This is a JavaScript binding that exposes OpenCV library to the web. This projec
 ### How to Build
 0. Get the source codes
 ```
-git clone https://github.com/sajjadt/opencvjs.git --recursive
+git clone https://github.com/ucisysarch/opencvjs.git --recursive
 ```
 
 1. Install emscripten 1.35.0 using [Emscripten SDK](https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html).
