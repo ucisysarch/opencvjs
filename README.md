@@ -14,10 +14,11 @@ This is a JavaScript binding that exposes OpenCV library to the web. This projec
   ./emsdk install sdk-1.35.0-64bit
   ./emsdk activate sdk-1.35.0-64bit
   ```
-3. Patch the Emscripten
+3. Patch Emscripten and OpenCV
   
   ```
   patch -p1 < PATH/TO/patch_emscripten_1_35_0.diff
+  patch -p1 < patch_opencv.diff
   ```
 4. Compile OpenCV and generate bindings by executing make.py script.
   
