@@ -30,6 +30,9 @@
 		</style>
 	</head>
 	<body>
+
+	<a href='#' onclick='downloadCSV({ filename: "OpenCV_face_detect_results.csv" });'>Download CSV</a>
+	<a id="downloadLnk" download="YourFileName.jpg">Download processed images</a>
 	<div class="spinner" id='spinner'></div>
     <div class="emscripten" id="status">Downloading...</div>
     <div class="emscripten">
@@ -235,11 +238,92 @@
 
 		}
 
+		function download() {
+			var dt = canvas2.toDataURL('image/jpeg');
+			this.href = dt;
+		};
+		downloadLnk.addEventListener('click', download, false);
+
+		var ress = [];
+
+		function runTest(fct){
+			var start = performance.now();
+			fct()
+			var end = performance.now();
+			var time = end - start;
+			var res = {testName:fct.name , executionTime_ms:time};
+			ress.push(res);
+			var d = new Date().toString();
+			var filename = "file_" + fct.name + "_" + d;
+			downloadLnk.setAttribute('download', filename);
+			downloadLnk.click();
+		}
+
+		function runAllTests(){
+			ress = [];
+			runTest(detectFace);
+			runTest(detectEyes);
+			var d = new Date().toString();
+			downloadCSV({ filename: "OpenCV_face_detect_results_" + d + ".csv" });
+		}
+
+		function convertArrayOfObjectsToCSV(args) {
+			var result, ctr, keys, columnDelimiter, lineDelimiter, data;
+
+			data = args.data || null;
+			if (data == null || !data.length) {
+				return null;
+			}
+
+			columnDelimiter = args.columnDelimiter || ',';
+			lineDelimiter = args.lineDelimiter || '\n';
+
+			keys = Object.keys(data[0]);
+
+			result = '';
+			result += keys.join(columnDelimiter);
+			result += lineDelimiter;
+
+			data.forEach(function(item) {
+				ctr = 0;
+				keys.forEach(function(key) {
+					if (ctr > 0) result += columnDelimiter;
+
+					result += item[key];
+					ctr++;
+				});
+				result += lineDelimiter;
+			});
+
+			return result;
+		}
+
+		function downloadCSV(args) {
+			var data, filename, link;
+			var csv = convertArrayOfObjectsToCSV({
+				data: ress
+			});
+			if (csv == null) return;
+
+			filename = args.filename || 'export.csv';
+
+			if (!csv.match(/^data:text\/csv/i)) {
+				csv = 'data:text/csv;charset=utf-8,' + csv;
+			}
+			data = encodeURI(csv);
+
+			link = document.createElement('a');
+			link.setAttribute('href', data);
+			link.setAttribute('download', filename);
+			link.click();
+		}
+
 		var container ;
 		var Zee ;
 		var Control =  {
 			detectFace : detectFace,
-			detectEyes : detectEyes
+			detectEyes : detectEyes,
+			runAllTests:runAllTests
 		};
 
 		function init() {
@@ -253,6 +337,9 @@
 			gui.domElement.style.position = "absolute";
 			gui.domElement.style.top = "0px";
 			gui.domElement.style.right = "5px";
+
+			//Run All Tests
+			gui.add(Control,'runAllTests');
 
 			// Haar Cascade
 			var cSpaceFolder = gui.addFolder('Haar Cascade');
