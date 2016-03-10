@@ -1,5 +1,5 @@
---- ./emscripten/1.35.0/system/include/emscripten/bind.h	2015-10-19 10:11:20.000000000 -0700
-+++ ./emscripten/1.35.0/system/include/emscripten/bind.h	2016-01-06 20:03:15.000000000 -0800
+--- ./emscripten/master/system/include/emscripten/bind.h	2015-10-19 10:11:20.000000000 -0700
++++ ./emscripten/master/system/include/emscripten/bind.h	2016-01-06 20:03:15.000000000 -0800
 @@ -50,7 +50,7 @@
                  TYPEID floatType,
                  const char* name,
