@@ -11,15 +11,25 @@ This is a JavaScript binding that exposes OpenCV library to the web. This projec
 2. Install emscripten 1.35.0. Other versions can be used as well, but currently, the patch is provided for only this version. You can obtain emscripten by using [Emscripten SDK](https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html).
   
   ```
-  ./emsdk install sdk-1.35.0-64bit
-  ./emsdk activate sdk-1.35.0-64bit
+  ./emsdk update
+  ./emsdk install sdk-master-64bit --shallow
+  ./emsdk activate sdk-master-64bit
+  source ./emsdk_env.sh
   ```
-3. Patch the Emscripten
+3. Patch Emscripten & Rebuild. Patch OpenCV
   
   ```
-  patch -p1 < PATH/TO/patch_emscripten_1_35_0.diff
+  patch -p1 < PATH/TO/patch_emscripten_master.diff
+  patch -p1 < PATH/TO/patch_fastcomp_master_GVN.diff
+  patch -p1 < PATH/TO/patch_fastcomp_master_SROA.diff
+  patch -p1 < patch_opencv.diff
   ```
-4. Compile OpenCV and generate bindings by executing make.py script.
+4. Rebuild emscripten
+  ```
+  ./emsdk install sdk-master-64bit --shallow
+  ```
+
+5. Compile OpenCV and generate bindings by executing make.py script.
   
   ```
     python make.py

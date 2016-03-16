@@ -30,7 +30,7 @@ import tools.shared as emscripten
 
 # TODO: -msse2, SIMD.js is complaint with SSE2
 
-emcc_args = '-O3 --llvm-lto 1 -s NO_EXIT_RUNTIME=1 -s ASSERTIONS=1 -s AGGRESSIVE_VARIABLE_ELIMINATION=0 -s NO_DYNAMIC_EXECUTION=0 --memory-init-file 0 -s NO_FILESYSTEM=0 -s NO_BROWSER=0'.split(' ')
+emcc_args = '-O3 -msse2 --llvm-lto 1 -s NO_EXIT_RUNTIME=1 -s ASSERTIONS=1 -s AGGRESSIVE_VARIABLE_ELIMINATION=0 -s NO_DYNAMIC_EXECUTION=0 --memory-init-file 0 -s NO_FILESYSTEM=0'.split(' ')
 #emcc_args += '-s ALLOW_MEMORY_GROWTH=1'  # resizable heap
 
 
@@ -129,8 +129,8 @@ try:
                      '-DBUILD_TESTS=OFF',
                      '-DBUILD_SHARED_LIBS=OFF',
                      '-DWITH_IPP=OFF',
-                     '-DENABLE_SSE=OFF',
-                     '-DENABLE_SSE2=OFF',
+                     '-DENABLE_SSE=ON',
+                     '-DENABLE_SSE2=ON',
                      '-DENABLE_SSE3=OFF',
                      '-DENABLE_SSE41=OFF',
                      '-DENABLE_SSE42=OFF',

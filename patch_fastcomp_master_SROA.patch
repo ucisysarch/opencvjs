@@ -1,0 +1,13 @@
+--- ./clang//fastcomp/src/lib/Transforms/Scalar/SROA.cpp	2016-03-10 11:56:37.464255349 +0200
++++ ./clang//fastcomp/src/lib/Transforms/Scalar/SROA.cpp	2016-03-10 11:55:19.804254093 +0200
+@@ -3836,8 +3836,8 @@
+ 
+   bool IsIntegerPromotable = isIntegerWideningViable(P, SliceTy, DL);
+ 
+-  VectorType *VecTy =
+-      IsIntegerPromotable ? nullptr : isVectorPromotionViable(P, DL);
++  VectorType *VecTy = nullptr;
++
+   if (VecTy)
+     SliceTy = VecTy;
+ 
