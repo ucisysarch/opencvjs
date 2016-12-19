@@ -217,10 +217,31 @@ try:
 
     emscripten.Building.emcc('libOpenCV.bc', emcc_args, opencv)
     stage('Wrapping')
-    with open(opencv, "a") as file:
-        file.write("""
-cv = cv();
-""");
+    with open(opencv, 'r+b') as file:
+        out = file.read()
+        file.seek(0)
+        # inspired by https://github.com/umdjs/umd/blob/95563fd6b46f06bda0af143ff67292e7f6ede6b7/templates/returnExportsGlobal.js
+        file.write(("""
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(function () {
+            return (root.cv = factory());
+        });
+    } else if (typeof module === 'object' && module.exports) {
+        // Node. Does not work with strict CommonJS, but
+        // only CommonJS-like environments that support module.exports,
+        // like Node.
+        module.exports = factory();
+    } else {
+        // Browser globals
+        root.cv = factory();
+    }
+}(this, function () {
+    %s
+    return cv();
+}));
+""" % (out,)).lstrip())
 
 
     shutil.copy2(opencv, tests)

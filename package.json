@@ -1,0 +1,14 @@
+{
+  "name": "opencvjs",
+  "version": "1.0.0",
+  "description": "JavaScript Bindings for OpenCV",
+  "main": "build/cv.js",
+  "scripts": {
+    "build": "python make.py",
+    "test": "open test/tests.html"
+  },
+  "homepage": "https://github.com/ucisysarch/opencvjs",
+  "repository": "https://github.com/ucisysarch/opencvjs",
+  "bugs": "https://github.com/ucisysarch/opencvjs/issues",
+  "license": "BSD-4-Clause"
+}
