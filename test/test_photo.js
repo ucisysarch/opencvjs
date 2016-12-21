@@ -31,7 +31,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /////////////////////////////////////////////////////////////////////////////*/
 
-module ("Computational Photography");
+QUnit.module ("Computational Photography", {});
 QUnit.test("Test Inpinting", function(assert) {
 	// Inpaint
 	{

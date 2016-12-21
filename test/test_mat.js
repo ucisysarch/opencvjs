@@ -31,7 +31,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /////////////////////////////////////////////////////////////////////////////*/
 
-module ("Core")
+QUnit.module( "Core", {});
+
 QUnit.test("test_mat_creation", function(assert) {
     // Mat constructors.
     // Mat::Mat(int rows, int cols, int type)
@@ -53,7 +54,7 @@ QUnit.test("test_mat_creation", function(assert) {
     }
 
     // Mat::Mat(const Mat &)
-    {
+    //{
         //  : Copy from another Mat
         //let mat1 = new cv.Mat(10, 20, cv.CV_8UC3);
         //let mat2 = new cv.Mat(mat1);
@@ -71,7 +72,7 @@ QUnit.test("test_mat_creation", function(assert) {
 
         //mat1.delete();
         //mat2.delete();
-    }
+    //}
 
     // Mat::Mat(Size size, int type, void *data, size_t step=AUTO_STEP)
     {

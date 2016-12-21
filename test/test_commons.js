@@ -76,4 +76,13 @@ var Commons = {
 
 		ctx.putImageData(imdata, 0, 0);
 	}
+
+	// deepEqualWithTolerance: function(collection1, collection2, assert) {
+	// 	assert(collection1.size() = collection2.size());
+	// 	var size = collection1.size();
+	// 	for (i = 0; i < size; i+=1) {
+	// 	  assert.closeEn
+	// 	}
+	// }
+	//
 };

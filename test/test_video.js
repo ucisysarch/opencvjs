@@ -31,7 +31,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /////////////////////////////////////////////////////////////////////////////*/
 
-module ("Video")
+QUnit.module ("Video", {});
 //QUnit.test("Tracking", function(assert) {
 // meanShift
 //{

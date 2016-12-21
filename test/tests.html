@@ -1,20 +1,15 @@
-
 <!DOCTYPE html>
 <html lang="en">
-	<head>=
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<head>
 		<title>OpenCV JS Tests</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.20.0.css" type="text/css" media="screen">
 		<style>
 			body {
 				font-family: Monospace;
 				background-color: #ffffff;
 				margin: 0px;
-			}
-	    canvas{
-				background-color: #ffffff;
-
 			}
 			a {
 				color: #0040ff;
@@ -26,65 +21,59 @@
 		<div id="qunit"></div>
 		<div id="qunit-fixture"></div>
 
-
-		<script async src="cv.js"></script>
-		<script src="memoryprofiler.js"></script>
-
-		<script src="http://code.jquery.com/qunit/qunit-1.20.0.js"></script>
-		<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.20.0.css" type="text/css" media="screen">
-		<script type="application/javascript;version=1.7" src="test_commons.js"></script>
-		<script type="application/javascript;version=1.7" src="test_mat.js"></script>
-		<script type="application/javascript;version=1.7" src="test_utils.js"></script>
-		<script type="application/javascript;version=1.7" src="test_imgproc.js"></script>
-		<script type="application/javascript;version=1.7" src="test_photo.js"></script>
-		<script type="application/javascript;version=1.7" src="test_features2d.js"></script>
-		<script type="application/javascript;version=1.7" src="test_objdetect.js"></script>
-		<script type="application/javascript;version=1.7" src="test_io.js"></script>
-		<script type="application/javascript;version=1.7" src="test_shape.js"></script>
-		<script type="application/javascript;version=1.7" src="test_video.js"></script>
-		<script type="application/javascript;version=1.7" src="test_ml.js"></script>
-
+		<script src="http://code.jquery.com/qunit/qunit-2.0.1.js"></script>
 		<script  type='text/javascript'>
+			QUnit.config.autostart = false;
 
-		var Module = {
-        preRun: [memoryprofiler_add_hooks],
-        postRun: [] ,
-        print: (function() {
-          var element = document.getElementById('output');
-          if (element) element.value = ''; // clear browser cache
-          return function(text) {
-            text = Array.prototype.slice.call(arguments).join(' ');
-            // These replacements are necessary if you render to raw HTML
-            //text = text.replace(/&/g, "&amp;");
-            //text = text.replace(/</g, "&lt;");
-            //text = text.replace(/>/g, "&gt;");
-            //text = text.replace('\n', '<br>', 'g');
-            console.log(text);
-            if (element) {
-              element.value += text + "\n";
-              element.scrollTop = element.scrollHeight; // focus on bottom
-            }
-          };
-        })(),
-        printErr: function(text) {
-          text = Array.prototype.slice.call(arguments).join(' ');
-          console.error(text);
-        },
-        setStatus: function(text) {
-          console.log(text);
-        },
-        totalDependencies: 0,
-        monitorRunDependencies: function(left) {
-        }
-      };
-      Module.setStatus('Downloading...');
-      window.onerror = function(event) {
-        // TODO: do not warn on ok events like simulating an infinite loop or exitStatus
-        Module.setStatus('Exception thrown, see JavaScript console');
-        Module.setStatus = function(text) {
-          if (text) Module.printErr('[post-exception status] ' + text);
-        };
-      };
+			var Module = {
+	        postRun: [] ,
+					onRuntimeInitialized: function() {
+						console.log("Runtime is ready...");
+						QUnit.start();
+					},
+	        print: (function() {
+	          var element = document.getElementById('output');
+	          if (element) element.value = ''; // clear browser cache
+	          return function(text) {
+	            console.log(text);
+	            if (element) {
+	              element.value += text + "\n";
+	              element.scrollTop = element.scrollHeight; // focus on bottom
+	            }
+	          };
+	        })(),
+	        printErr: function(text) {
+	          console.log(text);
+	        },
+	        setStatus: function(text) {
+	          console.log(text);
+	        },
+	        totalDependencies: 0
+	      };
+
+	      Module.setStatus('Downloading...');
+	      window.onerror = function(event) {
+	        Module.setStatus('Exception thrown, see JavaScript console');
+	        Module.setStatus = function(text) {
+	          if (text) Module.printErr('[post-exception status] ' + text);
+	        };
+	      };
 			</script>
+
+			<script type="application/javascript" src="cv.js"></script>
+
+			<script type="application/javascript" src="test_commons.js"></script>
+			<script type="application/javascript" src="test_mat.js"></script>
+			<script type="application/javascript" src="test_utils.js"></script>
+			<script type="application/javascript" src="test_imgproc.js"></script>
+			<script type="application/javascript" src="test_photo.js"></script>
+			<script type="application/javascript" src="test_objdetect.js"></script>
+			<script type="application/javascript" src="test_shape.js"></script>
+			<script type="application/javascript" src="test_io.js"></script>
+			<script type="application/javascript" src="test_video.js"></script>
+
+			<script type="application/javascript" src="test_ml.js"></script>
+			<script type="application/javascript" src="test_features2d.js"></script>
+
 	</body>
 </html>

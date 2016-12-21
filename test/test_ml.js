@@ -31,7 +31,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /////////////////////////////////////////////////////////////////////////////*/
 
-module("Machine Learning")
+QUnit.module ("ML", {});
 QUnit.test("Stat Models", function(assert) {
 
 	// TrainData, Logistic Regression

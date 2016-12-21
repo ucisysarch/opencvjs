@@ -31,7 +31,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /////////////////////////////////////////////////////////////////////////////*/
 
-module ("Shapes")
+QUnit.module ("Shapes", {});
 QUnit.test("Test transformers", function(assert) {
 	// ShapeTransformer
 	{

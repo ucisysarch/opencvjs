@@ -31,12 +31,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /////////////////////////////////////////////////////////////////////////////*/
 
-QUnit.module ("Feature2D")
+QUnit.module( "Feature2D", {});
 QUnit.test( "Test Feature detection/extraction", function(assert) {
 
 	// Prepare input
 	var raw_image = cv.imread("../../test/data/cv.png", 1),
-	mask = new cv.Mat(),
 	image = new cv.Mat();
 	cv.cvtColor(raw_image, image, cv.ColorConversionCodes.COLOR_RGB2GRAY.value, 0);
 
@@ -46,7 +45,8 @@ QUnit.test( "Test Feature detection/extraction", function(assert) {
 			v2 = new cv.IntVector(),
 			v3 = new cv.IntVector(),
 			keyPoints = new cv.KeyPointVector(),
-			descriptors = new cv.Mat();
+			descriptors = new cv.Mat(),
+			mask = new cv.Mat();
 
 		let brisk = new cv.BRISK(30, 3, 1.0);
 		assert.equal(brisk.empty(), true);
@@ -74,6 +74,7 @@ QUnit.test( "Test Feature detection/extraction", function(assert) {
 		keyPoints.delete();
 		descriptors.delete();
 		brisk.delete();
+		mask.delete();
 	}
 
 	//ORB
@@ -88,7 +89,8 @@ QUnit.test( "Test Feature detection/extraction", function(assert) {
 			patchSize = 31,
 			fastThreshold=20,
 			keyPoints = new cv.KeyPointVector(),
-			descriptors = new cv.Mat();
+			descriptors = new cv.Mat(),
+			mask = new cv.Mat();
 
 		let orb = new cv.ORB(numFeatures, scaleFactor, numLevels, edgeThreshold, firstLevel,
 									WTA_K, scoreType, patchSize, fastThreshold);
@@ -99,6 +101,7 @@ QUnit.test( "Test Feature detection/extraction", function(assert) {
 		keyPoints.delete();
 		descriptors.delete();
 		orb.delete();
+		mask.delete();
 	}
 
 	//MSER
@@ -112,6 +115,7 @@ QUnit.test( "Test Feature detection/extraction", function(assert) {
 			areaThreshold=1.01,
 			minMargin=0.003,
 			edgeBlurSize=5,
+			mask = new cv.Mat(),
 			keyPoints = new cv.KeyPointVector();
 
 		let mser = new cv.MSER(delta, minArea, maxArea, maxVariation, minDiversity,
@@ -123,6 +127,7 @@ QUnit.test( "Test Feature detection/extraction", function(assert) {
 
 		keyPoints.delete();
 		mser.delete();
+		mask.delete();
 	}
 
 	//Fast
@@ -130,7 +135,8 @@ QUnit.test( "Test Feature detection/extraction", function(assert) {
 		let threshold = 10,
 			nonMaxSuppression = true,
 			type = 2, // FastFeatureDetector::TYPE_9_16
-			keyPoints = new cv.KeyPointVector();
+			keyPoints = new cv.KeyPointVector(),
+			mask = new cv.Mat();
 
 		let fast = new cv.FastFeatureDetector(threshold, nonMaxSuppression, type);
 
@@ -143,6 +149,7 @@ QUnit.test( "Test Feature detection/extraction", function(assert) {
 		// fast.detectAndCompute()
 		keyPoints.delete();
 		fast.delete();
+		mask.delete();
 	}
 	//GFTTDetector
 	{
@@ -152,7 +159,8 @@ QUnit.test( "Test Feature detection/extraction", function(assert) {
 			blockSize=3,
 			useHarrisDetector=false,
 			k=0.04,
-			keyPoints = new cv.KeyPointVector();
+			keyPoints = new cv.KeyPointVector(),
+			mask = new cv.Mat();
 
 		let detector = new cv.GFTTDetector(maxCorners, qualityLevel, minDistance, blockSize, useHarrisDetector, k);
 
@@ -162,11 +170,13 @@ QUnit.test( "Test Feature detection/extraction", function(assert) {
 
 		keyPoints.delete();
 		detector.delete();
+		mask.delete();
 	}
 	// SimpleBlobDetector
 	{
 		let params = new cv.SimpleBlobDetector_Params(),
-			keyPoints = new cv.KeyPointVector();
+			keyPoints = new cv.KeyPointVector(),
+			mask = new cv.Mat();
 
 		/*
 		thresholdStep = 10;
@@ -203,6 +213,7 @@ QUnit.test( "Test Feature detection/extraction", function(assert) {
 		keyPoints.delete();
 		params.delete();
 		detector.delete();
+		mask.delete();
 	}
 	// Kaze
 	{
@@ -212,6 +223,8 @@ QUnit.test( "Test Feature detection/extraction", function(assert) {
 			numOctaves = 4,
 			numOctaveLayers = 4,
 			keyPoints = new cv.KeyPointVector(),
+			mask = new cv.Mat(),
+			descr = new cv.Mat(),
 			diffusivity = 1; // KAZE::DIFF_PM_G2
 
 		let kaze = new cv.KAZE(extended, upright, threshold, numOctaves, numOctaveLayers, diffusivity);
@@ -222,16 +235,17 @@ QUnit.test( "Test Feature detection/extraction", function(assert) {
 		assert.equal(kaze.getNOctaveLayers(), numOctaveLayers);
 		assert.equal(kaze.getDiffusivity(), diffusivity);
 
-		kaze.detect(image, keyPoints, mask);
-		// kaze.compute()
-		// kaze.detectAndCompute()
+		kaze.detectAndCompute(image, mask, keyPoints, descr, false);
+
 		keyPoints.delete();
 		kaze.delete();
+		mask.delete();
 	}
 	//AKAZE
 	{
 		let akaze = new cv.AKAZE(5, 0, 3, 0.001, 4, 4, 1),
-			keyPoints = new cv.KeyPointVector();
+			keyPoints = new cv.KeyPointVector(),
+			mask = new cv.Mat();
 
 		assert.equal(akaze.getDescriptorType(),5);
 		assert.equal(akaze.getDescriptorSize(), 0);
@@ -242,14 +256,16 @@ QUnit.test( "Test Feature detection/extraction", function(assert) {
 		assert.equal(akaze.getDiffusivity(), 1);
 
 
-		akaze.detect(image, keyPoints, mask);
+		//TODO akaze.detect(image, keyPoints, mask);
+
+
 		keyPoints.delete();
 		akaze.delete();
+		mask.delete();
 		}
 
 		raw_image.delete();
 		image.delete();
-		mask.delete();
 	});
 
 	QUnit.test("Descriptor matcher", function(assert) {

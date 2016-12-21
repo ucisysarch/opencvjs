@@ -31,7 +31,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /////////////////////////////////////////////////////////////////////////////*/
 
-module ("Image Processing");
+
+
+
+QUnit.module("Image Processing", {});
+
 QUnit.test("test_imgProc", function(assert) {
  // calcHist
   {
@@ -732,6 +736,131 @@ QUnit.test("test_filter", function(assert) {
       title.delete();
   }
 
+  // Invert
+  {
+      let inv1 = new cv.Mat(),
+          inv2 = new cv.Mat(),
+          inv3 = new cv.Mat(),
+          inv4 = new cv.Mat();
+
+
+      var data1 = new Float32Array([1, 0, 0,
+                                    0, 1, 0,
+                                    0, 0, 1]);
+      var data2 = new Float32Array([0, 0, 0,
+                                    0, 5, 0,
+                                    0, 0, 0]);
+      var data3 = new Float32Array([1, 1, 1, 0,
+                                    0, 3, 1, 2,
+                                    2, 3, 1, 0,
+                                    1, 0, 2, 1]);
+      var data4 = new Float32Array([1, 4, 5,
+                                    4, 2, 2,
+                                    5, 2, 2]);
+
+      var expected1 = new Float32Array([1, 0, 0,
+                                        0, 1, 0,
+                                        0, 0, 1]);
+      // Inverse does not exist!
+      var expected2 = new Float32Array([1, 0, 0,
+                                        0, 0, 0,
+                                        0, 0, 1]);
+      var expected3 = new Float32Array([-3, -1/2, 3/2, 1,
+                                        1, 1/4, -1/4, -1/2,
+                                        3, 1/4, -5/4, -1/2,
+                                        -3, 0, 1, 1]);
+      var expected4 = new Float32Array([0, -1, 1,
+                                        -1, 23/2, -9,
+                                        1, -9, 7]);
+
+      var dataPtr1 = cv._malloc(3*3*4);
+      var dataPtr2 = cv._malloc(3*3*4);
+      var dataPtr3 = cv._malloc(4*4*4);
+      var dataPtr4 = cv._malloc(3*3*4);
+
+      var dataHeap = new Float32Array(cv.HEAP32.buffer, dataPtr1, 3*3);
+      dataHeap.set(new Float32Array(data1.buffer));
+      var dataHeap2 = new Float32Array(cv.HEAP32.buffer, dataPtr2, 3*3);
+      dataHeap2.set(new Float32Array(data2.buffer));
+      var dataHeap3 = new Float32Array(cv.HEAP32.buffer, dataPtr3, 4*4);
+      dataHeap3.set(new Float32Array(data3.buffer));
+      var dataHeap4 = new Float32Array(cv.HEAP32.buffer, dataPtr4, 3*3);
+      dataHeap4.set(new Float32Array(data4.buffer));
+
+      let mat1 = new cv.Mat([3, 3], cv.CV_32FC1, dataPtr1, 0);
+      let mat2 = new cv.Mat([3, 3], cv.CV_32FC1, dataPtr2, 0);
+      let mat3 = new cv.Mat([4, 4], cv.CV_32FC1, dataPtr3, 0);
+      let mat4 = new cv.Mat([3, 3], cv.CV_32FC1, dataPtr4, 0);
+
+      let dst = new cv.Mat();
+      let none = new cv.Mat();
+
+      QUnit.assert.deepEqualWithTolerance = function( value, expected, tolerance ) {
+        for (i = 0 ; i < value.length; i= i+1) {
+          this.pushResult( {
+              result: Math.abs(value[i]-expected[i]) < tolerance,
+              actual: value[i],
+              expected: expected[i],
+//              message: message
+          } );
+        }
+      };
+
+
+      // DECOMP_LU       = 0
+      // DECOMP_SVD      = 1
+
+      // Matrix must be symmetric
+      // DECOMP_EIG      = 2
+      // DECOMP_CHOLESKY = 3
+
+
+      cv.invert(mat1, inv1, 0);
+      // Verify result.
+      let size = inv1.size();
+      assert.equal(inv1.channels(), 1);
+      assert.equal(size.get(0), 3);
+      assert.equal(size.get(1), 3);
+      assert.deepEqualWithTolerance(inv1.data32f(), expected1, 0.0001);
+
+
+      cv.invert(mat2, inv2, 0);
+      // Verify result.
+      assert.deepEqualWithTolerance(inv3.data32f(), expected3, 0.0001);
+
+
+
+      cv.invert(mat3, inv3, 0);
+      // Verify result.
+      size = inv3.size();
+      assert.equal(inv3.channels(), 1);
+      assert.equal(size.get(0), 4);
+      assert.equal(size.get(1), 4);
+      assert.deepEqualWithTolerance(inv3.data32f(), expected3, 0.0001);
+      console.log(inv3.data32f());
+
+
+      cv.invert(mat3, inv3, 1);
+      // Verify result.
+      assert.deepEqualWithTolerance(inv3.data32f(), expected3, 0.0001);
+
+      cv.invert(mat4, inv4, 2);
+      // Verify result.
+      assert.deepEqualWithTolerance(inv4.data32f(), expected4, 0.0001);
+
+      cv.invert(mat4, inv4, 3);
+      // Verify result.
+      assert.deepEqualWithTolerance(inv4.data32f(), expected4, 0.0001);
+
+      mat1.delete();
+      mat2.delete();
+      mat3.delete();
+      mat4.delete();
+      inv1.delete();
+      inv2.delete();
+      inv3.delete();
+      inv4.delete();
+  }
 
 
 /*
@@ -827,7 +956,6 @@ QUnit.test("test_filter", function(assert) {
   function("initWideAngleProjMap", select_overload<float(const cv::Mat&, const cv::Mat&, Size, int, int, cv::Mat&, cv::Mat&, int, double)>(&Wrappers::initWideAngleProjMap_wrapper));
   function("insertChannel", select_overload<void(const cv::Mat&, cv::Mat&, int)>(&Wrappers::insertChannel_wrapper));
   function("intersectConvexConvex", select_overload<float(const cv::Mat&, const cv::Mat&, cv::Mat&, bool)>(&Wrappers::intersectConvexConvex_wrapper));
-  function("invert", select_overload<double(const cv::Mat&, cv::Mat&, int)>(&Wrappers::invert_wrapper));
   function("invertAffineTransform", select_overload<void(const cv::Mat&, cv::Mat&)>(&Wrappers::invertAffineTransform_wrapper));
   function("isContourConvex", select_overload<bool(const cv::Mat&)>(&Wrappers::isContourConvex_wrapper));
   function("kmeans", select_overload<double(const cv::Mat&, int, cv::Mat&, TermCriteria, int, int, cv::Mat&)>(&Wrappers::kmeans_wrapper));

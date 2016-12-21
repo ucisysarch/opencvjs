@@ -31,7 +31,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /////////////////////////////////////////////////////////////////////////////*/
 
-module ("IO")
+QUnit.module ("IO", {});
 QUnit.test("Test IO", function(assert) {
     const CV_LOAD_IMAGE_COLOR = 1;
     // Imwrite/Imread
