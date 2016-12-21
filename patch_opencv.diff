@@ -1,11 +1,22 @@
---- a/opencv/cmake/OpenCVCompilerOptions.cmake	2016-01-14 10:30:06.617458710 +0200
-+++ b/opencv/cmake/OpenCVCompilerOptions.cmake	2016-01-14 12:20:50.449304819 +0200
-@@ -102,7 +102,7 @@
+--- ./opencv/cmake/OpenCVCompilerOptions.cmake	2016-12-20 17:58:39.000000000 -0800
++++ ./opencv/cmake/OpenCVCompilerOptions.cmake	2016-12-20 20:31:27.000000000 -0800
+@@ -118,7 +118,7 @@
      add_extra_compiler_option(-Werror)
    endif()
- 
+
 -  if(X86 AND NOT MINGW64 AND NOT X86_64 AND NOT APPLE)
 +  if(X86 AND NOT MINGW64 AND NOT X86_64 AND NOT APPLE AND NOT EMSCRIPTEN)
      add_extra_compiler_option(-march=i686)
    endif()
- 
+
+--- ./opencv/modules/core/src/parallel.cpp	2016-12-20 18:23:21.000000000 -0800
++++ ./opencv/modules/core/src/parallel.cpp	2016-12-20 18:24:06.000000000 -0800
+@@ -254,7 +254,7 @@
+ {
+ #ifdef CV_PARALLEL_FRAMEWORK
+
+-    if(numThreads != 0)
++    if(numThreads > 0)
+     {
+         ProxyLoopBody pbody(body, range, nstripes);
+         cv::Range stripeRange = pbody.stripeRange();

@@ -43,7 +43,7 @@
 #include "opencv2/video/background_segm.hpp"
 #include "opencv2/objdetect.hpp"
 #include "opencv2/imgcodecs.hpp"
-#include "opencv2/hal.hpp"
+
 #include <emscripten/bind.h>
 
 using namespace emscripten;

@@ -43,7 +43,7 @@
 #include "opencv2/video/background_segm.hpp"
 #include "opencv2/objdetect.hpp"
 #include "opencv2/imgcodecs.hpp"
-#include "opencv2/hal.hpp"
+
 #include <emscripten/bind.h>
 
 using namespace emscripten;
@@ -686,6 +686,10 @@ namespace Wrappers {
         return cv::drawKeypoints(arg1, arg2, arg3, arg4, arg5);
     }
     
+    void drawMarker_wrapper(Mat& arg1, Point arg2, const Scalar& arg3, int arg4, int arg5, int arg6, int arg7) {
+        return cv::drawMarker(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+    }
+    
     void drawMatches_wrapper(const cv::Mat& arg1, const std::vector<KeyPoint>& arg2, const cv::Mat& arg3, const std::vector<KeyPoint>& arg4, const std::vector<DMatch>& arg5, cv::Mat& arg6, const Scalar& arg7, const Scalar& arg8, const std::vector<char>& arg9, int arg10) {
         return cv::drawMatches(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
     }
@@ -778,8 +782,8 @@ namespace Wrappers {
         return cv::findNonZero(arg1, arg2);
     }
     
-    double findTransformECC_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, int arg4, TermCriteria arg5) {
-        return cv::findTransformECC(arg1, arg2, arg3, arg4, arg5);
+    double findTransformECC_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, int arg4, TermCriteria arg5, const cv::Mat& arg6) {
+        return cv::findTransformECC(arg1, arg2, arg3, arg4, arg5, arg6);
     }
     
     RotatedRect fitEllipse_wrapper(const cv::Mat& arg1) {
@@ -1162,6 +1166,10 @@ namespace Wrappers {
         return cv::sortIdx(arg1, arg2, arg3);
     }
     
+    void spatialGradient_wrapper(const cv::Mat& arg1, cv::Mat& arg2, cv::Mat& arg3, int arg4, int arg5) {
+        return cv::spatialGradient(arg1, arg2, arg3, arg4, arg5);
+    }
+    
     void split_wrapper(const cv::Mat& arg1, std::vector<cv::Mat>& arg2) {
         return cv::split(arg1, arg2);
     }
@@ -1406,6 +1414,22 @@ namespace Wrappers {
         return arg0.setNormFlag(arg1);
     }
     
+    Ptr<AgastFeatureDetector> AgastFeatureDetector_create_wrapper(int arg1, bool arg2, int arg3) {
+        return cv::AgastFeatureDetector::create(arg1, arg2, arg3);
+    }
+    
+    void AgastFeatureDetector_setNonmaxSuppression_wrapper(cv::AgastFeatureDetector& arg0 , bool arg1) {
+        return arg0.setNonmaxSuppression(arg1);
+    }
+    
+    void AgastFeatureDetector_setThreshold_wrapper(cv::AgastFeatureDetector& arg0 , int arg1) {
+        return arg0.setThreshold(arg1);
+    }
+    
+    void AgastFeatureDetector_setType_wrapper(cv::AgastFeatureDetector& arg0 , int arg1) {
+        return arg0.setType(arg1);
+    }
+    
     void ml_Boost_setWeakCount_wrapper(cv::ml::Boost& arg0 , int arg1) {
         return arg0.setWeakCount(arg1);
     }
@@ -1558,7 +1582,7 @@ namespace Wrappers {
         return arg0.setRegressionAccuracy(arg1);
     }
     
-    void ml_DTrees_setPriors_wrapper(cv::ml::DTrees& arg0 , const cv::Mat& arg1) {
+    void ml_DTrees_setPriors_wrapper(cv::ml::DTrees& arg0 , const cv::Mat & arg1) {
         return arg0.setPriors(arg1);
     }
     
@@ -1858,6 +1882,18 @@ namespace Wrappers {
         return arg0.setDiffusivity(arg1);
     }
     
+    void Feature2D_detect_wrapper(cv::Feature2D& arg0 , const cv::Mat& arg1, std::vector<KeyPoint>& arg2, const cv::Mat& arg3) {
+        return arg0.detect(arg1, arg2, arg3);
+    }
+    
+    void Feature2D_compute_wrapper(cv::Feature2D& arg0 , const cv::Mat& arg1, std::vector<KeyPoint>& arg2, cv::Mat& arg3) {
+        return arg0.compute(arg1, arg2, arg3);
+    }
+    
+    void Feature2D_detectAndCompute_wrapper(cv::Feature2D& arg0 , const cv::Mat& arg1, const cv::Mat& arg2, std::vector<KeyPoint>& arg3, cv::Mat& arg4, bool arg5) {
+        return arg0.detectAndCompute(arg1, arg2, arg3, arg4, arg5);
+    }
+    
     bool flann_Index_load_wrapper(cv::flann::Index& arg0 , const cv::Mat& arg1, const std::string& arg2) {
         return arg0.load(arg1, arg2);
     }
@@ -1942,23 +1978,59 @@ namespace Wrappers {
         return arg0.applyTransformation(arg1, arg2);
     }
     
-    void Feature2D_detect_wrapper(cv::Feature2D& arg0 , const cv::Mat& arg1, std::vector<KeyPoint>& arg2, const cv::Mat& arg3) {
-        return arg0.detect(arg1, arg2, arg3);
+    void ml_ANN_MLP_setRpropDWMinus_wrapper(cv::ml::ANN_MLP& arg0 , double arg1) {
+        return arg0.setRpropDWMinus(arg1);
     }
     
-    void Feature2D_compute_wrapper(cv::Feature2D& arg0 , const cv::Mat& arg1, std::vector<KeyPoint>& arg2, cv::Mat& arg3) {
-        return arg0.compute(arg1, arg2, arg3);
+    void ml_ANN_MLP_setBackpropWeightScale_wrapper(cv::ml::ANN_MLP& arg0 , double arg1) {
+        return arg0.setBackpropWeightScale(arg1);
     }
     
-    void Feature2D_detectAndCompute_wrapper(cv::Feature2D& arg0 , const cv::Mat& arg1, const cv::Mat& arg2, std::vector<KeyPoint>& arg3, cv::Mat& arg4, bool arg5) {
-        return arg0.detectAndCompute(arg1, arg2, arg3, arg4, arg5);
+    void ml_ANN_MLP_setRpropDWMin_wrapper(cv::ml::ANN_MLP& arg0 , double arg1) {
+        return arg0.setRpropDWMin(arg1);
+    }
+    
+    void ml_ANN_MLP_setActivationFunction_wrapper(cv::ml::ANN_MLP& arg0 , int arg1, double arg2, double arg3) {
+        return arg0.setActivationFunction(arg1, arg2, arg3);
+    }
+    
+    void ml_ANN_MLP_setRpropDWMax_wrapper(cv::ml::ANN_MLP& arg0 , double arg1) {
+        return arg0.setRpropDWMax(arg1);
+    }
+    
+    void ml_ANN_MLP_setRpropDW0_wrapper(cv::ml::ANN_MLP& arg0 , double arg1) {
+        return arg0.setRpropDW0(arg1);
+    }
+    
+    void ml_ANN_MLP_setBackpropMomentumScale_wrapper(cv::ml::ANN_MLP& arg0 , double arg1) {
+        return arg0.setBackpropMomentumScale(arg1);
+    }
+    
+    void ml_ANN_MLP_setRpropDWPlus_wrapper(cv::ml::ANN_MLP& arg0 , double arg1) {
+        return arg0.setRpropDWPlus(arg1);
+    }
+    
+    void ml_ANN_MLP_setTrainMethod_wrapper(cv::ml::ANN_MLP& arg0 , int arg1, double arg2, double arg3) {
+        return arg0.setTrainMethod(arg1, arg2, arg3);
+    }
+    
+    void ml_ANN_MLP_setTermCriteria_wrapper(cv::ml::ANN_MLP& arg0 , TermCriteria arg1) {
+        return arg0.setTermCriteria(arg1);
+    }
+    
+    void ml_ANN_MLP_setLayerSizes_wrapper(cv::ml::ANN_MLP& arg0 , const cv::Mat& arg1) {
+        return arg0.setLayerSizes(arg1);
+    }
+    
+    Mat ml_ANN_MLP_getWeights_wrapper(cv::ml::ANN_MLP& arg0 , int arg1) {
+        return arg0.getWeights(arg1);
     }
     
     void ml_RTrees_setCalculateVarImportance_wrapper(cv::ml::RTrees& arg0 , bool arg1) {
         return arg0.setCalculateVarImportance(arg1);
     }
     
-    void ml_RTrees_setTermCriteria_wrapper(cv::ml::RTrees& arg0 , const TermCriteria& arg1) {
+    void ml_RTrees_setTermCriteria_wrapper(cv::ml::RTrees& arg0 , const TermCriteria & arg1) {
         return arg0.setTermCriteria(arg1);
     }
     
@@ -2146,12 +2218,12 @@ namespace Wrappers {
         return arg0.apply(arg1, arg2);
     }
     
-    Ptr<SimpleBlobDetector> SimpleBlobDetector_create_wrapper(const SimpleBlobDetector::Params& arg1) {
+    Ptr<SimpleBlobDetector> SimpleBlobDetector_create_wrapper(const SimpleBlobDetector::Params & arg1) {
         return cv::SimpleBlobDetector::create(arg1);
     }
     
-    double ml_SVM_getDecisionFunction_wrapper(cv::ml::SVM& arg0 , int arg1, cv::Mat& arg2, cv::Mat& arg3) {
-        return arg0.getDecisionFunction(arg1, arg2, arg3);
+    void ml_SVM_setCoef0_wrapper(cv::ml::SVM& arg0 , double arg1) {
+        return arg0.setCoef0(arg1);
     }
     
     void ml_SVM_setNu_wrapper(cv::ml::SVM& arg0 , double arg1) {
@@ -2182,8 +2254,8 @@ namespace Wrappers {
         return arg0.setP(arg1);
     }
     
-    void ml_SVM_setCoef0_wrapper(cv::ml::SVM& arg0 , double arg1) {
-        return arg0.setCoef0(arg1);
+    double ml_SVM_getDecisionFunction_wrapper(cv::ml::SVM& arg0 , int arg1, cv::Mat& arg2, cv::Mat& arg3) {
+        return arg0.getDecisionFunction(arg1, arg2, arg3);
     }
     
     void ml_SVM_setKernel_wrapper(cv::ml::SVM& arg0 , int arg1) {
@@ -2316,6 +2388,10 @@ namespace Wrappers {
     
     bool ml_EM_trainE_wrapper(cv::ml::EM& arg0 , const cv::Mat& arg1, const cv::Mat& arg2, const cv::Mat& arg3, const cv::Mat& arg4, cv::Mat& arg5, cv::Mat& arg6, cv::Mat& arg7) {
         return arg0.trainE(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+    }
+    
+    void ml_EM_getCovs_wrapper(cv::ml::EM& arg0 , std::vector<Mat>& arg1) {
+        return arg0.getCovs(arg1);
     }
     
     void ml_EM_setClustersNumber_wrapper(cv::ml::EM& arg0 , int arg1) {
@@ -2513,6 +2589,8 @@ EMSCRIPTEN_BINDINGS(testBinding) {
 
     function("drawKeypoints", select_overload<void(const cv::Mat&, const std::vector<KeyPoint>&, cv::Mat&, const Scalar&, int)>(&Wrappers::drawKeypoints_wrapper));
 
+    function("drawMarker", select_overload<void(Mat&, Point, const Scalar&, int, int, int, int)>(&Wrappers::drawMarker_wrapper));
+
     function("drawMatches", select_overload<void(const cv::Mat&, const std::vector<KeyPoint>&, const cv::Mat&, const std::vector<KeyPoint>&, const std::vector<DMatch>&, cv::Mat&, const Scalar&, const Scalar&, const std::vector<char>&, int)>(&Wrappers::drawMatches_wrapper));
 
     function("drawMatchesKnn", select_overload<void(const cv::Mat&, const std::vector<KeyPoint>&, const cv::Mat&, const std::vector<KeyPoint>&, const std::vector<std::vector<DMatch> >&, cv::Mat&, const Scalar&, const Scalar&, const std::vector<std::vector<char> >&, int)>(&Wrappers::drawMatches_wrapper));
@@ -2559,7 +2637,7 @@ EMSCRIPTEN_BINDINGS(testBinding) {
 
     function("findNonZero", select_overload<void(const cv::Mat&, cv::Mat&)>(&Wrappers::findNonZero_wrapper));
 
-    function("findTransformECC", select_overload<double(const cv::Mat&, const cv::Mat&, cv::Mat&, int, TermCriteria)>(&Wrappers::findTransformECC_wrapper));
+    function("findTransformECC", select_overload<double(const cv::Mat&, const cv::Mat&, cv::Mat&, int, TermCriteria, const cv::Mat&)>(&Wrappers::findTransformECC_wrapper));
 
     function("fitEllipse", select_overload<RotatedRect(const cv::Mat&)>(&Wrappers::fitEllipse_wrapper));
 
@@ -2751,6 +2829,8 @@ EMSCRIPTEN_BINDINGS(testBinding) {
 
     function("sortIdx", select_overload<void(const cv::Mat&, cv::Mat&, int)>(&Wrappers::sortIdx_wrapper));
 
+    function("spatialGradient", select_overload<void(const cv::Mat&, cv::Mat&, cv::Mat&, int, int)>(&Wrappers::spatialGradient_wrapper));
+
     function("split", select_overload<void(const cv::Mat&, std::vector<cv::Mat>&)>(&Wrappers::split_wrapper));
 
     function("sqrBoxFilter", select_overload<void(const cv::Mat&, cv::Mat&, int, Size, Point, bool, int)>(&Wrappers::sqrBoxFilter_wrapper));
@@ -2853,7 +2933,7 @@ EMSCRIPTEN_BINDINGS(testBinding) {
         .function("load", select_overload<bool(cv::HOGDescriptor&,const std::string&,const std::string&)>(&Wrappers::HOGDescriptor_load_wrapper))
         .function("detect", select_overload<void(cv::HOGDescriptor&,const Mat&,std::vector<Point>&,std::vector<double>&,double,Size,Size,const std::vector<Point>&)>(&Wrappers::HOGDescriptor_detect_wrapper))
         .constructor<>()
-        .constructor<Size, Size, Size, Size, int, int, double, int, double, bool, int>()
+        .constructor<Size, Size, Size, Size, int, int, double, int, double, bool, int, bool>()
         .constructor<const String&>()
         .class_function("getDefaultPeopleDetector", select_overload<std::vector<float>()>(&cv::HOGDescriptor::getDefaultPeopleDetector))
         .function("computeGradient", select_overload<void(cv::HOGDescriptor&,const Mat&,Mat&,Mat&,Size,Size)>(&Wrappers::HOGDescriptor_computeGradient_wrapper))
@@ -2876,7 +2956,8 @@ EMSCRIPTEN_BINDINGS(testBinding) {
         .property("L2HysThreshold", &cv::HOGDescriptor::L2HysThreshold)
         .property("gammaCorrection", &cv::HOGDescriptor::gammaCorrection)
         .property("svmDetector", &cv::HOGDescriptor::svmDetector)
-        .property("nlevels", &cv::HOGDescriptor::nlevels);
+        .property("nlevels", &cv::HOGDescriptor::nlevels)
+        .property("signedGradient", &cv::HOGDescriptor::signedGradient);
 
     emscripten::class_<cv::ml::LogisticRegression ,base<ml::StatModel>>("ml_LogisticRegression")
         .function("getTermCriteria", select_overload<TermCriteria()const>(&cv::ml::LogisticRegression::getTermCriteria), pure_virtual())
@@ -2901,6 +2982,17 @@ EMSCRIPTEN_BINDINGS(testBinding) {
         .constructor(select_overload<Ptr<HistogramCostExtractor>(int,int,float)>(&Wrappers::_createNormHistogramCostExtractor_wrapper))
         .function("setNormFlag", select_overload<void(cv::NormHistogramCostExtractor&,int)>(&Wrappers::NormHistogramCostExtractor_setNormFlag_wrapper), pure_virtual())
         .function("getNormFlag", select_overload<int()const>(&cv::NormHistogramCostExtractor::getNormFlag), pure_virtual());
+
+    emscripten::class_<cv::AgastFeatureDetector ,base<Feature2D>>("AgastFeatureDetector")
+        .function("getNonmaxSuppression", select_overload<bool()const>(&cv::AgastFeatureDetector::getNonmaxSuppression), pure_virtual())
+        .function("getThreshold", select_overload<int()const>(&cv::AgastFeatureDetector::getThreshold), pure_virtual())
+        .constructor(select_overload<Ptr<AgastFeatureDetector>(int,bool,int)>(&Wrappers::AgastFeatureDetector_create_wrapper))
+        .function("getType", select_overload<int()const>(&cv::AgastFeatureDetector::getType), pure_virtual())
+        .function("setNonmaxSuppression", select_overload<void(cv::AgastFeatureDetector&,bool)>(&Wrappers::AgastFeatureDetector_setNonmaxSuppression_wrapper), pure_virtual())
+        .function("setThreshold", select_overload<void(cv::AgastFeatureDetector&,int)>(&Wrappers::AgastFeatureDetector_setThreshold_wrapper), pure_virtual())
+        .function("setType", select_overload<void(cv::AgastFeatureDetector&,int)>(&Wrappers::AgastFeatureDetector_setType_wrapper), pure_virtual())
+        .smart_ptr<Ptr<cv::AgastFeatureDetector>>("Ptr<AgastFeatureDetector>")
+;
 
     emscripten::class_<cv::ml::Boost ,base<ml::DTrees>>("ml_Boost")
         .constructor(select_overload<Ptr<Boost>()>(&cv::ml::Boost::create))
@@ -3001,7 +3093,7 @@ EMSCRIPTEN_BINDINGS(testBinding) {
         .function("getUseSurrogates", select_overload<bool()const>(&cv::ml::DTrees::getUseSurrogates), pure_virtual())
         .function("setRegressionAccuracy", select_overload<void(cv::ml::DTrees&,float)>(&Wrappers::ml_DTrees_setRegressionAccuracy_wrapper), pure_virtual())
         .function("getMaxDepth", select_overload<int()const>(&cv::ml::DTrees::getMaxDepth), pure_virtual())
-        .function("setPriors", select_overload<void(cv::ml::DTrees&,const cv::Mat&)>(&Wrappers::ml_DTrees_setPriors_wrapper), pure_virtual())
+        .function("setPriors", select_overload<void(cv::ml::DTrees&,const cv::Mat &)>(&Wrappers::ml_DTrees_setPriors_wrapper), pure_virtual())
         .constructor(select_overload<Ptr<DTrees>()>(&cv::ml::DTrees::create))
         .function("getRegressionAccuracy", select_overload<float()const>(&cv::ml::DTrees::getRegressionAccuracy), pure_virtual())
         .smart_ptr<Ptr<cv::ml::DTrees>>("Ptr<ml_DTrees>")
@@ -3189,6 +3281,15 @@ EMSCRIPTEN_BINDINGS(testBinding) {
         .smart_ptr<Ptr<cv::AKAZE>>("Ptr<AKAZE>")
 ;
 
+    emscripten::class_<cv::Feature2D ,base<Algorithm ,true>>("Feature2D")
+        .function("detect", select_overload<void(cv::Feature2D&,const cv::Mat&,std::vector<KeyPoint>&,const cv::Mat&)>(&Wrappers::Feature2D_detect_wrapper))
+        .function("compute", select_overload<void(cv::Feature2D&,const cv::Mat&,std::vector<KeyPoint>&,cv::Mat&)>(&Wrappers::Feature2D_compute_wrapper))
+        .function("defaultNorm", select_overload<int()const>(&cv::Feature2D::defaultNorm))
+        .function("detectAndCompute", select_overload<void(cv::Feature2D&,const cv::Mat&,const cv::Mat&,std::vector<KeyPoint>&,cv::Mat&,bool)>(&Wrappers::Feature2D_detectAndCompute_wrapper))
+        .function("descriptorSize", select_overload<int()const>(&cv::Feature2D::descriptorSize))
+        .function("descriptorType", select_overload<int()const>(&cv::Feature2D::descriptorType))
+        .function("empty", select_overload<bool()const>(&cv::Feature2D::empty));
+
     emscripten::class_<cv::flann::Index >("flann_Index")
         .function("load", select_overload<bool(cv::flann::Index&,const cv::Mat&,const std::string&)>(&Wrappers::flann_Index_load_wrapper))
         .constructor<>()
@@ -3249,14 +3350,32 @@ EMSCRIPTEN_BINDINGS(testBinding) {
         .function("estimateTransformation", select_overload<void(cv::ShapeTransformer&,const cv::Mat&,const cv::Mat&,std::vector<DMatch>&)>(&Wrappers::ShapeTransformer_estimateTransformation_wrapper), pure_virtual())
         .function("applyTransformation", select_overload<float(cv::ShapeTransformer&,const cv::Mat&,cv::Mat&)>(&Wrappers::ShapeTransformer_applyTransformation_wrapper), pure_virtual());
 
-    emscripten::class_<cv::Feature2D ,base<Algorithm ,true>>("Feature2D")
-        .function("detect", select_overload<void(cv::Feature2D&,const cv::Mat&,std::vector<KeyPoint>&,const cv::Mat&)>(&Wrappers::Feature2D_detect_wrapper))
-        .function("compute", select_overload<void(cv::Feature2D&,const cv::Mat&,std::vector<KeyPoint>&,cv::Mat&)>(&Wrappers::Feature2D_compute_wrapper))
-        .function("defaultNorm", select_overload<int()const>(&cv::Feature2D::defaultNorm))
-        .function("detectAndCompute", select_overload<void(cv::Feature2D&,const cv::Mat&,const cv::Mat&,std::vector<KeyPoint>&,cv::Mat&,bool)>(&Wrappers::Feature2D_detectAndCompute_wrapper))
-        .function("descriptorSize", select_overload<int()const>(&cv::Feature2D::descriptorSize))
-        .function("descriptorType", select_overload<int()const>(&cv::Feature2D::descriptorType))
-        .function("empty", select_overload<bool()const>(&cv::Feature2D::empty));
+    emscripten::class_<cv::ml::ANN_MLP ,base<ml::StatModel>>("ml_ANN_MLP")
+        .function("getTrainMethod", select_overload<int()const>(&cv::ml::ANN_MLP::getTrainMethod), pure_virtual())
+        .function("getRpropDWMinus", select_overload<double()const>(&cv::ml::ANN_MLP::getRpropDWMinus), pure_virtual())
+        .function("getRpropDWMin", select_overload<double()const>(&cv::ml::ANN_MLP::getRpropDWMin), pure_virtual())
+        .function("setRpropDWMinus", select_overload<void(cv::ml::ANN_MLP&,double)>(&Wrappers::ml_ANN_MLP_setRpropDWMinus_wrapper), pure_virtual())
+        .function("getRpropDWPlus", select_overload<double()const>(&cv::ml::ANN_MLP::getRpropDWPlus), pure_virtual())
+        .function("setBackpropWeightScale", select_overload<void(cv::ml::ANN_MLP&,double)>(&Wrappers::ml_ANN_MLP_setBackpropWeightScale_wrapper), pure_virtual())
+        .function("setRpropDWMin", select_overload<void(cv::ml::ANN_MLP&,double)>(&Wrappers::ml_ANN_MLP_setRpropDWMin_wrapper), pure_virtual())
+        .function("setActivationFunction", select_overload<void(cv::ml::ANN_MLP&,int,double,double)>(&Wrappers::ml_ANN_MLP_setActivationFunction_wrapper), pure_virtual())
+        .function("getBackpropMomentumScale", select_overload<double()const>(&cv::ml::ANN_MLP::getBackpropMomentumScale), pure_virtual())
+        .function("getRpropDWMax", select_overload<double()const>(&cv::ml::ANN_MLP::getRpropDWMax), pure_virtual())
+        .function("setRpropDWMax", select_overload<void(cv::ml::ANN_MLP&,double)>(&Wrappers::ml_ANN_MLP_setRpropDWMax_wrapper), pure_virtual())
+        .constructor(select_overload<Ptr<ANN_MLP>()>(&cv::ml::ANN_MLP::create))
+        .function("setRpropDW0", select_overload<void(cv::ml::ANN_MLP&,double)>(&Wrappers::ml_ANN_MLP_setRpropDW0_wrapper), pure_virtual())
+        .function("setBackpropMomentumScale", select_overload<void(cv::ml::ANN_MLP&,double)>(&Wrappers::ml_ANN_MLP_setBackpropMomentumScale_wrapper), pure_virtual())
+        .function("setRpropDWPlus", select_overload<void(cv::ml::ANN_MLP&,double)>(&Wrappers::ml_ANN_MLP_setRpropDWPlus_wrapper), pure_virtual())
+        .function("setTrainMethod", select_overload<void(cv::ml::ANN_MLP&,int,double,double)>(&Wrappers::ml_ANN_MLP_setTrainMethod_wrapper), pure_virtual())
+        .function("setTermCriteria", select_overload<void(cv::ml::ANN_MLP&,TermCriteria)>(&Wrappers::ml_ANN_MLP_setTermCriteria_wrapper), pure_virtual())
+        .function("setLayerSizes", select_overload<void(cv::ml::ANN_MLP&,const cv::Mat&)>(&Wrappers::ml_ANN_MLP_setLayerSizes_wrapper), pure_virtual())
+        .function("getLayerSizes", select_overload<cv::Mat()const>(&cv::ml::ANN_MLP::getLayerSizes), pure_virtual())
+        .function("getBackpropWeightScale", select_overload<double()const>(&cv::ml::ANN_MLP::getBackpropWeightScale), pure_virtual())
+        .function("getTermCriteria", select_overload<TermCriteria()const>(&cv::ml::ANN_MLP::getTermCriteria), pure_virtual())
+        .function("getWeights", select_overload<Mat(cv::ml::ANN_MLP&,int)>(&Wrappers::ml_ANN_MLP_getWeights_wrapper), pure_virtual())
+        .function("getRpropDW0", select_overload<double()const>(&cv::ml::ANN_MLP::getRpropDW0), pure_virtual())
+        .smart_ptr<Ptr<cv::ml::ANN_MLP>>("Ptr<ml_ANN_MLP>")
+;
 
     emscripten::class_<cv::ml::RTrees ,base<ml::DTrees>>("ml_RTrees")
         .function("getTermCriteria", select_overload<TermCriteria()const>(&cv::ml::RTrees::getTermCriteria), pure_virtual())
@@ -3264,7 +3383,7 @@ EMSCRIPTEN_BINDINGS(testBinding) {
         .constructor(select_overload<Ptr<RTrees>()>(&cv::ml::RTrees::create))
         .function("setCalculateVarImportance", select_overload<void(cv::ml::RTrees&,bool)>(&Wrappers::ml_RTrees_setCalculateVarImportance_wrapper), pure_virtual())
         .function("getVarImportance", select_overload<Mat()const>(&cv::ml::RTrees::getVarImportance), pure_virtual())
-        .function("setTermCriteria", select_overload<void(cv::ml::RTrees&,const TermCriteria&)>(&Wrappers::ml_RTrees_setTermCriteria_wrapper), pure_virtual())
+        .function("setTermCriteria", select_overload<void(cv::ml::RTrees&,const TermCriteria &)>(&Wrappers::ml_RTrees_setTermCriteria_wrapper), pure_virtual())
         .function("getActiveVarCount", select_overload<int()const>(&cv::ml::RTrees::getActiveVarCount), pure_virtual())
         .function("setActiveVarCount", select_overload<void(cv::ml::RTrees&,int)>(&Wrappers::ml_RTrees_setActiveVarCount_wrapper), pure_virtual())
         .smart_ptr<Ptr<cv::ml::RTrees>>("Ptr<ml_RTrees>")
@@ -3469,14 +3588,14 @@ EMSCRIPTEN_BINDINGS(testBinding) {
         .property("nu03", &cv::Moments::nu03);
 
     emscripten::class_<cv::SimpleBlobDetector ,base<Feature2D>>("SimpleBlobDetector")
-        .constructor(select_overload<Ptr<SimpleBlobDetector>(const SimpleBlobDetector::Params&)>(&Wrappers::SimpleBlobDetector_create_wrapper))
+        .constructor(select_overload<Ptr<SimpleBlobDetector>(const SimpleBlobDetector::Params &)>(&Wrappers::SimpleBlobDetector_create_wrapper))
         .smart_ptr<Ptr<cv::SimpleBlobDetector>>("Ptr<SimpleBlobDetector>")
 ;
 
     emscripten::class_<cv::ml::SVM ,base<ml::StatModel>>("ml_SVM")
         .function("getDegree", select_overload<double()const>(&cv::ml::SVM::getDegree), pure_virtual())
         .function("getC", select_overload<double()const>(&cv::ml::SVM::getC), pure_virtual())
-        .function("getDecisionFunction", select_overload<double(cv::ml::SVM&,int,cv::Mat&,cv::Mat&)>(&Wrappers::ml_SVM_getDecisionFunction_wrapper), pure_virtual())
+        .function("setCoef0", select_overload<void(cv::ml::SVM&,double)>(&Wrappers::ml_SVM_setCoef0_wrapper), pure_virtual())
         .function("getP", select_overload<double()const>(&cv::ml::SVM::getP), pure_virtual())
         .function("setNu", select_overload<void(cv::ml::SVM&,double)>(&Wrappers::ml_SVM_setNu_wrapper), pure_virtual())
         .function("setType", select_overload<void(cv::ml::SVM&,int)>(&Wrappers::ml_SVM_setType_wrapper), pure_virtual())
@@ -3492,11 +3611,12 @@ EMSCRIPTEN_BINDINGS(testBinding) {
         .function("getGamma", select_overload<double()const>(&cv::ml::SVM::getGamma), pure_virtual())
         .function("getKernelType", select_overload<int()const>(&cv::ml::SVM::getKernelType), pure_virtual())
         .function("getTermCriteria", select_overload<cv::TermCriteria()const>(&cv::ml::SVM::getTermCriteria), pure_virtual())
-        .function("setCoef0", select_overload<void(cv::ml::SVM&,double)>(&Wrappers::ml_SVM_setCoef0_wrapper), pure_virtual())
+        .function("getDecisionFunction", select_overload<double(cv::ml::SVM&,int,cv::Mat&,cv::Mat&)>(&Wrappers::ml_SVM_getDecisionFunction_wrapper), pure_virtual())
         .function("getClassWeights", select_overload<cv::Mat()const>(&cv::ml::SVM::getClassWeights), pure_virtual())
         .function("setKernel", select_overload<void(cv::ml::SVM&,int)>(&Wrappers::ml_SVM_setKernel_wrapper), pure_virtual())
         .function("setClassWeights", select_overload<void(cv::ml::SVM&,const cv::Mat &)>(&Wrappers::ml_SVM_setClassWeights_wrapper), pure_virtual())
         .function("getNu", select_overload<double()const>(&cv::ml::SVM::getNu), pure_virtual())
+        .function("getUncompressedSupportVectors", select_overload<Mat()const>(&cv::ml::SVM::getUncompressedSupportVectors))
         .smart_ptr<Ptr<cv::ml::SVM>>("Ptr<ml_SVM>")
 ;
 
@@ -3580,6 +3700,7 @@ EMSCRIPTEN_BINDINGS(testBinding) {
     emscripten::class_<cv::ml::EM ,base<ml::StatModel>>("ml_EM")
         .function("trainE", select_overload<bool(cv::ml::EM&,const cv::Mat&,const cv::Mat&,const cv::Mat&,const cv::Mat&,cv::Mat&,cv::Mat&,cv::Mat&)>(&Wrappers::ml_EM_trainE_wrapper), pure_virtual())
         .function("getTermCriteria", select_overload<TermCriteria()const>(&cv::ml::EM::getTermCriteria), pure_virtual())
+        .function("getCovs", select_overload<void(cv::ml::EM&,std::vector<Mat>&)>(&Wrappers::ml_EM_getCovs_wrapper), pure_virtual())
         .function("getWeights", select_overload<Mat()const>(&cv::ml::EM::getWeights), pure_virtual())
         .function("setClustersNumber", select_overload<void(cv::ml::EM&,int)>(&Wrappers::ml_EM_setClustersNumber_wrapper), pure_virtual())
         .function("trainM", select_overload<bool(cv::ml::EM&,const cv::Mat&,const cv::Mat&,cv::Mat&,cv::Mat&,cv::Mat&)>(&Wrappers::ml_EM_trainM_wrapper), pure_virtual())
@@ -3810,7 +3931,8 @@ EMSCRIPTEN_BINDINGS(testBinding) {
         .value("COLORMAP_COOL", ColormapTypes::COLORMAP_COOL)
         .value("COLORMAP_HSV", ColormapTypes::COLORMAP_HSV)
         .value("COLORMAP_PINK", ColormapTypes::COLORMAP_PINK)
-        .value("COLORMAP_HOT", ColormapTypes::COLORMAP_HOT);
+        .value("COLORMAP_HOT", ColormapTypes::COLORMAP_HOT)
+        .value("COLORMAP_PARULA", ColormapTypes::COLORMAP_PARULA);
 
     emscripten::enum_<ConnectedComponentsTypes>("ConnectedComponentsTypes")
         .value("CC_STAT_LEFT", ConnectedComponentsTypes::CC_STAT_LEFT)
@@ -3894,6 +4016,40 @@ EMSCRIPTEN_BINDINGS(testBinding) {
         .value("HOUGH_MULTI_SCALE", HoughModes::HOUGH_MULTI_SCALE)
         .value("HOUGH_GRADIENT", HoughModes::HOUGH_GRADIENT);
 
+    emscripten::enum_<ImreadModes>("ImreadModes")
+        .value("IMREAD_UNCHANGED", ImreadModes::IMREAD_UNCHANGED)
+        .value("IMREAD_GRAYSCALE", ImreadModes::IMREAD_GRAYSCALE)
+        .value("IMREAD_COLOR", ImreadModes::IMREAD_COLOR)
+        .value("IMREAD_ANYDEPTH", ImreadModes::IMREAD_ANYDEPTH)
+        .value("IMREAD_ANYCOLOR", ImreadModes::IMREAD_ANYCOLOR)
+        .value("IMREAD_LOAD_GDAL", ImreadModes::IMREAD_LOAD_GDAL)
+        .value("IMREAD_REDUCED_GRAYSCALE_2", ImreadModes::IMREAD_REDUCED_GRAYSCALE_2)
+        .value("IMREAD_REDUCED_COLOR_2", ImreadModes::IMREAD_REDUCED_COLOR_2)
+        .value("IMREAD_REDUCED_GRAYSCALE_4", ImreadModes::IMREAD_REDUCED_GRAYSCALE_4)
+        .value("IMREAD_REDUCED_COLOR_4", ImreadModes::IMREAD_REDUCED_COLOR_4)
+        .value("IMREAD_REDUCED_GRAYSCALE_8", ImreadModes::IMREAD_REDUCED_GRAYSCALE_8)
+        .value("IMREAD_REDUCED_COLOR_8", ImreadModes::IMREAD_REDUCED_COLOR_8);
+
+    emscripten::enum_<ImwriteFlags>("ImwriteFlags")
+        .value("IMWRITE_JPEG_QUALITY", ImwriteFlags::IMWRITE_JPEG_QUALITY)
+        .value("IMWRITE_JPEG_PROGRESSIVE", ImwriteFlags::IMWRITE_JPEG_PROGRESSIVE)
+        .value("IMWRITE_JPEG_OPTIMIZE", ImwriteFlags::IMWRITE_JPEG_OPTIMIZE)
+        .value("IMWRITE_JPEG_RST_INTERVAL", ImwriteFlags::IMWRITE_JPEG_RST_INTERVAL)
+        .value("IMWRITE_JPEG_LUMA_QUALITY", ImwriteFlags::IMWRITE_JPEG_LUMA_QUALITY)
+        .value("IMWRITE_JPEG_CHROMA_QUALITY", ImwriteFlags::IMWRITE_JPEG_CHROMA_QUALITY)
+        .value("IMWRITE_PNG_COMPRESSION", ImwriteFlags::IMWRITE_PNG_COMPRESSION)
+        .value("IMWRITE_PNG_STRATEGY", ImwriteFlags::IMWRITE_PNG_STRATEGY)
+        .value("IMWRITE_PNG_BILEVEL", ImwriteFlags::IMWRITE_PNG_BILEVEL)
+        .value("IMWRITE_PXM_BINARY", ImwriteFlags::IMWRITE_PXM_BINARY)
+        .value("IMWRITE_WEBP_QUALITY", ImwriteFlags::IMWRITE_WEBP_QUALITY);
+
+    emscripten::enum_<ImwritePNGFlags>("ImwritePNGFlags")
+        .value("IMWRITE_PNG_STRATEGY_DEFAULT", ImwritePNGFlags::IMWRITE_PNG_STRATEGY_DEFAULT)
+        .value("IMWRITE_PNG_STRATEGY_FILTERED", ImwritePNGFlags::IMWRITE_PNG_STRATEGY_FILTERED)
+        .value("IMWRITE_PNG_STRATEGY_HUFFMAN_ONLY", ImwritePNGFlags::IMWRITE_PNG_STRATEGY_HUFFMAN_ONLY)
+        .value("IMWRITE_PNG_STRATEGY_RLE", ImwritePNGFlags::IMWRITE_PNG_STRATEGY_RLE)
+        .value("IMWRITE_PNG_STRATEGY_FIXED", ImwritePNGFlags::IMWRITE_PNG_STRATEGY_FIXED);
+
     emscripten::enum_<InterpolationFlags>("InterpolationFlags")
         .value("INTER_NEAREST", InterpolationFlags::INTER_NEAREST)
         .value("INTER_LINEAR", InterpolationFlags::INTER_LINEAR)
@@ -3926,6 +4082,15 @@ EMSCRIPTEN_BINDINGS(testBinding) {
         .value("LINE_8", LineTypes::LINE_8)
         .value("LINE_AA", LineTypes::LINE_AA);
 
+    emscripten::enum_<MarkerTypes>("MarkerTypes")
+        .value("MARKER_CROSS", MarkerTypes::MARKER_CROSS)
+        .value("MARKER_TILTED_CROSS", MarkerTypes::MARKER_TILTED_CROSS)
+        .value("MARKER_STAR", MarkerTypes::MARKER_STAR)
+        .value("MARKER_DIAMOND", MarkerTypes::MARKER_DIAMOND)
+        .value("MARKER_SQUARE", MarkerTypes::MARKER_SQUARE)
+        .value("MARKER_TRIANGLE_UP", MarkerTypes::MARKER_TRIANGLE_UP)
+        .value("MARKER_TRIANGLE_DOWN", MarkerTypes::MARKER_TRIANGLE_DOWN);
+
     emscripten::enum_<MorphShapes>("MorphShapes")
         .value("MORPH_RECT", MorphShapes::MORPH_RECT)
         .value("MORPH_CROSS", MorphShapes::MORPH_CROSS)
@@ -3938,7 +4103,8 @@ EMSCRIPTEN_BINDINGS(testBinding) {
         .value("MORPH_CLOSE", MorphTypes::MORPH_CLOSE)
         .value("MORPH_GRADIENT", MorphTypes::MORPH_GRADIENT)
         .value("MORPH_TOPHAT", MorphTypes::MORPH_TOPHAT)
-        .value("MORPH_BLACKHAT", MorphTypes::MORPH_BLACKHAT);
+        .value("MORPH_BLACKHAT", MorphTypes::MORPH_BLACKHAT)
+        .value("MORPH_HITMISS", MorphTypes::MORPH_HITMISS);
 
     emscripten::enum_<PCA::Flags>("PCA_Flags")
         .value("DATA_AS_ROW", PCA::Flags::DATA_AS_ROW)
