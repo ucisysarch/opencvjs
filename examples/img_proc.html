@@ -205,16 +205,15 @@
 		var histg = new cv.Mat();
 		var histb = new cv.Mat();
 		planes.push_back(0);
-		cv.calcHist(rgbPlanes, planes, new cv.Mat(), histr, histSize, ranges);
+		cv.calcHist(rgbPlanes, planes, new cv.Mat(), histr, histSize, ranges, false);
 		planes.set(0,1);
-		cv.calcHist(rgbPlanes, planes, new cv.Mat(), histg, histSize, ranges);
+		cv.calcHist(rgbPlanes, planes, new cv.Mat(), histg, histSize, ranges, false);
 		planes.set(0,2);
-		cv.calcHist(rgbPlanes, planes, new cv.Mat(), histb, histSize, ranges);
+		cv.calcHist(rgbPlanes, planes, new cv.Mat(), histb, histSize, ranges, false);
 
 		var total = 0 ;
 		for (var i = 0 ; i < numBins ; ++i ){
-			console.log(histr.at_float(i));
-			total += histr.at_float(i);
+			total += histr.get_float_at(i);
 		}
 
 		// Normalize
@@ -234,20 +233,20 @@
 		for(var i = 1; i < numBins	 ; i++ )
 		{
 			cv.line(histImage,
-						[bin_w*(i-1), hist_h - histr.at_float(i-1)*hist_h],
-						[bin_w*(i), hist_h - histr.at_float(i)*hist_h],
+						[bin_w*(i-1), hist_h - histr.get_float_at(i-1)*hist_h],
+						[bin_w*(i), hist_h - histr.get_float_at(i)*hist_h],
 						new cv.Scalar(255, 0, 0),
 						1, cv.LineTypes.LINE_8.value, 0
 					);
 			cv.line(histImage,
-						[bin_w*(i-1), hist_h - histg.at_float(i-1)*hist_h],
-						[bin_w*(i), hist_h - histg.at_float(i)*hist_h],
+						[bin_w*(i-1), hist_h - histg.get_float_at(i-1)*hist_h],
+						[bin_w*(i), hist_h - histg.get_float_at(i)*hist_h],
 						new cv.Scalar(0, 255, 0),
 						1, cv.LineTypes.LINE_8.value, 0
 					);
 			cv.line(histImage,
-						[bin_w*(i-1), hist_h - histb.at_float(i-1)*hist_h],
-						[bin_w*(i), hist_h - histb.at_float(i)*hist_h],
+						[bin_w*(i-1), hist_h - histb.get_float_at(i-1)*hist_h],
+						[bin_w*(i), hist_h - histb.get_float_at(i)*hist_h],
 						new cv.Scalar(0, 0, 255),
 						1, cv.LineTypes.LINE_8.value, 0
 					);
