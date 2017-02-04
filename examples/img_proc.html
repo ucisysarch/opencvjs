@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -12,19 +13,43 @@
 				background-color: #336677;
 				margin: 0px;
 			}
-			#showcase {
-				position: absolute;
-				height: 80%;
-				width: 80%;
-				margin: -100px 0 0 -500px;
-				top: 50%;
-				left: 50%;
-			}
-	        canvas{
-				background-color: #999999;
-			}
 			a {
 				color: #0040ff;
+			}
+			#control-div {
+				width : 90%;
+				margin: 2%;
+			}
+
+
+			canvas {
+				background-color: #999999;
+				width: 35%;
+				height: auto;
+				margin: 3%;
+				align: center;
+			}
+
+			@media only screen and (max-width: 600px) {
+			  canvas {
+					background-color: #999999;
+					width: 75%;
+					height: auto;
+					margin: 3%;
+					align: center;
+			  }
+
+			}
+
+			@media only screen and (min-width: 600px) {
+			  canvas {
+					background-color: #999999;
+					width: 35%;
+					height: auto;
+					margin: 3%;
+					align: center;
+			  }
+
 			}
 		</style>
 	</head>
@@ -36,15 +61,17 @@
     </div>
 
 	<div id="showcase">
-		<div>
-	        <canvas  id="canvas1"  ></canvas>
+		<div id="control-div">
+		</div>
+		<div min-height=10px></div>
+		<div width="100%">
+	    <canvas  id="canvas1"  ></canvas>
 			<canvas  id="canvas2"  ></canvas>
 		</div>
 		<input type="file" id="input" name="file" />
 	</div>
 
 	<script src='dat.gui.js'></script>
-	<script async src='zee.js'></script>
 	<script async src="cv.js"></script>
 
 	<script>
@@ -292,6 +319,8 @@
 
 	function findEdges() {
 		var src = cv.matFromArray(getInput(), cv.CV_8UC4);
+		cv.cvtColor(src, src, cv.ColorConversionCodes.COLOR_RGBA2RGB.value, 0);
+
 		var canny_output = new cv.Mat();
 		var blurred = new cv.Mat();
 		var cthresh = Control.canny_threshold;
@@ -305,6 +334,8 @@
 
 	function findContours() {
 		var src = cv.matFromArray(getInput(), cv.CV_8UC4);
+		cv.cvtColor(src, src, cv.ColorConversionCodes.COLOR_RGBA2RGB.value, 0);
+
 		var canny_output = new cv.Mat();
 		var blurred = new cv.Mat();
 		var cthresh = Control.canny_threshold;
@@ -377,10 +408,10 @@
 		document.body.appendChild(container);
 
 		gui = new dat.GUI({autoPlace: false});
-		document.body.appendChild(gui.domElement);
-		gui.domElement.style.position = "absolute";
-		gui.domElement.style.top = "0px";
-		gui.domElement.style.right = "5px";
+		document.getElementById("control-div").appendChild(gui.domElement);
+		//gui.domElement.style.position = "absolute";
+		//gui.domElement.style.bottom = "0px";
+		//gui.domElement.style.right = "5px";
 
 		//Color Space Changed
 		var cSpaceFolder = gui.addFolder('Change Color Space');
@@ -527,14 +558,12 @@
 
 
 		window.onload = function (event){
-		  Zee = ZeeLib(Module);
-		  //getCV();
 
 			var canvas = document.getElementById("canvas1");
 			var context = canvas.getContext("2d");
 
 			var imageObj = new Image();
-			imageObj.src = "http://ucisysarch.github.io/opencvjs/examples/street.png"
+			imageObj.src = "http://ucisysarch.github.io/opencvjs/examples/corgi.jpg"
 
 			var scaleFactor = 1 ;
 			imageObj.onload = function () {
