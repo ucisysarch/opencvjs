@@ -292,6 +292,8 @@
 
 	function findEdges() {
 		var src = cv.matFromArray(getInput(), cv.CV_8UC4);
+		cv.cvtColor(src, src, cv.ColorConversionCodes.COLOR_RGBA2RGB.value, 0);
+
 		var canny_output = new cv.Mat();
 		var blurred = new cv.Mat();
 		var cthresh = Control.canny_threshold;
@@ -305,6 +307,8 @@
 
 	function findContours() {
 		var src = cv.matFromArray(getInput(), cv.CV_8UC4);
+		cv.cvtColor(src, src, cv.ColorConversionCodes.COLOR_RGBA2RGB.value, 0);
+
 		var canny_output = new cv.Mat();
 		var blurred = new cv.Mat();
 		var cthresh = Control.canny_threshold;
@@ -532,7 +536,7 @@
 			var context = canvas.getContext("2d");
 
 			var imageObj = new Image();
-			imageObj.src = "http://ucisysarch.github.io/opencvjs/examples/street.png"
+			imageObj.src = "http://ucisysarch.github.io/opencvjs/examples/corgi.jpg"
 
 			var scaleFactor = 1 ;
 			imageObj.onload = function () {
