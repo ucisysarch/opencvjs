@@ -30,8 +30,7 @@ import tools.shared as emscripten
 
 # TODO: -msse2, SIMD.js is complaint with SSE2
 
-emcc_args = '-O3 --llvm-lto 1 -s NO_EXIT_RUNTIME=1 -s ASSERTIONS=1 -s AGGRESSIVE_VARIABLE_ELIMINATION=0 -s NO_DYNAMIC_EXECUTION=0 --memory-init-file 0 -s NO_FILESYSTEM=0'.split(' ')
-#emcc_args += '-s ALLOW_MEMORY_GROWTH=1'  # resizable heap
+emcc_args = '-O3 --llvm-lto 1 -s ASSERTIONS=0 -s AGGRESSIVE_VARIABLE_ELIMINATION=0 -s NO_DYNAMIC_EXECUTION=0 --memory-init-file 0 -s NO_FILESYSTEM=0'.split(' ')
 
 
 print
@@ -89,10 +88,10 @@ try:
                      '-DBUILD_opencv_gpuoptflow=OFF',
                      '-DBUILD_opencv_gpustereo=OFF',
                      '-DBUILD_opencv_gpuwarping=OFF',
-                     '-BUILD_opencv_hal=ON',
+                     '-BUILD_opencv_hal=OFF',
                      '-DBUILD_opencv_highgui=ON',
                      '-DBUILD_opencv_java=OFF',
-                     '-DBUILD_opencv_legacy=ON',
+                     '-DBUILD_opencv_legacy=OFF',
                      '-DBUILD_opencv_ml=ON',
                      '-DBUILD_opencv_nonfree=OFF',
                      '-DBUILD_opencv_optim=OFF',
@@ -104,7 +103,7 @@ try:
                      '-DBUILD_opencv_superres=OFF',
                      '-DBUILD_opencv_ts=OFF',
                      '-DBUILD_opencv_videostab=OFF',
-                     '-DENABLE_PRECOMPILED_HEADERS=ON',
+                     '-DENABLE_PRECOMPILED_HEADERS=OFF',
                      '-DWITH_1394=OFF',
                      '-DWITH_CUDA=OFF',
                      '-DWITH_CUFFT=OFF',
@@ -124,6 +123,7 @@ try:
                      '-DWITH_TIFF=OFF',
                      '-DWITH_LIBV4L=OFF',
                      '-DWITH_WEBP=OFF',
+                     '-DWITH_PTHREADS_PF=OFF',
                      '-DBUILD_opencv_apps=OFF',
                      '-DBUILD_PERF_TESTS=OFF',
                      '-DBUILD_TESTS=OFF',
@@ -155,7 +155,9 @@ try:
     stage('Making OpenCV')
 
     emcc_args += ('-s TOTAL_MEMORY=%d' % (128*1024*1024)).split(' ') # default 128MB.
+    emcc_args += '-s ALLOW_MEMORY_GROWTH=1'.split(' ')  # resizable heap
     emcc_args += '-s EXPORT_NAME="cv" -s MODULARIZE=1'.split(' ')
+
 
     emscripten.Building.make(['make', '-j4'])
 
@@ -213,7 +215,7 @@ try:
     emscripten.Building.link(input_files, 'libOpenCV.bc')
     emcc_args += '--preload-file ../../test/data/'.split(' ') #For testing purposes
     emcc_args += ['--bind']
-    emcc_args += ['--memoryprofiler']
+#emcc_args += ['--memoryprofiler']
 
     emscripten.Building.emcc('libOpenCV.bc', emcc_args, opencv)
     stage('Wrapping')
