@@ -20,11 +20,10 @@ This is a JavaScript binding that exposes OpenCV library to the web. This projec
   ./emsdk activate sdk-master-64bit
   source ./emsdk_env.sh
   ```
-3. Patch Emscripten & Rebuild. Patch OpenCV
+3. Patch Emscripten & Rebuild.
 
   ```
   patch -p1 < PATH/TO/patch_emscripten_master.diff
-  patch -p1 < patch_opencv.diff
   ```
 4. Rebuild emscripten
   ```

@@ -57,33 +57,25 @@ namespace Utils{
     emscripten::val data(const cv::Mat& mat) {
         return emscripten::val(emscripten::memory_view<T>( (mat.total()*mat.elemSize())/sizeof(T), (T*) mat.data));
     }
-
     emscripten::val matPtrI(const cv::Mat& mat, int i) {
         return emscripten::val(emscripten::memory_view<uint8_t>(mat.step1(0), mat.ptr(i)));
     }
-
     emscripten::val matPtrII(const cv::Mat& mat, int i, int j) {
         return emscripten::val(emscripten::memory_view<uint8_t>(mat.step1(1), mat.ptr(i,j)));
     }
-
     emscripten::val  matFromArray(const emscripten::val& object, int type) {
         int w=  object["width"].as<unsigned>();
         int h=  object["height"].as<unsigned>();
         std::string str = object["data"]["buffer"].as<std::string>();
-        
+
         return emscripten::val(cv::Mat(h, w, type, (void*)str.data(), 0));
     }
-
     cv::Mat* createMat(Size size, int type, intptr_t data, size_t step) {
         return new cv::Mat(size, type, reinterpret_cast<void*>(data), step);
     }
-
-
     cv::Mat* createMat2(const std::vector<unsigned char>& vector) {
         return new cv::Mat(vector, false);
     }
-
-    // returning MatSize
     static std::vector<int> getMatSize(const cv::Mat& mat)
     {
       std::vector<int> size;
@@ -92,38 +84,34 @@ namespace Utils{
       }
       return size;
     }
-
     static Mat eye(int rows, int cols, int type) {
-      return Mat(cv::Mat::eye(rows, cols, type));
+      return cv::Mat::eye(rows, cols, type);
     }
-
     static Mat eye(Size size, int type) {
-      return Mat(cv::Mat::eye(size, type));
+      return cv::Mat::eye(size, type);
     }
-
     void convertTo(const Mat& obj, Mat& m, int rtype, double alpha, double beta) {
         obj.convertTo(m, rtype, alpha, beta);
     }
-
     Size matSize(const cv::Mat& mat) {
         return  mat.size();
     }
-    cv::Mat mat_zeros_iii(int arg0, int arg1, int arg2) {
+    cv::Mat zeros(int arg0, int arg1, int arg2) {
         return cv::Mat::zeros(arg0, arg1, arg2);
     }
-    cv::Mat mat_zeros_Si(cv::Size arg0, int arg1) {
+    cv::Mat zeros(cv::Size arg0, int arg1) {
         return cv::Mat::zeros(arg0,arg1);
     }
-    cv::Mat mat_zeros_ipii(int arg0, const int* arg1, int arg2) {
+    cv::Mat zeros(int arg0, const int* arg1, int arg2) {
         return cv::Mat::zeros(arg0,arg1,arg2);
     }
-    cv::Mat mat_ones_iii(int arg0, int arg1, int arg2) {
+    cv::Mat ones(int arg0, int arg1, int arg2) {
         return cv::Mat::ones(arg0, arg1, arg2);
     }
-    cv::Mat mat_ones_ipii(int arg0, const int* arg1, int arg2) {
+    cv::Mat ones(int arg0, const int* arg1, int arg2) {
         return cv::Mat::ones(arg0, arg1, arg2);
     }
-    cv::Mat mat_ones_Si(cv::Size arg0, int arg1) {
+    cv::Mat ones(cv::Size arg0, int arg1) {
         return cv::Mat::ones(arg0, arg1);
     }
 
@@ -139,7 +127,6 @@ namespace Utils{
     Mat matInv(const cv::Mat& obj, int type) {
         return  Mat(obj.inv(type));
     }
-
 }
 
 EMSCRIPTEN_BINDINGS(Utils) {
@@ -197,10 +184,10 @@ EMSCRIPTEN_BINDINGS(Utils) {
         .function("colRange", select_overload<Mat(const Range&)const>(&cv::Mat::colRange))
         .function("step1", select_overload<size_t(int)const>(&cv::Mat::step1))
         .function("clone", select_overload<Mat()const>(&cv::Mat::clone))
-        .class_function("ones",select_overload<Mat(int, int, int)>(&Utils::mat_ones_iii))
-        .class_function("ones",select_overload<Mat(Size, int)>(&Utils::mat_ones_Si))
-        .class_function("zeros",select_overload<Mat(int, int, int)>(&Utils::mat_zeros_iii))
-        .class_function("zeros",select_overload<Mat(Size, int)>(&Utils::mat_zeros_Si))
+        .class_function("ones",select_overload<Mat(int, int, int)>(&Utils::ones))
+        .class_function("ones",select_overload<Mat(Size, int)>(&Utils::ones))
+        .class_function("zeros",select_overload<Mat(int, int, int)>(&Utils::zeros))
+        .class_function("zeros",select_overload<Mat(Size, int)>(&Utils::zeros))
         .function("depth", select_overload<int()const>(&cv::Mat::depth))
         .function("col", select_overload<Mat(int)const>(&cv::Mat::col))
 
@@ -353,2071 +340,2071 @@ namespace Wrappers {
     RotatedRect CamShift_wrapper(const cv::Mat& arg1, Rect& arg2, TermCriteria arg3) {
         return cv::CamShift(arg1, arg2, arg3);
     }
-    
+
     void Canny_wrapper(const cv::Mat& arg1, cv::Mat& arg2, double arg3, double arg4, int arg5, bool arg6) {
         return cv::Canny(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     void GaussianBlur_wrapper(const cv::Mat& arg1, cv::Mat& arg2, Size arg3, double arg4, double arg5, int arg6) {
         return cv::GaussianBlur(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     void HoughCircles_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3, double arg4, double arg5, double arg6, double arg7, int arg8, int arg9) {
         return cv::HoughCircles(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
     }
-    
+
     void HoughLines_wrapper(const cv::Mat& arg1, cv::Mat& arg2, double arg3, double arg4, int arg5, double arg6, double arg7, double arg8, double arg9) {
         return cv::HoughLines(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
     }
-    
+
     void HoughLinesP_wrapper(const cv::Mat& arg1, cv::Mat& arg2, double arg3, double arg4, int arg5, double arg6, double arg7) {
         return cv::HoughLinesP(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void HuMoments_wrapper(const Moments& arg1, cv::Mat& arg2) {
         return cv::HuMoments(arg1, arg2);
     }
-    
+
     void LUT_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3) {
         return cv::LUT(arg1, arg2, arg3);
     }
-    
+
     void Laplacian_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3, int arg4, double arg5, double arg6, int arg7) {
         return cv::Laplacian(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     double Mahalanobis_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, const cv::Mat& arg3) {
         return cv::Mahalanobis(arg1, arg2, arg3);
     }
-    
+
     void PCABackProject_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, const cv::Mat& arg3, cv::Mat& arg4) {
         return cv::PCABackProject(arg1, arg2, arg3, arg4);
     }
-    
+
     void PCACompute_wrapper(const cv::Mat& arg1, cv::Mat& arg2, cv::Mat& arg3, int arg4) {
         return cv::PCACompute(arg1, arg2, arg3, arg4);
     }
-    
+
     void PCACompute_wrapper1(const cv::Mat& arg1, cv::Mat& arg2, cv::Mat& arg3, double arg4) {
         return cv::PCACompute(arg1, arg2, arg3, arg4);
     }
-    
+
     void PCAProject_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, const cv::Mat& arg3, cv::Mat& arg4) {
         return cv::PCAProject(arg1, arg2, arg3, arg4);
     }
-    
+
     double PSNR_wrapper(const cv::Mat& arg1, const cv::Mat& arg2) {
         return cv::PSNR(arg1, arg2);
     }
-    
+
     void SVBackSubst_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, const cv::Mat& arg3, const cv::Mat& arg4, cv::Mat& arg5) {
         return cv::SVBackSubst(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void SVDecomp_wrapper(const cv::Mat& arg1, cv::Mat& arg2, cv::Mat& arg3, cv::Mat& arg4, int arg5) {
         return cv::SVDecomp(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void Scharr_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3, int arg4, int arg5, double arg6, double arg7, int arg8) {
         return cv::Scharr(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
     }
-    
+
     void Sobel_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3, int arg4, int arg5, int arg6, double arg7, double arg8, int arg9) {
         return cv::Sobel(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
     }
-    
+
     void absdiff_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3) {
         return cv::absdiff(arg1, arg2, arg3);
     }
-    
+
     void accumulate_wrapper(const cv::Mat& arg1, cv::Mat& arg2, const cv::Mat& arg3) {
         return cv::accumulate(arg1, arg2, arg3);
     }
-    
+
     void accumulateProduct_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, const cv::Mat& arg4) {
         return cv::accumulateProduct(arg1, arg2, arg3, arg4);
     }
-    
+
     void accumulateSquare_wrapper(const cv::Mat& arg1, cv::Mat& arg2, const cv::Mat& arg3) {
         return cv::accumulateSquare(arg1, arg2, arg3);
     }
-    
+
     void accumulateWeighted_wrapper(const cv::Mat& arg1, cv::Mat& arg2, double arg3, const cv::Mat& arg4) {
         return cv::accumulateWeighted(arg1, arg2, arg3, arg4);
     }
-    
+
     void adaptiveThreshold_wrapper(const cv::Mat& arg1, cv::Mat& arg2, double arg3, int arg4, int arg5, int arg6, double arg7) {
         return cv::adaptiveThreshold(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void add_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, const cv::Mat& arg4, int arg5) {
         return cv::add(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void addWeighted_wrapper(const cv::Mat& arg1, double arg2, const cv::Mat& arg3, double arg4, double arg5, cv::Mat& arg6, int arg7) {
         return cv::addWeighted(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void applyColorMap_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3) {
         return cv::applyColorMap(arg1, arg2, arg3);
     }
-    
+
     void approxPolyDP_wrapper(const cv::Mat& arg1, cv::Mat& arg2, double arg3, bool arg4) {
         return cv::approxPolyDP(arg1, arg2, arg3, arg4);
     }
-    
+
     double arcLength_wrapper(const cv::Mat& arg1, bool arg2) {
         return cv::arcLength(arg1, arg2);
     }
-    
+
     void arrowedLine_wrapper(cv::Mat& arg1, Point arg2, Point arg3, const Scalar& arg4, int arg5, int arg6, int arg7, double arg8) {
         return cv::arrowedLine(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
     }
-    
+
     void batchDistance_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, int arg4, cv::Mat& arg5, int arg6, int arg7, const cv::Mat& arg8, int arg9, bool arg10) {
         return cv::batchDistance(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
     }
-    
+
     void bilateralFilter_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3, double arg4, double arg5, int arg6) {
         return cv::bilateralFilter(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     void bitwise_and_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, const cv::Mat& arg4) {
         return cv::bitwise_and(arg1, arg2, arg3, arg4);
     }
-    
+
     void bitwise_not_wrapper(const cv::Mat& arg1, cv::Mat& arg2, const cv::Mat& arg3) {
         return cv::bitwise_not(arg1, arg2, arg3);
     }
-    
+
     void bitwise_or_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, const cv::Mat& arg4) {
         return cv::bitwise_or(arg1, arg2, arg3, arg4);
     }
-    
+
     void bitwise_xor_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, const cv::Mat& arg4) {
         return cv::bitwise_xor(arg1, arg2, arg3, arg4);
     }
-    
+
     void blur_wrapper(const cv::Mat& arg1, cv::Mat& arg2, Size arg3, Point arg4, int arg5) {
         return cv::blur(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     int borderInterpolate_wrapper(int arg1, int arg2, int arg3) {
         return cv::borderInterpolate(arg1, arg2, arg3);
     }
-    
+
     Rect boundingRect_wrapper(const cv::Mat& arg1) {
         return cv::boundingRect(arg1);
     }
-    
+
     void boxFilter_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3, Size arg4, Point arg5, bool arg6, int arg7) {
         return cv::boxFilter(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void boxPoints_wrapper(RotatedRect arg1, cv::Mat& arg2) {
         return cv::boxPoints(arg1, arg2);
     }
-    
+
     int buildOpticalFlowPyramid_wrapper(const cv::Mat& arg1, std::vector<cv::Mat>& arg2, Size arg3, int arg4, bool arg5, int arg6, int arg7, bool arg8) {
         return cv::buildOpticalFlowPyramid(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
     }
-    
+
     void calcBackProject_wrapper(const std::vector<cv::Mat>& arg1, const std::vector<int>& arg2, const cv::Mat& arg3, cv::Mat& arg4, const std::vector<float>& arg5, double arg6) {
         return cv::calcBackProject(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     void calcCovarMatrix_wrapper(const cv::Mat& arg1, cv::Mat& arg2, cv::Mat& arg3, int arg4, int arg5) {
         return cv::calcCovarMatrix(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void calcHist_wrapper(const std::vector<cv::Mat>& arg1, const std::vector<int>& arg2, const cv::Mat& arg3, cv::Mat& arg4, const std::vector<int>& arg5, const std::vector<float>& arg6, bool arg7) {
         return cv::calcHist(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void calcOpticalFlowFarneback_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, double arg4, int arg5, int arg6, int arg7, int arg8, double arg9, int arg10) {
         return cv::calcOpticalFlowFarneback(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
     }
-    
+
     void calcOpticalFlowPyrLK_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, const cv::Mat& arg3, cv::Mat& arg4, cv::Mat& arg5, cv::Mat& arg6, Size arg7, int arg8, TermCriteria arg9, int arg10, double arg11) {
         return cv::calcOpticalFlowPyrLK(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11);
     }
-    
+
     void cartToPolar_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, cv::Mat& arg4, bool arg5) {
         return cv::cartToPolar(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void circle_wrapper(cv::Mat& arg1, Point arg2, int arg3, const Scalar& arg4, int arg5, int arg6, int arg7) {
         return cv::circle(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     bool clipLine_wrapper(Rect arg1, Point& arg2, Point& arg3) {
         return cv::clipLine(arg1, arg2, arg3);
     }
-    
+
     void colorChange_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, float arg4, float arg5, float arg6) {
         return cv::colorChange(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     void compare_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, int arg4) {
         return cv::compare(arg1, arg2, arg3, arg4);
     }
-    
+
     double compareHist_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, int arg3) {
         return cv::compareHist(arg1, arg2, arg3);
     }
-    
+
     void completeSymm_wrapper(cv::Mat& arg1, bool arg2) {
         return cv::completeSymm(arg1, arg2);
     }
-    
+
     int connectedComponents_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3, int arg4) {
         return cv::connectedComponents(arg1, arg2, arg3, arg4);
     }
-    
+
     int connectedComponentsWithStats_wrapper(const cv::Mat& arg1, cv::Mat& arg2, cv::Mat& arg3, cv::Mat& arg4, int arg5, int arg6) {
         return cv::connectedComponentsWithStats(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     double contourArea_wrapper(const cv::Mat& arg1, bool arg2) {
         return cv::contourArea(arg1, arg2);
     }
-    
+
     void convertMaps_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, cv::Mat& arg4, int arg5, bool arg6) {
         return cv::convertMaps(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     void convertScaleAbs_wrapper(const cv::Mat& arg1, cv::Mat& arg2, double arg3, double arg4) {
         return cv::convertScaleAbs(arg1, arg2, arg3, arg4);
     }
-    
+
     void convexHull_wrapper(const cv::Mat& arg1, cv::Mat& arg2, bool arg3, bool arg4) {
         return cv::convexHull(arg1, arg2, arg3, arg4);
     }
-    
+
     void convexityDefects_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3) {
         return cv::convexityDefects(arg1, arg2, arg3);
     }
-    
+
     void copyMakeBorder_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3, int arg4, int arg5, int arg6, int arg7, const Scalar& arg8) {
         return cv::copyMakeBorder(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
     }
-    
+
     void cornerEigenValsAndVecs_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3, int arg4, int arg5) {
         return cv::cornerEigenValsAndVecs(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void cornerHarris_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3, int arg4, double arg5, int arg6) {
         return cv::cornerHarris(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     void cornerMinEigenVal_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3, int arg4, int arg5) {
         return cv::cornerMinEigenVal(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void cornerSubPix_wrapper(const cv::Mat& arg1, cv::Mat& arg2, Size arg3, Size arg4, TermCriteria arg5) {
         return cv::cornerSubPix(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     int countNonZero_wrapper(const cv::Mat& arg1) {
         return cv::countNonZero(arg1);
     }
-    
+
     void createHanningWindow_wrapper(cv::Mat& arg1, Size arg2, int arg3) {
         return cv::createHanningWindow(arg1, arg2, arg3);
     }
-    
+
     void cvtColor_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3, int arg4) {
         return cv::cvtColor(arg1, arg2, arg3, arg4);
     }
-    
+
     void dct_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3) {
         return cv::dct(arg1, arg2, arg3);
     }
-    
+
     void decolor_wrapper(const cv::Mat& arg1, cv::Mat& arg2, cv::Mat& arg3) {
         return cv::decolor(arg1, arg2, arg3);
     }
-    
+
     void demosaicing_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3, int arg4) {
         return cv::demosaicing(arg1, arg2, arg3, arg4);
     }
-    
+
     void denoise_TVL1_wrapper(const std::vector<Mat>& arg1, Mat& arg2, double arg3, int arg4) {
         return cv::denoise_TVL1(arg1, arg2, arg3, arg4);
     }
-    
+
     void detailEnhance_wrapper(const cv::Mat& arg1, cv::Mat& arg2, float arg3, float arg4) {
         return cv::detailEnhance(arg1, arg2, arg3, arg4);
     }
-    
+
     double determinant_wrapper(const cv::Mat& arg1) {
         return cv::determinant(arg1);
     }
-    
+
     void dft_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3, int arg4) {
         return cv::dft(arg1, arg2, arg3, arg4);
     }
-    
+
     void dilate_wrapper(const cv::Mat& arg1, cv::Mat& arg2, const cv::Mat& arg3, Point arg4, int arg5, int arg6, const Scalar& arg7) {
         return cv::dilate(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void distanceTransform_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3, int arg4, int arg5) {
         return cv::distanceTransform(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void distanceTransform_wrapper(const cv::Mat& arg1, cv::Mat& arg2, cv::Mat& arg3, int arg4, int arg5, int arg6) {
         return cv::distanceTransform(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     void divide_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, double arg4, int arg5) {
         return cv::divide(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void divide_wrapper1(double arg1, const cv::Mat& arg2, cv::Mat& arg3, int arg4) {
         return cv::divide(arg1, arg2, arg3, arg4);
     }
-    
+
     void drawContours_wrapper(cv::Mat& arg1, const std::vector<cv::Mat>& arg2, int arg3, const Scalar& arg4, int arg5, int arg6, const cv::Mat& arg7, int arg8, Point arg9) {
         return cv::drawContours(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
     }
-    
+
     void drawKeypoints_wrapper(const cv::Mat& arg1, const std::vector<KeyPoint>& arg2, cv::Mat& arg3, const Scalar& arg4, int arg5) {
         return cv::drawKeypoints(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void drawMarker_wrapper(Mat& arg1, Point arg2, const Scalar& arg3, int arg4, int arg5, int arg6, int arg7) {
         return cv::drawMarker(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void drawMatches_wrapper(const cv::Mat& arg1, const std::vector<KeyPoint>& arg2, const cv::Mat& arg3, const std::vector<KeyPoint>& arg4, const std::vector<DMatch>& arg5, cv::Mat& arg6, const Scalar& arg7, const Scalar& arg8, const std::vector<char>& arg9, int arg10) {
         return cv::drawMatches(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
     }
-    
+
     void drawMatches_wrapper(const cv::Mat& arg1, const std::vector<KeyPoint>& arg2, const cv::Mat& arg3, const std::vector<KeyPoint>& arg4, const std::vector<std::vector<DMatch> >& arg5, cv::Mat& arg6, const Scalar& arg7, const Scalar& arg8, const std::vector<std::vector<char> >& arg9, int arg10) {
         return cv::drawMatches(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
     }
-    
+
     void edgePreservingFilter_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3, float arg4, float arg5) {
         return cv::edgePreservingFilter(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     bool eigen_wrapper(const cv::Mat& arg1, cv::Mat& arg2, cv::Mat& arg3) {
         return cv::eigen(arg1, arg2, arg3);
     }
-    
+
     void ellipse_wrapper(cv::Mat& arg1, Point arg2, Size arg3, double arg4, double arg5, double arg6, const Scalar& arg7, int arg8, int arg9, int arg10) {
         return cv::ellipse(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
     }
-    
+
     void ellipse_wrapper1(cv::Mat& arg1, const RotatedRect& arg2, const Scalar& arg3, int arg4, int arg5) {
         return cv::ellipse(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void ellipse2Poly_wrapper(Point arg1, Size arg2, int arg3, int arg4, int arg5, int arg6, std::vector<Point>& arg7) {
         return cv::ellipse2Poly(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void equalizeHist_wrapper(const cv::Mat& arg1, cv::Mat& arg2) {
         return cv::equalizeHist(arg1, arg2);
     }
-    
+
     void erode_wrapper(const cv::Mat& arg1, cv::Mat& arg2, const cv::Mat& arg3, Point arg4, int arg5, int arg6, const Scalar& arg7) {
         return cv::erode(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     Mat estimateRigidTransform_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, bool arg3) {
         return cv::estimateRigidTransform(arg1, arg2, arg3);
     }
-    
+
     void exp_wrapper(const cv::Mat& arg1, cv::Mat& arg2) {
         return cv::exp(arg1, arg2);
     }
-    
+
     void extractChannel_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3) {
         return cv::extractChannel(arg1, arg2, arg3);
     }
-    
+
     void fastNlMeansDenoising_wrapper(const cv::Mat& arg1, cv::Mat& arg2, float arg3, int arg4, int arg5) {
         return cv::fastNlMeansDenoising(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void fastNlMeansDenoising_wrapper1(const cv::Mat& arg1, cv::Mat& arg2, const std::vector<float>& arg3, int arg4, int arg5, int arg6) {
         return cv::fastNlMeansDenoising(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     void fastNlMeansDenoisingColored_wrapper(const cv::Mat& arg1, cv::Mat& arg2, float arg3, float arg4, int arg5, int arg6) {
         return cv::fastNlMeansDenoisingColored(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     void fastNlMeansDenoisingColoredMulti_wrapper(const std::vector<cv::Mat>& arg1, cv::Mat& arg2, int arg3, int arg4, float arg5, float arg6, int arg7, int arg8) {
         return cv::fastNlMeansDenoisingColoredMulti(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
     }
-    
+
     void fastNlMeansDenoisingMulti_wrapper(const std::vector<cv::Mat>& arg1, cv::Mat& arg2, int arg3, int arg4, float arg5, int arg6, int arg7) {
         return cv::fastNlMeansDenoisingMulti(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void fastNlMeansDenoisingMulti_wrapper1(const std::vector<cv::Mat>& arg1, cv::Mat& arg2, int arg3, int arg4, const std::vector<float>& arg5, int arg6, int arg7, int arg8) {
         return cv::fastNlMeansDenoisingMulti(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
     }
-    
+
     void fillConvexPoly_wrapper(cv::Mat& arg1, const cv::Mat& arg2, const Scalar& arg3, int arg4, int arg5) {
         return cv::fillConvexPoly(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void fillPoly_wrapper(cv::Mat& arg1, const std::vector<cv::Mat>& arg2, const Scalar& arg3, int arg4, int arg5, Point arg6) {
         return cv::fillPoly(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     void filter2D_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3, const cv::Mat& arg4, Point arg5, double arg6, int arg7) {
         return cv::filter2D(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void findContours_wrapper(cv::Mat& arg1, std::vector<cv::Mat>& arg2, cv::Mat& arg3, int arg4, int arg5, Point arg6) {
         return cv::findContours(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     void findNonZero_wrapper(const cv::Mat& arg1, cv::Mat& arg2) {
         return cv::findNonZero(arg1, arg2);
     }
-    
+
     double findTransformECC_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, int arg4, TermCriteria arg5, const cv::Mat& arg6) {
         return cv::findTransformECC(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     RotatedRect fitEllipse_wrapper(const cv::Mat& arg1) {
         return cv::fitEllipse(arg1);
     }
-    
+
     void fitLine_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3, double arg4, double arg5, double arg6) {
         return cv::fitLine(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     void flip_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3) {
         return cv::flip(arg1, arg2, arg3);
     }
-    
+
     void gemm_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, double arg3, const cv::Mat& arg4, double arg5, cv::Mat& arg6, int arg7) {
         return cv::gemm(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     Mat getAffineTransform_wrapper(const cv::Mat& arg1, const cv::Mat& arg2) {
         return cv::getAffineTransform(arg1, arg2);
     }
-    
+
     Mat getDefaultNewCameraMatrix_wrapper(const cv::Mat& arg1, Size arg2, bool arg3) {
         return cv::getDefaultNewCameraMatrix(arg1, arg2, arg3);
     }
-    
+
     void getDerivKernels_wrapper(cv::Mat& arg1, cv::Mat& arg2, int arg3, int arg4, int arg5, bool arg6, int arg7) {
         return cv::getDerivKernels(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     Mat getGaborKernel_wrapper(Size arg1, double arg2, double arg3, double arg4, double arg5, double arg6, int arg7) {
         return cv::getGaborKernel(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     Mat getGaussianKernel_wrapper(int arg1, double arg2, int arg3) {
         return cv::getGaussianKernel(arg1, arg2, arg3);
     }
-    
+
     int getOptimalDFTSize_wrapper(int arg1) {
         return cv::getOptimalDFTSize(arg1);
     }
-    
+
     Mat getPerspectiveTransform_wrapper(const cv::Mat& arg1, const cv::Mat& arg2) {
         return cv::getPerspectiveTransform(arg1, arg2);
     }
-    
+
     void getRectSubPix_wrapper(const cv::Mat& arg1, Size arg2, Point2f arg3, cv::Mat& arg4, int arg5) {
         return cv::getRectSubPix(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     Mat getRotationMatrix2D_wrapper(Point2f arg1, double arg2, double arg3) {
         return cv::getRotationMatrix2D(arg1, arg2, arg3);
     }
-    
+
     Mat getStructuringElement_wrapper(int arg1, Size arg2, Point arg3) {
         return cv::getStructuringElement(arg1, arg2, arg3);
     }
-    
+
     Size getTextSize_wrapper(const std::string& arg1, int arg2, double arg3, int arg4, int* arg5) {
         return cv::getTextSize(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void goodFeaturesToTrack_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3, double arg4, double arg5, const cv::Mat& arg6, int arg7, bool arg8, double arg9) {
         return cv::goodFeaturesToTrack(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
     }
-    
+
     void grabCut_wrapper(const cv::Mat& arg1, cv::Mat& arg2, Rect arg3, cv::Mat& arg4, cv::Mat& arg5, int arg6, int arg7) {
         return cv::grabCut(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void groupRectangles_wrapper(std::vector<Rect>& arg1, std::vector<int>& arg2, int arg3, double arg4) {
         return cv::groupRectangles(arg1, arg2, arg3, arg4);
     }
-    
+
     void hconcat_wrapper(const std::vector<cv::Mat>& arg1, cv::Mat& arg2) {
         return cv::hconcat(arg1, arg2);
     }
-    
+
     void idct_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3) {
         return cv::idct(arg1, arg2, arg3);
     }
-    
+
     void idft_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3, int arg4) {
         return cv::idft(arg1, arg2, arg3, arg4);
     }
-    
+
     void illuminationChange_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, float arg4, float arg5) {
         return cv::illuminationChange(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     Mat imdecode_wrapper(const cv::Mat& arg1, int arg2) {
         return cv::imdecode(arg1, arg2);
     }
-    
+
     bool imencode_wrapper(const std::string& arg1, const cv::Mat& arg2, std::vector<uchar>& arg3, const std::vector<int>& arg4) {
         return cv::imencode(arg1, arg2, arg3, arg4);
     }
-    
+
     Mat imread_wrapper(const std::string& arg1, int arg2) {
         return cv::imread(arg1, arg2);
     }
-    
+
     bool imreadmulti_wrapper(const std::string& arg1, std::vector<Mat>& arg2, int arg3) {
         return cv::imreadmulti(arg1, arg2, arg3);
     }
-    
+
     bool imwrite_wrapper(const std::string& arg1, const cv::Mat& arg2, const std::vector<int>& arg3) {
         return cv::imwrite(arg1, arg2, arg3);
     }
-    
+
     void inRange_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, const cv::Mat& arg3, cv::Mat& arg4) {
         return cv::inRange(arg1, arg2, arg3, arg4);
     }
-    
+
     void initUndistortRectifyMap_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, const cv::Mat& arg3, const cv::Mat& arg4, Size arg5, int arg6, cv::Mat& arg7, cv::Mat& arg8) {
         return cv::initUndistortRectifyMap(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
     }
-    
+
     float initWideAngleProjMap_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, Size arg3, int arg4, int arg5, cv::Mat& arg6, cv::Mat& arg7, int arg8, double arg9) {
         return cv::initWideAngleProjMap(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
     }
-    
+
     void inpaint_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, double arg4, int arg5) {
         return cv::inpaint(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void insertChannel_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3) {
         return cv::insertChannel(arg1, arg2, arg3);
     }
-    
+
     void integral_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3) {
         return cv::integral(arg1, arg2, arg3);
     }
-    
+
     void integral_wrapper(const cv::Mat& arg1, cv::Mat& arg2, cv::Mat& arg3, int arg4, int arg5) {
         return cv::integral(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void integral_wrapper(const cv::Mat& arg1, cv::Mat& arg2, cv::Mat& arg3, cv::Mat& arg4, int arg5, int arg6) {
         return cv::integral(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     float intersectConvexConvex_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, bool arg4) {
         return cv::intersectConvexConvex(arg1, arg2, arg3, arg4);
     }
-    
+
     double invert_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3) {
         return cv::invert(arg1, arg2, arg3);
     }
-    
+
     void invertAffineTransform_wrapper(const cv::Mat& arg1, cv::Mat& arg2) {
         return cv::invertAffineTransform(arg1, arg2);
     }
-    
+
     bool isContourConvex_wrapper(const cv::Mat& arg1) {
         return cv::isContourConvex(arg1);
     }
-    
+
     double kmeans_wrapper(const cv::Mat& arg1, int arg2, cv::Mat& arg3, TermCriteria arg4, int arg5, int arg6, cv::Mat& arg7) {
         return cv::kmeans(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void line_wrapper(cv::Mat& arg1, Point arg2, Point arg3, const Scalar& arg4, int arg5, int arg6, int arg7) {
         return cv::line(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void linearPolar_wrapper(const cv::Mat& arg1, cv::Mat& arg2, Point2f arg3, double arg4, int arg5) {
         return cv::linearPolar(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void log_wrapper(const cv::Mat& arg1, cv::Mat& arg2) {
         return cv::log(arg1, arg2);
     }
-    
+
     void logPolar_wrapper(const cv::Mat& arg1, cv::Mat& arg2, Point2f arg3, double arg4, int arg5) {
         return cv::logPolar(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void magnitude_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3) {
         return cv::magnitude(arg1, arg2, arg3);
     }
-    
+
     double matchShapes_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, int arg3, double arg4) {
         return cv::matchShapes(arg1, arg2, arg3, arg4);
     }
-    
+
     void matchTemplate_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, int arg4, const cv::Mat& arg5) {
         return cv::matchTemplate(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void max_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3) {
         return cv::max(arg1, arg2, arg3);
     }
-    
+
     Scalar mean_wrapper(const cv::Mat& arg1, const cv::Mat& arg2) {
         return cv::mean(arg1, arg2);
     }
-    
+
     int meanShift_wrapper(const cv::Mat& arg1, Rect& arg2, TermCriteria arg3) {
         return cv::meanShift(arg1, arg2, arg3);
     }
-    
+
     void meanStdDev_wrapper(const cv::Mat& arg1, cv::Mat& arg2, cv::Mat& arg3, const cv::Mat& arg4) {
         return cv::meanStdDev(arg1, arg2, arg3, arg4);
     }
-    
+
     void medianBlur_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3) {
         return cv::medianBlur(arg1, arg2, arg3);
     }
-    
+
     void merge_wrapper(const std::vector<cv::Mat>& arg1, cv::Mat& arg2) {
         return cv::merge(arg1, arg2);
     }
-    
+
     void min_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3) {
         return cv::min(arg1, arg2, arg3);
     }
-    
+
     RotatedRect minAreaRect_wrapper(const cv::Mat& arg1) {
         return cv::minAreaRect(arg1);
     }
-    
+
     double minEnclosingTriangle_wrapper(const cv::Mat& arg1, cv::Mat& arg2) {
         return cv::minEnclosingTriangle(arg1, arg2);
     }
-    
+
     void mixChannels_wrapper(const std::vector<cv::Mat>& arg1, InputOutputArrayOfArrays arg2, const std::vector<int>& arg3) {
         return cv::mixChannels(arg1, arg2, arg3);
     }
-    
+
     Moments moments_wrapper(const cv::Mat& arg1, bool arg2) {
         return cv::moments(arg1, arg2);
     }
-    
+
     void morphologyEx_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3, const cv::Mat& arg4, Point arg5, int arg6, int arg7, const Scalar& arg8) {
         return cv::morphologyEx(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
     }
-    
+
     void mulSpectrums_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, int arg4, bool arg5) {
         return cv::mulSpectrums(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void mulTransposed_wrapper(const cv::Mat& arg1, cv::Mat& arg2, bool arg3, const cv::Mat& arg4, double arg5, int arg6) {
         return cv::mulTransposed(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     void multiply_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, double arg4, int arg5) {
         return cv::multiply(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     double norm_wrapper(const cv::Mat& arg1, int arg2, const cv::Mat& arg3) {
         return cv::norm(arg1, arg2, arg3);
     }
-    
+
     double norm_wrapper1(const cv::Mat& arg1, const cv::Mat& arg2, int arg3, const cv::Mat& arg4) {
         return cv::norm(arg1, arg2, arg3, arg4);
     }
-    
+
     void normalize_wrapper(const cv::Mat& arg1, cv::Mat& arg2, double arg3, double arg4, int arg5, int arg6, const cv::Mat& arg7) {
         return cv::normalize(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void patchNaNs_wrapper(cv::Mat& arg1, double arg2) {
         return cv::patchNaNs(arg1, arg2);
     }
-    
+
     void pencilSketch_wrapper(const cv::Mat& arg1, cv::Mat& arg2, cv::Mat& arg3, float arg4, float arg5, float arg6) {
         return cv::pencilSketch(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     void perspectiveTransform_wrapper(const cv::Mat& arg1, cv::Mat& arg2, const cv::Mat& arg3) {
         return cv::perspectiveTransform(arg1, arg2, arg3);
     }
-    
+
     void phase_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, bool arg4) {
         return cv::phase(arg1, arg2, arg3, arg4);
     }
-    
+
     double pointPolygonTest_wrapper(const cv::Mat& arg1, Point2f arg2, bool arg3) {
         return cv::pointPolygonTest(arg1, arg2, arg3);
     }
-    
+
     void polarToCart_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, cv::Mat& arg4, bool arg5) {
         return cv::polarToCart(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void polylines_wrapper(cv::Mat& arg1, const std::vector<cv::Mat>& arg2, bool arg3, const Scalar& arg4, int arg5, int arg6, int arg7) {
         return cv::polylines(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void pow_wrapper(const cv::Mat& arg1, double arg2, cv::Mat& arg3) {
         return cv::pow(arg1, arg2, arg3);
     }
-    
+
     void preCornerDetect_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3, int arg4) {
         return cv::preCornerDetect(arg1, arg2, arg3, arg4);
     }
-    
+
     void putText_wrapper(cv::Mat& arg1, const std::string& arg2, Point arg3, int arg4, double arg5, Scalar arg6, int arg7, int arg8, bool arg9) {
         return cv::putText(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
     }
-    
+
     void pyrDown_wrapper(const cv::Mat& arg1, cv::Mat& arg2, const Size& arg3, int arg4) {
         return cv::pyrDown(arg1, arg2, arg3, arg4);
     }
-    
+
     void pyrMeanShiftFiltering_wrapper(const cv::Mat& arg1, cv::Mat& arg2, double arg3, double arg4, int arg5, TermCriteria arg6) {
         return cv::pyrMeanShiftFiltering(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     void pyrUp_wrapper(const cv::Mat& arg1, cv::Mat& arg2, const Size& arg3, int arg4) {
         return cv::pyrUp(arg1, arg2, arg3, arg4);
     }
-    
+
     void randn_wrapper(cv::Mat& arg1, const cv::Mat& arg2, const cv::Mat& arg3) {
         return cv::randn(arg1, arg2, arg3);
     }
-    
+
     void randu_wrapper(cv::Mat& arg1, const cv::Mat& arg2, const cv::Mat& arg3) {
         return cv::randu(arg1, arg2, arg3);
     }
-    
+
     void rectangle_wrapper(cv::Mat& arg1, Point arg2, Point arg3, const Scalar& arg4, int arg5, int arg6, int arg7) {
         return cv::rectangle(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void reduce_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3, int arg4, int arg5) {
         return cv::reduce(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void remap_wrapper(const cv::Mat& arg1, cv::Mat& arg2, const cv::Mat& arg3, const cv::Mat& arg4, int arg5, int arg6, const Scalar& arg7) {
         return cv::remap(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void repeat_wrapper(const cv::Mat& arg1, int arg2, int arg3, cv::Mat& arg4) {
         return cv::repeat(arg1, arg2, arg3, arg4);
     }
-    
+
     void resize_wrapper(const cv::Mat& arg1, cv::Mat& arg2, Size arg3, double arg4, double arg5, int arg6) {
         return cv::resize(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     int rotatedRectangleIntersection_wrapper(const RotatedRect& arg1, const RotatedRect& arg2, cv::Mat& arg3) {
         return cv::rotatedRectangleIntersection(arg1, arg2, arg3);
     }
-    
+
     void scaleAdd_wrapper(const cv::Mat& arg1, double arg2, const cv::Mat& arg3, cv::Mat& arg4) {
         return cv::scaleAdd(arg1, arg2, arg3, arg4);
     }
-    
+
     void seamlessClone_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, const cv::Mat& arg3, Point arg4, cv::Mat& arg5, int arg6) {
         return cv::seamlessClone(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     void sepFilter2D_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3, const cv::Mat& arg4, const cv::Mat& arg5, Point arg6, double arg7, int arg8) {
         return cv::sepFilter2D(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
     }
-    
+
     void setIdentity_wrapper(cv::Mat& arg1, const Scalar& arg2) {
         return cv::setIdentity(arg1, arg2);
     }
-    
+
     bool solve_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, int arg4) {
         return cv::solve(arg1, arg2, arg3, arg4);
     }
-    
+
     int solveCubic_wrapper(const cv::Mat& arg1, cv::Mat& arg2) {
         return cv::solveCubic(arg1, arg2);
     }
-    
+
     double solvePoly_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3) {
         return cv::solvePoly(arg1, arg2, arg3);
     }
-    
+
     void sort_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3) {
         return cv::sort(arg1, arg2, arg3);
     }
-    
+
     void sortIdx_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3) {
         return cv::sortIdx(arg1, arg2, arg3);
     }
-    
+
     void spatialGradient_wrapper(const cv::Mat& arg1, cv::Mat& arg2, cv::Mat& arg3, int arg4, int arg5) {
         return cv::spatialGradient(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void split_wrapper(const cv::Mat& arg1, std::vector<cv::Mat>& arg2) {
         return cv::split(arg1, arg2);
     }
-    
+
     void sqrBoxFilter_wrapper(const cv::Mat& arg1, cv::Mat& arg2, int arg3, Size arg4, Point arg5, bool arg6, int arg7) {
         return cv::sqrBoxFilter(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void sqrt_wrapper(const cv::Mat& arg1, cv::Mat& arg2) {
         return cv::sqrt(arg1, arg2);
     }
-    
+
     void stylization_wrapper(const cv::Mat& arg1, cv::Mat& arg2, float arg3, float arg4) {
         return cv::stylization(arg1, arg2, arg3, arg4);
     }
-    
+
     void subtract_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, const cv::Mat& arg4, int arg5) {
         return cv::subtract(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     Scalar sum_wrapper(const cv::Mat& arg1) {
         return cv::sum(arg1);
     }
-    
+
     void textureFlattening_wrapper(const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, float arg4, float arg5, int arg6) {
         return cv::textureFlattening(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     double threshold_wrapper(const cv::Mat& arg1, cv::Mat& arg2, double arg3, double arg4, int arg5) {
         return cv::threshold(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     Scalar trace_wrapper(const cv::Mat& arg1) {
         return cv::trace(arg1);
     }
-    
+
     void transform_wrapper(const cv::Mat& arg1, cv::Mat& arg2, const cv::Mat& arg3) {
         return cv::transform(arg1, arg2, arg3);
     }
-    
+
     void transpose_wrapper(const cv::Mat& arg1, cv::Mat& arg2) {
         return cv::transpose(arg1, arg2);
     }
-    
+
     void undistort_wrapper(const cv::Mat& arg1, cv::Mat& arg2, const cv::Mat& arg3, const cv::Mat& arg4, const cv::Mat& arg5) {
         return cv::undistort(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void undistortPoints_wrapper(const cv::Mat& arg1, cv::Mat& arg2, const cv::Mat& arg3, const cv::Mat& arg4, const cv::Mat& arg5, const cv::Mat& arg6) {
         return cv::undistortPoints(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     void vconcat_wrapper(const std::vector<cv::Mat>& arg1, cv::Mat& arg2) {
         return cv::vconcat(arg1, arg2);
     }
-    
+
     void warpAffine_wrapper(const cv::Mat& arg1, cv::Mat& arg2, const cv::Mat& arg3, Size arg4, int arg5, int arg6, const Scalar& arg7) {
         return cv::warpAffine(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void warpPerspective_wrapper(const cv::Mat& arg1, cv::Mat& arg2, const cv::Mat& arg3, Size arg4, int arg5, int arg6, const Scalar& arg7) {
         return cv::warpPerspective(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void watershed_wrapper(const cv::Mat& arg1, cv::Mat& arg2) {
         return cv::watershed(arg1, arg2);
     }
-    
+
     void finish_wrapper() {
         return cv::ocl::finish();
     }
-    
+
     bool haveAmdBlas_wrapper() {
         return cv::ocl::haveAmdBlas();
     }
-    
+
     bool haveAmdFft_wrapper() {
         return cv::ocl::haveAmdFft();
     }
-    
+
     bool haveOpenCL_wrapper() {
         return cv::ocl::haveOpenCL();
     }
-    
+
     void setUseOpenCL_wrapper(bool arg1) {
         return cv::ocl::setUseOpenCL(arg1);
     }
-    
+
     bool useOpenCL_wrapper() {
         return cv::ocl::useOpenCL();
     }
-    
+
     void MergeMertens_setExposureWeight_wrapper(cv::MergeMertens& arg0 , float arg1) {
         return arg0.setExposureWeight(arg1);
     }
-    
+
     void MergeMertens_process_wrapper(cv::MergeMertens& arg0 , const std::vector<cv::Mat>& arg1, cv::Mat& arg2, const cv::Mat& arg3, const cv::Mat& arg4) {
         return arg0.process(arg1, arg2, arg3, arg4);
     }
-    
+
     void MergeMertens_process_wrapper1(cv::MergeMertens& arg0 , const std::vector<cv::Mat>& arg1, cv::Mat& arg2) {
         return arg0.process(arg1, arg2);
     }
-    
+
     void MergeMertens_setSaturationWeight_wrapper(cv::MergeMertens& arg0 , float arg1) {
         return arg0.setSaturationWeight(arg1);
     }
-    
+
     Ptr<MergeMertens> _createMergeMertens_wrapper(float arg1, float arg2, float arg3) {
         return cv::createMergeMertens(arg1, arg2, arg3);
     }
-    
+
     void MergeMertens_setContrastWeight_wrapper(cv::MergeMertens& arg0 , float arg1) {
         return arg0.setContrastWeight(arg1);
     }
-    
+
     Ptr<BackgroundSubtractorMOG2> _createBackgroundSubtractorMOG2_wrapper(int arg1, double arg2, bool arg3) {
         return cv::createBackgroundSubtractorMOG2(arg1, arg2, arg3);
     }
-    
+
     void BackgroundSubtractorMOG2_setVarMax_wrapper(cv::BackgroundSubtractorMOG2& arg0 , double arg1) {
         return arg0.setVarMax(arg1);
     }
-    
+
     void BackgroundSubtractorMOG2_setBackgroundRatio_wrapper(cv::BackgroundSubtractorMOG2& arg0 , double arg1) {
         return arg0.setBackgroundRatio(arg1);
     }
-    
+
     void BackgroundSubtractorMOG2_setNMixtures_wrapper(cv::BackgroundSubtractorMOG2& arg0 , int arg1) {
         return arg0.setNMixtures(arg1);
     }
-    
+
     void BackgroundSubtractorMOG2_setVarInit_wrapper(cv::BackgroundSubtractorMOG2& arg0 , double arg1) {
         return arg0.setVarInit(arg1);
     }
-    
+
     void BackgroundSubtractorMOG2_setDetectShadows_wrapper(cv::BackgroundSubtractorMOG2& arg0 , bool arg1) {
         return arg0.setDetectShadows(arg1);
     }
-    
+
     void BackgroundSubtractorMOG2_setVarMin_wrapper(cv::BackgroundSubtractorMOG2& arg0 , double arg1) {
         return arg0.setVarMin(arg1);
     }
-    
+
     void BackgroundSubtractorMOG2_setHistory_wrapper(cv::BackgroundSubtractorMOG2& arg0 , int arg1) {
         return arg0.setHistory(arg1);
     }
-    
+
     void BackgroundSubtractorMOG2_setVarThreshold_wrapper(cv::BackgroundSubtractorMOG2& arg0 , double arg1) {
         return arg0.setVarThreshold(arg1);
     }
-    
+
     void BackgroundSubtractorMOG2_setShadowThreshold_wrapper(cv::BackgroundSubtractorMOG2& arg0 , double arg1) {
         return arg0.setShadowThreshold(arg1);
     }
-    
+
     void BackgroundSubtractorMOG2_setVarThresholdGen_wrapper(cv::BackgroundSubtractorMOG2& arg0 , double arg1) {
         return arg0.setVarThresholdGen(arg1);
     }
-    
+
     void BackgroundSubtractorMOG2_setShadowValue_wrapper(cv::BackgroundSubtractorMOG2& arg0 , int arg1) {
         return arg0.setShadowValue(arg1);
     }
-    
+
     void BackgroundSubtractorMOG2_setComplexityReductionThreshold_wrapper(cv::BackgroundSubtractorMOG2& arg0 , double arg1) {
         return arg0.setComplexityReductionThreshold(arg1);
     }
-    
+
     void CalibrateRobertson_setThreshold_wrapper(cv::CalibrateRobertson& arg0 , float arg1) {
         return arg0.setThreshold(arg1);
     }
-    
+
     void CalibrateRobertson_setMaxIter_wrapper(cv::CalibrateRobertson& arg0 , int arg1) {
         return arg0.setMaxIter(arg1);
     }
-    
+
     Ptr<CalibrateRobertson> _createCalibrateRobertson_wrapper(int arg1, float arg2) {
         return cv::createCalibrateRobertson(arg1, arg2);
     }
-    
+
     bool HOGDescriptor_load_wrapper(cv::HOGDescriptor& arg0 , const std::string& arg1, const std::string& arg2) {
         return arg0.load(arg1, arg2);
     }
-    
+
     void HOGDescriptor_detect_wrapper(cv::HOGDescriptor& arg0 , const Mat& arg1, std::vector<Point>& arg2, std::vector<double>& arg3, double arg4, Size arg5, Size arg6, const std::vector<Point>& arg7) {
         return arg0.detect(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void HOGDescriptor_computeGradient_wrapper(cv::HOGDescriptor& arg0 , const Mat& arg1, Mat& arg2, Mat& arg3, Size arg4, Size arg5) {
         return arg0.computeGradient(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void HOGDescriptor_compute_wrapper(cv::HOGDescriptor& arg0 , const cv::Mat& arg1, std::vector<float>& arg2, Size arg3, Size arg4, const std::vector<Point>& arg5) {
         return arg0.compute(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void HOGDescriptor_save_wrapper(cv::HOGDescriptor& arg0 , const std::string& arg1, const std::string& arg2) {
         return arg0.save(arg1, arg2);
     }
-    
+
     void HOGDescriptor_setSVMDetector_wrapper(cv::HOGDescriptor& arg0 , const cv::Mat& arg1) {
         return arg0.setSVMDetector(arg1);
     }
-    
+
     void HOGDescriptor_detectMultiScale_wrapper(cv::HOGDescriptor& arg0 , const cv::Mat& arg1, std::vector<Rect>& arg2, std::vector<double>& arg3, double arg4, Size arg5, Size arg6, double arg7, double arg8, bool arg9) {
         return arg0.detectMultiScale(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
     }
-    
+
     void ml_LogisticRegression_setTrainMethod_wrapper(cv::ml::LogisticRegression& arg0 , int arg1) {
         return arg0.setTrainMethod(arg1);
     }
-    
+
     float ml_LogisticRegression_predict_wrapper(cv::ml::LogisticRegression& arg0 , const cv::Mat& arg1, cv::Mat& arg2, int arg3) {
         return arg0.predict(arg1, arg2, arg3);
     }
-    
+
     void ml_LogisticRegression_setTermCriteria_wrapper(cv::ml::LogisticRegression& arg0 , TermCriteria arg1) {
         return arg0.setTermCriteria(arg1);
     }
-    
+
     void ml_LogisticRegression_setMiniBatchSize_wrapper(cv::ml::LogisticRegression& arg0 , int arg1) {
         return arg0.setMiniBatchSize(arg1);
     }
-    
+
     void ml_LogisticRegression_setIterations_wrapper(cv::ml::LogisticRegression& arg0 , int arg1) {
         return arg0.setIterations(arg1);
     }
-    
+
     void ml_LogisticRegression_setLearningRate_wrapper(cv::ml::LogisticRegression& arg0 , double arg1) {
         return arg0.setLearningRate(arg1);
     }
-    
+
     void ml_LogisticRegression_setRegularization_wrapper(cv::ml::LogisticRegression& arg0 , int arg1) {
         return arg0.setRegularization(arg1);
     }
-    
+
     Ptr<HistogramCostExtractor> _createNormHistogramCostExtractor_wrapper(int arg1, int arg2, float arg3) {
         return cv::createNormHistogramCostExtractor(arg1, arg2, arg3);
     }
-    
+
     void NormHistogramCostExtractor_setNormFlag_wrapper(cv::NormHistogramCostExtractor& arg0 , int arg1) {
         return arg0.setNormFlag(arg1);
     }
-    
+
     Ptr<AgastFeatureDetector> AgastFeatureDetector_create_wrapper(int arg1, bool arg2, int arg3) {
         return cv::AgastFeatureDetector::create(arg1, arg2, arg3);
     }
-    
+
     void AgastFeatureDetector_setNonmaxSuppression_wrapper(cv::AgastFeatureDetector& arg0 , bool arg1) {
         return arg0.setNonmaxSuppression(arg1);
     }
-    
+
     void AgastFeatureDetector_setThreshold_wrapper(cv::AgastFeatureDetector& arg0 , int arg1) {
         return arg0.setThreshold(arg1);
     }
-    
+
     void AgastFeatureDetector_setType_wrapper(cv::AgastFeatureDetector& arg0 , int arg1) {
         return arg0.setType(arg1);
     }
-    
+
     void ml_Boost_setWeakCount_wrapper(cv::ml::Boost& arg0 , int arg1) {
         return arg0.setWeakCount(arg1);
     }
-    
+
     void ml_Boost_setWeightTrimRate_wrapper(cv::ml::Boost& arg0 , double arg1) {
         return arg0.setWeightTrimRate(arg1);
     }
-    
+
     void ml_Boost_setBoostType_wrapper(cv::ml::Boost& arg0 , int arg1) {
         return arg0.setBoostType(arg1);
     }
-    
+
     void DenseOpticalFlow_calc_wrapper(cv::DenseOpticalFlow& arg0 , const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3) {
         return arg0.calc(arg1, arg2, arg3);
     }
-    
+
     int LineSegmentDetector_compareSegments_wrapper(cv::LineSegmentDetector& arg0 , const Size& arg1, const cv::Mat& arg2, const cv::Mat& arg3, cv::Mat& arg4) {
         return arg0.compareSegments(arg1, arg2, arg3, arg4);
     }
-    
+
     void LineSegmentDetector_detect_wrapper(cv::LineSegmentDetector& arg0 , const cv::Mat& arg1, cv::Mat& arg2, cv::Mat& arg3, cv::Mat& arg4, cv::Mat& arg5) {
         return arg0.detect(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void LineSegmentDetector_drawSegments_wrapper(cv::LineSegmentDetector& arg0 , cv::Mat& arg1, const cv::Mat& arg2) {
         return arg0.drawSegments(arg1, arg2);
     }
-    
+
     Ptr<LineSegmentDetector> _createLineSegmentDetector_wrapper(int arg1, double arg2, double arg3, double arg4, double arg5, double arg6, double arg7, int arg8) {
         return cv::createLineSegmentDetector(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
     }
-    
+
     void BackgroundSubtractor_apply_wrapper(cv::BackgroundSubtractor& arg0 , const cv::Mat& arg1, cv::Mat& arg2, double arg3) {
         return arg0.apply(arg1, arg2, arg3);
     }
-    
+
     void BackgroundSubtractor_getBackgroundImage_wrapper(cv::BackgroundSubtractor& arg0 , cv::Mat& arg1) {
         return arg0.getBackgroundImage(arg1);
     }
-    
+
     Ptr<HistogramCostExtractor> _createChiHistogramCostExtractor_wrapper(int arg1, float arg2) {
         return cv::createChiHistogramCostExtractor(arg1, arg2);
     }
-    
+
     void KeyPoint_convert_wrapper(cv::KeyPoint& arg0 , const std::vector<KeyPoint>& arg1, std::vector<Point2f>& arg2, const std::vector<int>& arg3) {
         return arg0.convert(arg1, arg2, arg3);
     }
-    
+
     void KeyPoint_convert_wrapper1(cv::KeyPoint& arg0 , const std::vector<Point2f>& arg1, std::vector<KeyPoint>& arg2, float arg3, float arg4, int arg5, int arg6) {
         return arg0.convert(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     float KeyPoint_overlap_wrapper(cv::KeyPoint& arg0 , const KeyPoint& arg1, const KeyPoint& arg2) {
         return arg0.overlap(arg1, arg2);
     }
-    
+
     void AlignMTB_setCut_wrapper(cv::AlignMTB& arg0 , bool arg1) {
         return arg0.setCut(arg1);
     }
-    
+
     void AlignMTB_computeBitmaps_wrapper(cv::AlignMTB& arg0 , const cv::Mat& arg1, cv::Mat& arg2, cv::Mat& arg3) {
         return arg0.computeBitmaps(arg1, arg2, arg3);
     }
-    
+
     void AlignMTB_process_wrapper(cv::AlignMTB& arg0 , const std::vector<cv::Mat>& arg1, std::vector<Mat>& arg2, const cv::Mat& arg3, const cv::Mat& arg4) {
         return arg0.process(arg1, arg2, arg3, arg4);
     }
-    
+
     void AlignMTB_process_wrapper1(cv::AlignMTB& arg0 , const std::vector<cv::Mat>& arg1, std::vector<Mat>& arg2) {
         return arg0.process(arg1, arg2);
     }
-    
+
     Ptr<AlignMTB> _createAlignMTB_wrapper(int arg1, int arg2, bool arg3) {
         return cv::createAlignMTB(arg1, arg2, arg3);
     }
-    
+
     void AlignMTB_setExcludeRange_wrapper(cv::AlignMTB& arg0 , int arg1) {
         return arg0.setExcludeRange(arg1);
     }
-    
+
     void AlignMTB_setMaxBits_wrapper(cv::AlignMTB& arg0 , int arg1) {
         return arg0.setMaxBits(arg1);
     }
-    
+
     void AlignMTB_shiftMat_wrapper(cv::AlignMTB& arg0 , const cv::Mat& arg1, cv::Mat& arg2, const Point arg3) {
         return arg0.shiftMat(arg1, arg2, arg3);
     }
-    
+
     Point AlignMTB_calculateShift_wrapper(cv::AlignMTB& arg0 , const cv::Mat& arg1, const cv::Mat& arg2) {
         return arg0.calculateShift(arg1, arg2);
     }
-    
+
     Ptr<AffineTransformer> _createAffineTransformer_wrapper(bool arg1) {
         return cv::createAffineTransformer(arg1);
     }
-    
+
     void AffineTransformer_setFullAffine_wrapper(cv::AffineTransformer& arg0 , bool arg1) {
         return arg0.setFullAffine(arg1);
     }
-    
+
     void MergeDebevec_process_wrapper(cv::MergeDebevec& arg0 , const std::vector<cv::Mat>& arg1, cv::Mat& arg2, const cv::Mat& arg3, const cv::Mat& arg4) {
         return arg0.process(arg1, arg2, arg3, arg4);
     }
-    
+
     void MergeDebevec_process_wrapper1(cv::MergeDebevec& arg0 , const std::vector<cv::Mat>& arg1, cv::Mat& arg2, const cv::Mat& arg3) {
         return arg0.process(arg1, arg2, arg3);
     }
-    
+
     void HistogramCostExtractor_buildCostMatrix_wrapper(cv::HistogramCostExtractor& arg0 , const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3) {
         return arg0.buildCostMatrix(arg1, arg2, arg3);
     }
-    
+
     void HistogramCostExtractor_setNDummies_wrapper(cv::HistogramCostExtractor& arg0 , int arg1) {
         return arg0.setNDummies(arg1);
     }
-    
+
     void HistogramCostExtractor_setDefaultCost_wrapper(cv::HistogramCostExtractor& arg0 , float arg1) {
         return arg0.setDefaultCost(arg1);
     }
-    
+
     void ml_DTrees_setTruncatePrunedTree_wrapper(cv::ml::DTrees& arg0 , bool arg1) {
         return arg0.setTruncatePrunedTree(arg1);
     }
-    
+
     void ml_DTrees_setMaxDepth_wrapper(cv::ml::DTrees& arg0 , int arg1) {
         return arg0.setMaxDepth(arg1);
     }
-    
+
     void ml_DTrees_setMinSampleCount_wrapper(cv::ml::DTrees& arg0 , int arg1) {
         return arg0.setMinSampleCount(arg1);
     }
-    
+
     void ml_DTrees_setMaxCategories_wrapper(cv::ml::DTrees& arg0 , int arg1) {
         return arg0.setMaxCategories(arg1);
     }
-    
+
     void ml_DTrees_setCVFolds_wrapper(cv::ml::DTrees& arg0 , int arg1) {
         return arg0.setCVFolds(arg1);
     }
-    
+
     void ml_DTrees_setUseSurrogates_wrapper(cv::ml::DTrees& arg0 , bool arg1) {
         return arg0.setUseSurrogates(arg1);
     }
-    
+
     void ml_DTrees_setUse1SERule_wrapper(cv::ml::DTrees& arg0 , bool arg1) {
         return arg0.setUse1SERule(arg1);
     }
-    
+
     void ml_DTrees_setRegressionAccuracy_wrapper(cv::ml::DTrees& arg0 , float arg1) {
         return arg0.setRegressionAccuracy(arg1);
     }
-    
+
     void ml_DTrees_setPriors_wrapper(cv::ml::DTrees& arg0 , const cv::Mat & arg1) {
         return arg0.setPriors(arg1);
     }
-    
+
     Mat BOWKMeansTrainer_cluster_wrapper(cv::BOWKMeansTrainer& arg0 ) {
         return arg0.cluster();
     }
-    
+
     Mat BOWKMeansTrainer_cluster_wrapper1(cv::BOWKMeansTrainer& arg0 , const Mat& arg1) {
         return arg0.cluster(arg1);
     }
-    
+
     Ptr<TonemapMantiuk> _createTonemapMantiuk_wrapper(float arg1, float arg2, float arg3) {
         return cv::createTonemapMantiuk(arg1, arg2, arg3);
     }
-    
+
     void TonemapMantiuk_setSaturation_wrapper(cv::TonemapMantiuk& arg0 , float arg1) {
         return arg0.setSaturation(arg1);
     }
-    
+
     void TonemapMantiuk_setScale_wrapper(cv::TonemapMantiuk& arg0 , float arg1) {
         return arg0.setScale(arg1);
     }
-    
+
     float ml_StatModel_predict_wrapper(cv::ml::StatModel& arg0 , const cv::Mat& arg1, cv::Mat& arg2, int arg3) {
         return arg0.predict(arg1, arg2, arg3);
     }
-    
+
     float ml_StatModel_calcError_wrapper(cv::ml::StatModel& arg0 , const Ptr<TrainData>& arg1, bool arg2, cv::Mat& arg3) {
         return arg0.calcError(arg1, arg2, arg3);
     }
-    
+
     bool ml_StatModel_train_wrapper(cv::ml::StatModel& arg0 , const Ptr<TrainData>& arg1, int arg2) {
         return arg0.train(arg1, arg2);
     }
-    
+
     bool ml_StatModel_train_wrapper1(cv::ml::StatModel& arg0 , const cv::Mat& arg1, int arg2, const cv::Mat& arg3) {
         return arg0.train(arg1, arg2, arg3);
     }
-    
+
     void Tonemap_process_wrapper(cv::Tonemap& arg0 , const cv::Mat& arg1, cv::Mat& arg2) {
         return arg0.process(arg1, arg2);
     }
-    
+
     void Tonemap_setGamma_wrapper(cv::Tonemap& arg0 , float arg1) {
         return arg0.setGamma(arg1);
     }
-    
+
     Ptr<Tonemap> _createTonemap_wrapper(float arg1) {
         return cv::createTonemap(arg1);
     }
-    
+
     void ml_KNearest_setIsClassifier_wrapper(cv::ml::KNearest& arg0 , bool arg1) {
         return arg0.setIsClassifier(arg1);
     }
-    
+
     void ml_KNearest_setAlgorithmType_wrapper(cv::ml::KNearest& arg0 , int arg1) {
         return arg0.setAlgorithmType(arg1);
     }
-    
+
     void ml_KNearest_setEmax_wrapper(cv::ml::KNearest& arg0 , int arg1) {
         return arg0.setEmax(arg1);
     }
-    
+
     void ml_KNearest_setDefaultK_wrapper(cv::ml::KNearest& arg0 , int arg1) {
         return arg0.setDefaultK(arg1);
     }
-    
+
     float ml_KNearest_findNearest_wrapper(cv::ml::KNearest& arg0 , const cv::Mat& arg1, int arg2, cv::Mat& arg3, cv::Mat& arg4, cv::Mat& arg5) {
         return arg0.findNearest(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     Ptr<FastFeatureDetector> FastFeatureDetector_create_wrapper(int arg1, bool arg2, int arg3) {
         return cv::FastFeatureDetector::create(arg1, arg2, arg3);
     }
-    
+
     void FastFeatureDetector_setNonmaxSuppression_wrapper(cv::FastFeatureDetector& arg0 , bool arg1) {
         return arg0.setNonmaxSuppression(arg1);
     }
-    
+
     void FastFeatureDetector_setThreshold_wrapper(cv::FastFeatureDetector& arg0 , int arg1) {
         return arg0.setThreshold(arg1);
     }
-    
+
     void FastFeatureDetector_setType_wrapper(cv::FastFeatureDetector& arg0 , int arg1) {
         return arg0.setType(arg1);
     }
-    
+
     int Subdiv2D_insert_wrapper(cv::Subdiv2D& arg0 , Point2f arg1) {
         return arg0.insert(arg1);
     }
-    
+
     void Subdiv2D_insert_wrapper1(cv::Subdiv2D& arg0 , const std::vector<Point2f>& arg1) {
         return arg0.insert(arg1);
     }
-    
+
     int Subdiv2D_edgeOrg_wrapper(cv::Subdiv2D& arg0 , int arg1, Point2f* arg2) {
         return arg0.edgeOrg(arg1, arg2);
     }
-    
+
     int Subdiv2D_rotateEdge_wrapper(cv::Subdiv2D& arg0 , int arg1, int arg2) {
         return arg0.rotateEdge(arg1, arg2);
     }
-    
+
     void Subdiv2D_initDelaunay_wrapper(cv::Subdiv2D& arg0 , Rect arg1) {
         return arg0.initDelaunay(arg1);
     }
-    
+
     int Subdiv2D_getEdge_wrapper(cv::Subdiv2D& arg0 , int arg1, int arg2) {
         return arg0.getEdge(arg1, arg2);
     }
-    
+
     void Subdiv2D_getTriangleList_wrapper(cv::Subdiv2D& arg0 , std::vector<Vec6f>& arg1) {
         return arg0.getTriangleList(arg1);
     }
-    
+
     int Subdiv2D_nextEdge_wrapper(cv::Subdiv2D& arg0 , int arg1) {
         return arg0.nextEdge(arg1);
     }
-    
+
     int Subdiv2D_edgeDst_wrapper(cv::Subdiv2D& arg0 , int arg1, Point2f* arg2) {
         return arg0.edgeDst(arg1, arg2);
     }
-    
+
     void Subdiv2D_getEdgeList_wrapper(cv::Subdiv2D& arg0 , std::vector<Vec4f>& arg1) {
         return arg0.getEdgeList(arg1);
     }
-    
+
     Point2f Subdiv2D_getVertex_wrapper(cv::Subdiv2D& arg0 , int arg1, int* arg2) {
         return arg0.getVertex(arg1, arg2);
     }
-    
+
     void Subdiv2D_getVoronoiFacetList_wrapper(cv::Subdiv2D& arg0 , const std::vector<int>& arg1, std::vector<std::vector<Point2f> >& arg2, std::vector<Point2f>& arg3) {
         return arg0.getVoronoiFacetList(arg1, arg2, arg3);
     }
-    
+
     int Subdiv2D_symEdge_wrapper(cv::Subdiv2D& arg0 , int arg1) {
         return arg0.symEdge(arg1);
     }
-    
+
     int Subdiv2D_findNearest_wrapper(cv::Subdiv2D& arg0 , Point2f arg1, Point2f* arg2) {
         return arg0.findNearest(arg1, arg2);
     }
-    
+
     Ptr<BRISK> BRISK_create_wrapper(int arg1, int arg2, float arg3) {
         return cv::BRISK::create(arg1, arg2, arg3);
     }
-    
+
     Ptr<BRISK> BRISK_create_wrapper1(const std::vector<float> & arg1, const std::vector<int> & arg2, float arg3, float arg4, const std::vector<int>& arg5) {
         return cv::BRISK::create(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     const Mat& KalmanFilter_predict_wrapper(cv::KalmanFilter& arg0 , const Mat& arg1) {
         return arg0.predict(arg1);
     }
-    
+
     const Mat& KalmanFilter_correct_wrapper(cv::KalmanFilter& arg0 , const Mat& arg1) {
         return arg0.correct(arg1);
     }
-    
+
     Ptr<HistogramCostExtractor> _createEMDHistogramCostExtractor_wrapper(int arg1, int arg2, float arg3) {
         return cv::createEMDHistogramCostExtractor(arg1, arg2, arg3);
     }
-    
+
     void EMDHistogramCostExtractor_setNormFlag_wrapper(cv::EMDHistogramCostExtractor& arg0 , int arg1) {
         return arg0.setNormFlag(arg1);
     }
-    
+
     void ThinPlateSplineShapeTransformer_setRegularizationParameter_wrapper(cv::ThinPlateSplineShapeTransformer& arg0 , double arg1) {
         return arg0.setRegularizationParameter(arg1);
     }
-    
+
     Ptr<ThinPlateSplineShapeTransformer> _createThinPlateSplineShapeTransformer_wrapper(double arg1) {
         return cv::createThinPlateSplineShapeTransformer(arg1);
     }
-    
+
     void ShapeContextDistanceExtractor_setAngularBins_wrapper(cv::ShapeContextDistanceExtractor& arg0 , int arg1) {
         return arg0.setAngularBins(arg1);
     }
-    
+
     void ShapeContextDistanceExtractor_setTransformAlgorithm_wrapper(cv::ShapeContextDistanceExtractor& arg0 , Ptr<ShapeTransformer> arg1) {
         return arg0.setTransformAlgorithm(arg1);
     }
-    
+
     void ShapeContextDistanceExtractor_setShapeContextWeight_wrapper(cv::ShapeContextDistanceExtractor& arg0 , float arg1) {
         return arg0.setShapeContextWeight(arg1);
     }
-    
+
     void ShapeContextDistanceExtractor_setImageAppearanceWeight_wrapper(cv::ShapeContextDistanceExtractor& arg0 , float arg1) {
         return arg0.setImageAppearanceWeight(arg1);
     }
-    
+
     void ShapeContextDistanceExtractor_setRotationInvariant_wrapper(cv::ShapeContextDistanceExtractor& arg0 , bool arg1) {
         return arg0.setRotationInvariant(arg1);
     }
-    
+
     void ShapeContextDistanceExtractor_setBendingEnergyWeight_wrapper(cv::ShapeContextDistanceExtractor& arg0 , float arg1) {
         return arg0.setBendingEnergyWeight(arg1);
     }
-    
+
     void ShapeContextDistanceExtractor_setStdDev_wrapper(cv::ShapeContextDistanceExtractor& arg0 , float arg1) {
         return arg0.setStdDev(arg1);
     }
-    
+
     void ShapeContextDistanceExtractor_setCostExtractor_wrapper(cv::ShapeContextDistanceExtractor& arg0 , Ptr<HistogramCostExtractor> arg1) {
         return arg0.setCostExtractor(arg1);
     }
-    
+
     void ShapeContextDistanceExtractor_setOuterRadius_wrapper(cv::ShapeContextDistanceExtractor& arg0 , float arg1) {
         return arg0.setOuterRadius(arg1);
     }
-    
+
     void ShapeContextDistanceExtractor_getImages_wrapper(cv::ShapeContextDistanceExtractor& arg0 , cv::Mat& arg1, cv::Mat& arg2) {
         return arg0.getImages(arg1, arg2);
     }
-    
+
     Ptr<ShapeContextDistanceExtractor> _createShapeContextDistanceExtractor_wrapper(int arg1, int arg2, float arg3, float arg4, int arg5, const Ptr<HistogramCostExtractor> & arg6, const Ptr<ShapeTransformer> & arg7) {
         return cv::createShapeContextDistanceExtractor(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void ShapeContextDistanceExtractor_setInnerRadius_wrapper(cv::ShapeContextDistanceExtractor& arg0 , float arg1) {
         return arg0.setInnerRadius(arg1);
     }
-    
+
     void ShapeContextDistanceExtractor_setIterations_wrapper(cv::ShapeContextDistanceExtractor& arg0 , int arg1) {
         return arg0.setIterations(arg1);
     }
-    
+
     void ShapeContextDistanceExtractor_setImages_wrapper(cv::ShapeContextDistanceExtractor& arg0 , const cv::Mat& arg1, const cv::Mat& arg2) {
         return arg0.setImages(arg1, arg2);
     }
-    
+
     void ShapeContextDistanceExtractor_setRadialBins_wrapper(cv::ShapeContextDistanceExtractor& arg0 , int arg1) {
         return arg0.setRadialBins(arg1);
     }
-    
+
     void KAZE_setExtended_wrapper(cv::KAZE& arg0 , bool arg1) {
         return arg0.setExtended(arg1);
     }
-    
+
     void KAZE_setNOctaveLayers_wrapper(cv::KAZE& arg0 , int arg1) {
         return arg0.setNOctaveLayers(arg1);
     }
-    
+
     void KAZE_setNOctaves_wrapper(cv::KAZE& arg0 , int arg1) {
         return arg0.setNOctaves(arg1);
     }
-    
+
     Ptr<KAZE> KAZE_create_wrapper(bool arg1, bool arg2, float arg3, int arg4, int arg5, int arg6) {
         return cv::KAZE::create(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     void KAZE_setUpright_wrapper(cv::KAZE& arg0 , bool arg1) {
         return arg0.setUpright(arg1);
     }
-    
+
     void KAZE_setDiffusivity_wrapper(cv::KAZE& arg0 , int arg1) {
         return arg0.setDiffusivity(arg1);
     }
-    
+
     void KAZE_setThreshold_wrapper(cv::KAZE& arg0 , double arg1) {
         return arg0.setThreshold(arg1);
     }
-    
+
     void CalibrateCRF_process_wrapper(cv::CalibrateCRF& arg0 , const std::vector<cv::Mat>& arg1, cv::Mat& arg2, const cv::Mat& arg3) {
         return arg0.process(arg1, arg2, arg3);
     }
-    
+
     void AKAZE_setNOctaveLayers_wrapper(cv::AKAZE& arg0 , int arg1) {
         return arg0.setNOctaveLayers(arg1);
     }
-    
+
     void AKAZE_setDescriptorType_wrapper(cv::AKAZE& arg0 , int arg1) {
         return arg0.setDescriptorType(arg1);
     }
-    
+
     void AKAZE_setNOctaves_wrapper(cv::AKAZE& arg0 , int arg1) {
         return arg0.setNOctaves(arg1);
     }
-    
+
     Ptr<AKAZE> AKAZE_create_wrapper(int arg1, int arg2, int arg3, float arg4, int arg5, int arg6, int arg7) {
         return cv::AKAZE::create(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void AKAZE_setDescriptorChannels_wrapper(cv::AKAZE& arg0 , int arg1) {
         return arg0.setDescriptorChannels(arg1);
     }
-    
+
     void AKAZE_setThreshold_wrapper(cv::AKAZE& arg0 , double arg1) {
         return arg0.setThreshold(arg1);
     }
-    
+
     void AKAZE_setDescriptorSize_wrapper(cv::AKAZE& arg0 , int arg1) {
         return arg0.setDescriptorSize(arg1);
     }
-    
+
     void AKAZE_setDiffusivity_wrapper(cv::AKAZE& arg0 , int arg1) {
         return arg0.setDiffusivity(arg1);
     }
-    
+
     void Feature2D_detect_wrapper(cv::Feature2D& arg0 , const cv::Mat& arg1, std::vector<KeyPoint>& arg2, const cv::Mat& arg3) {
         return arg0.detect(arg1, arg2, arg3);
     }
-    
+
     void Feature2D_compute_wrapper(cv::Feature2D& arg0 , const cv::Mat& arg1, std::vector<KeyPoint>& arg2, cv::Mat& arg3) {
         return arg0.compute(arg1, arg2, arg3);
     }
-    
+
     void Feature2D_detectAndCompute_wrapper(cv::Feature2D& arg0 , const cv::Mat& arg1, const cv::Mat& arg2, std::vector<KeyPoint>& arg3, cv::Mat& arg4, bool arg5) {
         return arg0.detectAndCompute(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     bool flann_Index_load_wrapper(cv::flann::Index& arg0 , const cv::Mat& arg1, const std::string& arg2) {
         return arg0.load(arg1, arg2);
     }
-    
+
     int flann_Index_radiusSearch_wrapper(cv::flann::Index& arg0 , const cv::Mat& arg1, cv::Mat& arg2, cv::Mat& arg3, double arg4, int arg5, const SearchParams& arg6) {
         return arg0.radiusSearch(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     void flann_Index_build_wrapper(cv::flann::Index& arg0 , const cv::Mat& arg1, const IndexParams& arg2, cvflann::flann_distance_t arg3) {
         return arg0.build(arg1, arg2, arg3);
     }
-    
+
     void flann_Index_save_wrapper(cv::flann::Index& arg0 , const std::string& arg1) {
         return arg0.save(arg1);
     }
-    
+
     void flann_Index_knnSearch_wrapper(cv::flann::Index& arg0 , const cv::Mat& arg1, cv::Mat& arg2, cv::Mat& arg3, int arg4, const SearchParams& arg5) {
         return arg0.knnSearch(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     float ml_NormalBayesClassifier_predictProb_wrapper(cv::ml::NormalBayesClassifier& arg0 , const cv::Mat& arg1, cv::Mat& arg2, cv::Mat& arg3, int arg4) {
         return arg0.predictProb(arg1, arg2, arg3, arg4);
     }
-    
+
     void MergeExposures_process_wrapper(cv::MergeExposures& arg0 , const std::vector<cv::Mat>& arg1, cv::Mat& arg2, const cv::Mat& arg3, const cv::Mat& arg4) {
         return arg0.process(arg1, arg2, arg3, arg4);
     }
-    
+
     void MergeRobertson_process_wrapper(cv::MergeRobertson& arg0 , const std::vector<cv::Mat>& arg1, cv::Mat& arg2, const cv::Mat& arg3, const cv::Mat& arg4) {
         return arg0.process(arg1, arg2, arg3, arg4);
     }
-    
+
     void MergeRobertson_process_wrapper1(cv::MergeRobertson& arg0 , const std::vector<cv::Mat>& arg1, cv::Mat& arg2, const cv::Mat& arg3) {
         return arg0.process(arg1, arg2, arg3);
     }
-    
+
     void CalibrateDebevec_setRandom_wrapper(cv::CalibrateDebevec& arg0 , bool arg1) {
         return arg0.setRandom(arg1);
     }
-    
+
     Ptr<CalibrateDebevec> _createCalibrateDebevec_wrapper(int arg1, float arg2, bool arg3) {
         return cv::createCalibrateDebevec(arg1, arg2, arg3);
     }
-    
+
     void CalibrateDebevec_setLambda_wrapper(cv::CalibrateDebevec& arg0 , float arg1) {
         return arg0.setLambda(arg1);
     }
-    
+
     void CalibrateDebevec_setSamples_wrapper(cv::CalibrateDebevec& arg0 , int arg1) {
         return arg0.setSamples(arg1);
     }
-    
+
     void BOWImgDescriptorExtractor_setVocabulary_wrapper(cv::BOWImgDescriptorExtractor& arg0 , const Mat& arg1) {
         return arg0.setVocabulary(arg1);
     }
-    
+
     void BOWImgDescriptorExtractor_compute2_wrapper(cv::BOWImgDescriptorExtractor& arg0 , const Mat& arg1, std::vector<KeyPoint>& arg2, Mat& arg3) {
         return arg0.compute2(arg1, arg2, arg3);
     }
-    
+
     void AlignExposures_process_wrapper(cv::AlignExposures& arg0 , const std::vector<cv::Mat>& arg1, std::vector<Mat>& arg2, const cv::Mat& arg3, const cv::Mat& arg4) {
         return arg0.process(arg1, arg2, arg3, arg4);
     }
-    
+
     std::string Algorithm_getDefaultName_wrapper(cv::Algorithm& arg0 ) {
         return arg0.getDefaultName();
     }
-    
+
     void Algorithm_save_wrapper(cv::Algorithm& arg0 , const std::string& arg1) {
         return arg0.save(arg1);
     }
-    
+
     void ShapeTransformer_warpImage_wrapper(cv::ShapeTransformer& arg0 , const cv::Mat& arg1, cv::Mat& arg2, int arg3, int arg4, const Scalar& arg5) {
         return arg0.warpImage(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void ShapeTransformer_estimateTransformation_wrapper(cv::ShapeTransformer& arg0 , const cv::Mat& arg1, const cv::Mat& arg2, std::vector<DMatch>& arg3) {
         return arg0.estimateTransformation(arg1, arg2, arg3);
     }
-    
+
     float ShapeTransformer_applyTransformation_wrapper(cv::ShapeTransformer& arg0 , const cv::Mat& arg1, cv::Mat& arg2) {
         return arg0.applyTransformation(arg1, arg2);
     }
-    
+
     void ml_ANN_MLP_setRpropDWMinus_wrapper(cv::ml::ANN_MLP& arg0 , double arg1) {
         return arg0.setRpropDWMinus(arg1);
     }
-    
+
     void ml_ANN_MLP_setBackpropWeightScale_wrapper(cv::ml::ANN_MLP& arg0 , double arg1) {
         return arg0.setBackpropWeightScale(arg1);
     }
-    
+
     void ml_ANN_MLP_setRpropDWMin_wrapper(cv::ml::ANN_MLP& arg0 , double arg1) {
         return arg0.setRpropDWMin(arg1);
     }
-    
+
     void ml_ANN_MLP_setActivationFunction_wrapper(cv::ml::ANN_MLP& arg0 , int arg1, double arg2, double arg3) {
         return arg0.setActivationFunction(arg1, arg2, arg3);
     }
-    
+
     void ml_ANN_MLP_setRpropDWMax_wrapper(cv::ml::ANN_MLP& arg0 , double arg1) {
         return arg0.setRpropDWMax(arg1);
     }
-    
+
     void ml_ANN_MLP_setRpropDW0_wrapper(cv::ml::ANN_MLP& arg0 , double arg1) {
         return arg0.setRpropDW0(arg1);
     }
-    
+
     void ml_ANN_MLP_setBackpropMomentumScale_wrapper(cv::ml::ANN_MLP& arg0 , double arg1) {
         return arg0.setBackpropMomentumScale(arg1);
     }
-    
+
     void ml_ANN_MLP_setRpropDWPlus_wrapper(cv::ml::ANN_MLP& arg0 , double arg1) {
         return arg0.setRpropDWPlus(arg1);
     }
-    
+
     void ml_ANN_MLP_setTrainMethod_wrapper(cv::ml::ANN_MLP& arg0 , int arg1, double arg2, double arg3) {
         return arg0.setTrainMethod(arg1, arg2, arg3);
     }
-    
+
     void ml_ANN_MLP_setTermCriteria_wrapper(cv::ml::ANN_MLP& arg0 , TermCriteria arg1) {
         return arg0.setTermCriteria(arg1);
     }
-    
+
     void ml_ANN_MLP_setLayerSizes_wrapper(cv::ml::ANN_MLP& arg0 , const cv::Mat& arg1) {
         return arg0.setLayerSizes(arg1);
     }
-    
+
     Mat ml_ANN_MLP_getWeights_wrapper(cv::ml::ANN_MLP& arg0 , int arg1) {
         return arg0.getWeights(arg1);
     }
-    
+
     void ml_RTrees_setCalculateVarImportance_wrapper(cv::ml::RTrees& arg0 , bool arg1) {
         return arg0.setCalculateVarImportance(arg1);
     }
-    
+
     void ml_RTrees_setTermCriteria_wrapper(cv::ml::RTrees& arg0 , const TermCriteria & arg1) {
         return arg0.setTermCriteria(arg1);
     }
-    
+
     void ml_RTrees_setActiveVarCount_wrapper(cv::ml::RTrees& arg0 , int arg1) {
         return arg0.setActiveVarCount(arg1);
     }
-    
+
     float ShapeDistanceExtractor_computeDistance_wrapper(cv::ShapeDistanceExtractor& arg0 , const cv::Mat& arg1, const cv::Mat& arg2) {
         return arg0.computeDistance(arg1, arg2);
     }
-    
+
     void GFTTDetector_setHarrisDetector_wrapper(cv::GFTTDetector& arg0 , bool arg1) {
         return arg0.setHarrisDetector(arg1);
     }
-    
+
     void GFTTDetector_setBlockSize_wrapper(cv::GFTTDetector& arg0 , int arg1) {
         return arg0.setBlockSize(arg1);
     }
-    
+
     Ptr<GFTTDetector> GFTTDetector_create_wrapper(int arg1, double arg2, double arg3, int arg4, bool arg5, double arg6) {
         return cv::GFTTDetector::create(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     void GFTTDetector_setQualityLevel_wrapper(cv::GFTTDetector& arg0 , double arg1) {
         return arg0.setQualityLevel(arg1);
     }
-    
+
     void GFTTDetector_setMaxFeatures_wrapper(cv::GFTTDetector& arg0 , int arg1) {
         return arg0.setMaxFeatures(arg1);
     }
-    
+
     void GFTTDetector_setK_wrapper(cv::GFTTDetector& arg0 , double arg1) {
         return arg0.setK(arg1);
     }
-    
+
     void GFTTDetector_setMinDistance_wrapper(cv::GFTTDetector& arg0 , double arg1) {
         return arg0.setMinDistance(arg1);
     }
-    
+
     Ptr<DescriptorMatcher> DescriptorMatcher_create_wrapper(const std::string& arg1) {
         return cv::DescriptorMatcher::create(arg1);
     }
-    
+
     void DescriptorMatcher_knnMatch_wrapper(cv::DescriptorMatcher& arg0 , const cv::Mat& arg1, const cv::Mat& arg2, std::vector<std::vector<DMatch> >& arg3, int arg4, const cv::Mat& arg5, bool arg6) {
         return arg0.knnMatch(arg1, arg2, arg3, arg4, arg5, arg6);
     }
-    
+
     void DescriptorMatcher_knnMatch_wrapper1(cv::DescriptorMatcher& arg0 , const cv::Mat& arg1, std::vector<std::vector<DMatch> >& arg2, int arg3, const std::vector<cv::Mat>& arg4, bool arg5) {
         return arg0.knnMatch(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void DescriptorMatcher_add_wrapper(cv::DescriptorMatcher& arg0 , const std::vector<cv::Mat>& arg1) {
         return arg0.add(arg1);
     }
-    
+
     void DescriptorMatcher_match_wrapper(cv::DescriptorMatcher& arg0 , const cv::Mat& arg1, const cv::Mat& arg2, std::vector<DMatch>& arg3, const cv::Mat& arg4) {
         return arg0.match(arg1, arg2, arg3, arg4);
     }
-    
+
     void DescriptorMatcher_match_wrapper1(cv::DescriptorMatcher& arg0 , const cv::Mat& arg1, std::vector<DMatch>& arg2, const std::vector<cv::Mat>& arg3) {
         return arg0.match(arg1, arg2, arg3);
     }
-    
+
     void TonemapDurand_setSigmaSpace_wrapper(cv::TonemapDurand& arg0 , float arg1) {
         return arg0.setSigmaSpace(arg1);
     }
-    
+
     void TonemapDurand_setSigmaColor_wrapper(cv::TonemapDurand& arg0 , float arg1) {
         return arg0.setSigmaColor(arg1);
     }
-    
+
     void TonemapDurand_setSaturation_wrapper(cv::TonemapDurand& arg0 , float arg1) {
         return arg0.setSaturation(arg1);
     }
-    
+
     Ptr<TonemapDurand> _createTonemapDurand_wrapper(float arg1, float arg2, float arg3, float arg4, float arg5) {
         return cv::createTonemapDurand(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     void TonemapDurand_setContrast_wrapper(cv::TonemapDurand& arg0 , float arg1) {
         return arg0.setContrast(arg1);
     }
-    
+
     void ml_TrainData_setTrainTestSplit_wrapper(cv::ml::TrainData& arg0 , int arg1, bool arg2) {
         return arg0.setTrainTestSplit(arg1, arg2);
     }
-    
+
     void ml_TrainData_setTrainTestSplitRatio_wrapper(cv::ml::TrainData& arg0 , double arg1, bool arg2) {
         return arg0.setTrainTestSplitRatio(arg1, arg2);
     }
-    
+
     void ml_TrainData_getValues_wrapper(cv::ml::TrainData& arg0 , int arg1, const cv::Mat& arg2, float* arg3) {
         return arg0.getValues(arg1, arg2, arg3);
     }
-    
+
     Ptr<TrainData> ml_TrainData_create_wrapper(const cv::Mat& arg1, int arg2, const cv::Mat& arg3, const cv::Mat& arg4, const cv::Mat& arg5, const cv::Mat& arg6, const cv::Mat& arg7) {
         return cv::ml::TrainData::create(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void ml_TrainData_getSample_wrapper(cv::ml::TrainData& arg0 , const cv::Mat& arg1, int arg2, float* arg3) {
         return arg0.getSample(arg1, arg2, arg3);
     }
-    
+
     int ml_TrainData_getCatCount_wrapper(cv::ml::TrainData& arg0 , int arg1) {
         return arg0.getCatCount(arg1);
     }
-    
+
     Mat ml_TrainData_getSubVector_wrapper(cv::ml::TrainData& arg0 , const Mat& arg1, const Mat& arg2) {
         return arg0.getSubVector(arg1, arg2);
     }
-    
+
     Mat ml_TrainData_getTrainSamples_wrapper(cv::ml::TrainData& arg0 , int arg1, bool arg2, bool arg3) {
         return arg0.getTrainSamples(arg1, arg2, arg3);
     }
-    
+
     void MSER_setMinArea_wrapper(cv::MSER& arg0 , int arg1) {
         return arg0.setMinArea(arg1);
     }
-    
+
     Ptr<MSER> MSER_create_wrapper(int arg1, int arg2, int arg3, double arg4, double arg5, int arg6, double arg7, double arg8, int arg9) {
         return cv::MSER::create(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
     }
-    
+
     void MSER_setMaxArea_wrapper(cv::MSER& arg0 , int arg1) {
         return arg0.setMaxArea(arg1);
     }
-    
+
     void MSER_setPass2Only_wrapper(cv::MSER& arg0 , bool arg1) {
         return arg0.setPass2Only(arg1);
     }
-    
+
     void MSER_detectRegions_wrapper(cv::MSER& arg0 , const cv::Mat& arg1, std::vector<std::vector<Point> >& arg2, std::vector<Rect>& arg3) {
         return arg0.detectRegions(arg1, arg2, arg3);
     }
-    
+
     void MSER_setDelta_wrapper(cv::MSER& arg0 , int arg1) {
         return arg0.setDelta(arg1);
     }
-    
+
     Ptr<BackgroundSubtractorKNN> _createBackgroundSubtractorKNN_wrapper(int arg1, double arg2, bool arg3) {
         return cv::createBackgroundSubtractorKNN(arg1, arg2, arg3);
     }
-    
+
     void BackgroundSubtractorKNN_setDetectShadows_wrapper(cv::BackgroundSubtractorKNN& arg0 , bool arg1) {
         return arg0.setDetectShadows(arg1);
     }
-    
+
     void BackgroundSubtractorKNN_setDist2Threshold_wrapper(cv::BackgroundSubtractorKNN& arg0 , double arg1) {
         return arg0.setDist2Threshold(arg1);
     }
-    
+
     void BackgroundSubtractorKNN_setkNNSamples_wrapper(cv::BackgroundSubtractorKNN& arg0 , int arg1) {
         return arg0.setkNNSamples(arg1);
     }
-    
+
     void BackgroundSubtractorKNN_setShadowValue_wrapper(cv::BackgroundSubtractorKNN& arg0 , int arg1) {
         return arg0.setShadowValue(arg1);
     }
-    
+
     void BackgroundSubtractorKNN_setHistory_wrapper(cv::BackgroundSubtractorKNN& arg0 , int arg1) {
         return arg0.setHistory(arg1);
     }
-    
+
     void BackgroundSubtractorKNN_setNSamples_wrapper(cv::BackgroundSubtractorKNN& arg0 , int arg1) {
         return arg0.setNSamples(arg1);
     }
-    
+
     void BackgroundSubtractorKNN_setShadowThreshold_wrapper(cv::BackgroundSubtractorKNN& arg0 , double arg1) {
         return arg0.setShadowThreshold(arg1);
     }
-    
+
     void CLAHE_setTilesGridSize_wrapper(cv::CLAHE& arg0 , Size arg1) {
         return arg0.setTilesGridSize(arg1);
     }
-    
+
     Ptr<CLAHE> _createCLAHE_wrapper(double arg1, Size arg2) {
         return cv::createCLAHE(arg1, arg2);
     }
-    
+
     void CLAHE_setClipLimit_wrapper(cv::CLAHE& arg0 , double arg1) {
         return arg0.setClipLimit(arg1);
     }
-    
+
     void CLAHE_apply_wrapper(cv::CLAHE& arg0 , const cv::Mat& arg1, cv::Mat& arg2) {
         return arg0.apply(arg1, arg2);
     }
-    
+
     Ptr<SimpleBlobDetector> SimpleBlobDetector_create_wrapper(const SimpleBlobDetector::Params & arg1) {
         return cv::SimpleBlobDetector::create(arg1);
     }
-    
+
     void ml_SVM_setCoef0_wrapper(cv::ml::SVM& arg0 , double arg1) {
         return arg0.setCoef0(arg1);
     }
-    
+
     void ml_SVM_setNu_wrapper(cv::ml::SVM& arg0 , double arg1) {
         return arg0.setNu(arg1);
     }
-    
+
     void ml_SVM_setType_wrapper(cv::ml::SVM& arg0 , int arg1) {
         return arg0.setType(arg1);
     }
-    
+
     void ml_SVM_setDegree_wrapper(cv::ml::SVM& arg0 , double arg1) {
         return arg0.setDegree(arg1);
     }
-    
+
     void ml_SVM_setC_wrapper(cv::ml::SVM& arg0 , double arg1) {
         return arg0.setC(arg1);
     }
-    
+
     void ml_SVM_setTermCriteria_wrapper(cv::ml::SVM& arg0 , const cv::TermCriteria & arg1) {
         return arg0.setTermCriteria(arg1);
     }
-    
+
     void ml_SVM_setGamma_wrapper(cv::ml::SVM& arg0 , double arg1) {
         return arg0.setGamma(arg1);
     }
-    
+
     void ml_SVM_setP_wrapper(cv::ml::SVM& arg0 , double arg1) {
         return arg0.setP(arg1);
     }
-    
+
     double ml_SVM_getDecisionFunction_wrapper(cv::ml::SVM& arg0 , int arg1, cv::Mat& arg2, cv::Mat& arg3) {
         return arg0.getDecisionFunction(arg1, arg2, arg3);
     }
-    
+
     void ml_SVM_setKernel_wrapper(cv::ml::SVM& arg0 , int arg1) {
         return arg0.setKernel(arg1);
     }
-    
+
     void ml_SVM_setClassWeights_wrapper(cv::ml::SVM& arg0 , const cv::Mat & arg1) {
         return arg0.setClassWeights(arg1);
     }
-    
+
     Ptr<HistogramCostExtractor> _createEMDL1HistogramCostExtractor_wrapper(int arg1, float arg2) {
         return cv::createEMDL1HistogramCostExtractor(arg1, arg2);
     }
-    
+
     bool CascadeClassifier_load_wrapper(cv::CascadeClassifier& arg0 , const std::string& arg1) {
         return arg0.load(arg1);
     }
-    
+
     bool CascadeClassifier_convert_wrapper(cv::CascadeClassifier& arg0 , const std::string& arg1, const std::string& arg2) {
         return arg0.convert(arg1, arg2);
     }
-    
+
     bool CascadeClassifier_read_wrapper(cv::CascadeClassifier& arg0 , const FileNode& arg1) {
         return arg0.read(arg1);
     }
-    
+
     void CascadeClassifier_detectMultiScale_wrapper(cv::CascadeClassifier& arg0 , const cv::Mat& arg1, std::vector<Rect>& arg2, std::vector<int>& arg3, double arg4, int arg5, int arg6, Size arg7, Size arg8) {
         return arg0.detectMultiScale(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
     }
-    
+
     void CascadeClassifier_detectMultiScale_wrapper(cv::CascadeClassifier& arg0 , const cv::Mat& arg1, std::vector<Rect>& arg2, std::vector<int>& arg3, std::vector<double>& arg4, double arg5, int arg6, int arg7, Size arg8, Size arg9, bool arg10) {
         return arg0.detectMultiScale(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
     }
-    
+
     void CascadeClassifier_detectMultiScale_wrapper(cv::CascadeClassifier& arg0 , const cv::Mat& arg1, std::vector<Rect>& arg2, double arg3, int arg4, int arg5, Size arg6, Size arg7) {
         return arg0.detectMultiScale(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void TonemapReinhard_setColorAdaptation_wrapper(cv::TonemapReinhard& arg0 , float arg1) {
         return arg0.setColorAdaptation(arg1);
     }
-    
+
     void TonemapReinhard_setLightAdaptation_wrapper(cv::TonemapReinhard& arg0 , float arg1) {
         return arg0.setLightAdaptation(arg1);
     }
-    
+
     Ptr<TonemapReinhard> _createTonemapReinhard_wrapper(float arg1, float arg2, float arg3, float arg4) {
         return cv::createTonemapReinhard(arg1, arg2, arg3, arg4);
     }
-    
+
     void TonemapReinhard_setIntensity_wrapper(cv::TonemapReinhard& arg0 , float arg1) {
         return arg0.setIntensity(arg1);
     }
-    
+
     void TonemapDrago_setBias_wrapper(cv::TonemapDrago& arg0 , float arg1) {
         return arg0.setBias(arg1);
     }
-    
+
     Ptr<TonemapDrago> _createTonemapDrago_wrapper(float arg1, float arg2, float arg3) {
         return cv::createTonemapDrago(arg1, arg2, arg3);
     }
-    
+
     void TonemapDrago_setSaturation_wrapper(cv::TonemapDrago& arg0 , float arg1) {
         return arg0.setSaturation(arg1);
     }
-    
+
     void HausdorffDistanceExtractor_setDistanceFlag_wrapper(cv::HausdorffDistanceExtractor& arg0 , int arg1) {
         return arg0.setDistanceFlag(arg1);
     }
-    
+
     void HausdorffDistanceExtractor_setRankProportion_wrapper(cv::HausdorffDistanceExtractor& arg0 , float arg1) {
         return arg0.setRankProportion(arg1);
     }
-    
+
     Ptr<HausdorffDistanceExtractor> _createHausdorffDistanceExtractor_wrapper(int arg1, float arg2) {
         return cv::createHausdorffDistanceExtractor(arg1, arg2);
     }
-    
+
     Mat BOWTrainer_cluster_wrapper(cv::BOWTrainer& arg0 ) {
         return arg0.cluster();
     }
-    
+
     Mat BOWTrainer_cluster_wrapper1(cv::BOWTrainer& arg0 , const Mat& arg1) {
         return arg0.cluster(arg1);
     }
-    
+
     void BOWTrainer_add_wrapper(cv::BOWTrainer& arg0 , const Mat& arg1) {
         return arg0.add(arg1);
     }
-    
+
     void ORB_setEdgeThreshold_wrapper(cv::ORB& arg0 , int arg1) {
         return arg0.setEdgeThreshold(arg1);
     }
-    
+
     void ORB_setFirstLevel_wrapper(cv::ORB& arg0 , int arg1) {
         return arg0.setFirstLevel(arg1);
     }
-    
+
     Ptr<ORB> ORB_create_wrapper(int arg1, float arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8, int arg9) {
         return cv::ORB::create(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
     }
-    
+
     void ORB_setMaxFeatures_wrapper(cv::ORB& arg0 , int arg1) {
         return arg0.setMaxFeatures(arg1);
     }
-    
+
     void ORB_setNLevels_wrapper(cv::ORB& arg0 , int arg1) {
         return arg0.setNLevels(arg1);
     }
-    
+
     void ORB_setFastThreshold_wrapper(cv::ORB& arg0 , int arg1) {
         return arg0.setFastThreshold(arg1);
     }
-    
+
     void ORB_setPatchSize_wrapper(cv::ORB& arg0 , int arg1) {
         return arg0.setPatchSize(arg1);
     }
-    
+
     void ORB_setWTA_K_wrapper(cv::ORB& arg0 , int arg1) {
         return arg0.setWTA_K(arg1);
     }
-    
+
     void ORB_setScaleFactor_wrapper(cv::ORB& arg0 , double arg1) {
         return arg0.setScaleFactor(arg1);
     }
-    
+
     void ORB_setScoreType_wrapper(cv::ORB& arg0 , int arg1) {
         return arg0.setScoreType(arg1);
     }
-    
+
     bool ml_EM_trainE_wrapper(cv::ml::EM& arg0 , const cv::Mat& arg1, const cv::Mat& arg2, const cv::Mat& arg3, const cv::Mat& arg4, cv::Mat& arg5, cv::Mat& arg6, cv::Mat& arg7) {
         return arg0.trainE(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
-    
+
     void ml_EM_getCovs_wrapper(cv::ml::EM& arg0 , std::vector<Mat>& arg1) {
         return arg0.getCovs(arg1);
     }
-    
+
     void ml_EM_setClustersNumber_wrapper(cv::ml::EM& arg0 , int arg1) {
         return arg0.setClustersNumber(arg1);
     }
-    
+
     bool ml_EM_trainM_wrapper(cv::ml::EM& arg0 , const cv::Mat& arg1, const cv::Mat& arg2, cv::Mat& arg3, cv::Mat& arg4, cv::Mat& arg5) {
         return arg0.trainM(arg1, arg2, arg3, arg4, arg5);
     }
-    
+
     Vec2d ml_EM_predict2_wrapper(cv::ml::EM& arg0 , const cv::Mat& arg1, cv::Mat& arg2) {
         return arg0.predict2(arg1, arg2);
     }
-    
+
     void ml_EM_setTermCriteria_wrapper(cv::ml::EM& arg0 , const TermCriteria & arg1) {
         return arg0.setTermCriteria(arg1);
     }
-    
+
     void ml_EM_setCovarianceMatrixType_wrapper(cv::ml::EM& arg0 , int arg1) {
         return arg0.setCovarianceMatrixType(arg1);
     }
-    
+
     bool ml_EM_trainEM_wrapper(cv::ml::EM& arg0 , const cv::Mat& arg1, cv::Mat& arg2, cv::Mat& arg3, cv::Mat& arg4) {
         return arg0.trainEM(arg1, arg2, arg3, arg4);
     }
-    
+
 }
 
 EMSCRIPTEN_BINDINGS(testBinding) {

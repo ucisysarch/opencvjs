@@ -3,16 +3,16 @@
 @@ -999,7 +999,7 @@
          };
      }
- 
+
 -    template<typename BaseClass>
 +    template<typename BaseClass, bool isPoly=false>
      struct base {
          typedef BaseClass class_type;
- 
+
 @@ -1035,6 +1035,43 @@
          }
      };
- 
+
 +    template<typename BaseClass>
 +    struct base<BaseClass, true> {
 +
@@ -27,18 +27,18 @@
 +        static internal::TYPEID get() {
 +            return internal::TypeID<BaseClass>::get();
 +        }
-+        
++
 +        template<typename ClassType>
 +        using Upcaster = BaseClass* (*)(ClassType*);
 +
 +        template<typename ClassType>
 +        using Downcaster = ClassType* (*)(BaseClass*);
-+        
++
 +        template<typename ClassType>
 +        static Upcaster<ClassType> getUpcaster() {
 +            return &convertPointer<ClassType, BaseClass>;
 +        }
-+        
++
 +        template<typename ClassType>
 +        static Downcaster<ClassType> getDowncaster() {
 +            return &convertPointer<BaseClass, ClassType>;
@@ -53,3 +53,14 @@
      namespace internal {
          template<typename WrapperType>
          val wrapped_extend(const std::string& name, const val& properties) {
+
+--- ./emscripten/master/src/embind/embind.js	2016-12-20 13:05:20.498980029 -0800
++++ ./emscripten/master/src/embind/embind.js	2016-12-20 13:12:11.599146929 -0800
+@@ -2077,6 +2077,7 @@
+             var invokerArgsArray = [argTypes[0] /* return value */, null /* no class 'this'*/].concat(argTypes.slice(1) /* actual params */);
+             var func = craftInvokerFunction(humanName, invokerArgsArray, null /* no class 'this'*/, rawInvoker, fn);
+             if (undefined === proto[methodName].overloadTable) {
++                func.argCount = argCount-1;
+                 proto[methodName] = func;
+             } else {
+                 proto[methodName].overloadTable[argCount-1] = func;
