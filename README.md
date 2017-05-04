@@ -3,6 +3,11 @@
 This is a JavaScript binding that exposes OpenCV library to the web. This project is made possible by support of Intel corporation. Currently, this is based on OpenCV 3.1.0.
 
 ### How to Build
+
+You can build two different versions of OpenCV.js: asm.js or WebAssembly (experimental). If you want to build the later, you will need the "incoming" version of Emscripten.
+
+#### asm.js version (default)
+
 1. Get the source code
 
   ```
@@ -23,18 +28,43 @@ This is a JavaScript binding that exposes OpenCV library to the web. This projec
 3. Patch Emscripten & Rebuild.
 
   ```
-  patch -p1 < PATH/TO/patch_emscripten_master.diff
-  ```
-4. Rebuild emscripten
-  ```
+  patch -p1 < PATH/TO/patch_emscripten.diff -d emscripten/master
   ./emsdk install sdk-master-64bit --shallow
   ```
 
-5. Compile OpenCV and generate bindings by executing make.py script.
+4. Compile OpenCV and generate bindings by executing make.py script.
 
   ```
     python make.py
   ```
+
+#### WebAssembly version (experimental)
+
+1. Get the source code (just like above)
+
+2. Install the "incoming" branch of emscripten. You can obtain emscripten by using [Emscripten SDK](https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html).
+At the time of writing, the current version of Emscripten does not support WebAssembly yet, so you will need to install the "incoming" branch.
+
+  ```
+  ./emsdk update
+  ./emsdk install sdk-incoming-64bit --shallow
+  ./emsdk activate sdk-incoming-64bit
+  source ./emsdk_env.sh
+  ```
+3. Patch Emscripten & Rebuild.
+
+  ```
+  patch -p1 < PATH/TO/patch_emscripten.diff -d emscripten/incoming
+  ./emsdk install sdk-incoming-64bit --shallow
+  ```
+
+4. Compile OpenCV and generate bindings by executing make.py script.
+
+  ```
+    python make.py --wasm
+  ```
+
+
 
 ### Tests
 Test suite contains several tests and examples demonstrating how the API can be used. Run the tests by launching test/tests.html file usig a browser.

@@ -1,6 +1,13 @@
 #!/usr/bin/python
 import os, sys, re, json, shutil
+import argparse
 from subprocess import Popen, PIPE, STDOUT
+
+
+#   parse the command-line options
+parser = argparse.ArgumentParser()
+parser.add_argument( "--wasm", action="store_true", help="Create a .wasm file (WebAssembly format, experimental) instead of asm.js format." )
+clArguments = parser.parse_args()
 
 # Startup
 exec(open(os.path.expanduser('~/.emscripten'), 'r').read())
@@ -184,8 +191,15 @@ try:
     assert os.path.exists('bindings.bc')
 
     stage('Building OpenCV.js')
-    opencv = os.path.join('..', '..', 'build', 'cv.js')
-    data = os.path.join('..', '..', 'build', 'cv.data')
+
+    if clArguments.wasm:
+        emcc_args += "-s WASM=1".split( " " )
+        basename = "cv-wasm"
+    else:
+        basename = "cv"
+
+    destFiles = [ os.path.join('..', '..', 'build', basename + ext ) for ext in [ ".js", ".data", ".wasm" ] ]
+    opencv = destFiles[0]
 
     tests = os.path.join('..', '..', 'test')
 
@@ -245,10 +259,9 @@ try:
 }));
 """ % (out,)).lstrip())
 
-
-    shutil.copy2(opencv, tests)
-    if os.path.exists(data):
-        shutil.copy2(data, tests)
+    for f in destFiles:
+        if os.path.exists(f):
+            shutil.copy2(f, tests)
 
 finally:
     os.chdir(this_dir)
