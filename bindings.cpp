@@ -247,6 +247,15 @@ EMSCRIPTEN_BINDINGS(Utils) {
         .element(&Point2f::x)
         .element(&Point2f::y);
 
+    value_array<Size2f>("Size2f")
+        .element(&Size2f::height)
+        .element(&Size2f::width);
+
+    value_object<RotatedRect>("RotatedRect")
+        .field("angle", &RotatedRect::angle)
+        .field("center", &RotatedRect::center)
+        .field("size", &RotatedRect::size);
+
     emscripten::class_<cv::Rect_<int>> ("Rect")
         .constructor<>()
         .constructor<const cv::Point_<int>&, const cv::Size_<int>&>()
