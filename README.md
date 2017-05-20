@@ -12,7 +12,12 @@ This is a JavaScript binding that exposes OpenCV library to the web. This projec
   cd opencv
   git checkout 3.1.0
   ```
-2. Install emscripten. You can obtain emscripten by using [Emscripten SDK](https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html).
+2. Patch opencv
+
+  ```
+  git apply ../patch_opencv_3_1_0.diff
+  ```
+3. Install emscripten. You can obtain emscripten by using [Emscripten SDK](https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html).
 
   ```
   ./emsdk update
@@ -20,17 +25,33 @@ This is a JavaScript binding that exposes OpenCV library to the web. This projec
   ./emsdk activate sdk-master-64bit
   source ./emsdk_env.sh
   ```
-3. Patch Emscripten & Rebuild.
+4. On Unix, following [[CMake] recompile with -fPIC](https://cmake.org/pipermail/cmake/2007-May/014345.html), you may need to add the following block to `emscripten/master/tools/optimizer/CMakeLists.txt`
+
+  ```
+  # with -fPIC
+  IF(UNIX AND NOT WIN32)
+    FIND_PROGRAM(CMAKE_UNAME uname /bin /usr/bin /usr/local/bin )
+    IF(CMAKE_UNAME)
+      EXEC_PROGRAM(uname ARGS -m OUTPUT_VARIABLE CMAKE_SYSTEM_PROCESSOR)
+      SET(CMAKE_SYSTEM_PROCESSOR ${CMAKE_SYSTEM_PROCESSOR} CACHE INTERNAL
+  "processor type (i386 and x86_64)")
+      IF(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
+        ADD_DEFINITIONS(-fPIC)
+      ENDIF(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
+    ENDIF(CMAKE_UNAME)
+  ENDIF(UNIX AND NOT WIN32) 
+  ```
+5. Patch Emscripten & Rebuild.
 
   ```
   patch -p1 < PATH/TO/patch_emscripten_master.diff
   ```
-4. Rebuild emscripten
+6. Rebuild emscripten
   ```
   ./emsdk install sdk-master-64bit --shallow
   ```
 
-5. Compile OpenCV and generate bindings by executing make.py script.
+7. Compile OpenCV and generate bindings by executing make.py script.
 
   ```
     python make.py
