@@ -54,6 +54,8 @@ def stage(text):
 # Main
 try:
     this_dir = os.getcwd()
+    if not os.path.exists('build'):
+        os.makedirs('build')
     os.chdir('opencv')
     if not os.path.exists('build'):
         os.makedirs('build')
@@ -240,6 +242,7 @@ try:
         root.cv = factory();
     }
 }(this, function () {
+    var Module = Module || {};
     %s
     return cv(Module);
 }));
