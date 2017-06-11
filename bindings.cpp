@@ -53,6 +53,11 @@ using namespace cv::ml;
 
 namespace Utils{
 
+    double getScalarValue (const cv::Scalar_<double>& s, int i)
+    {
+        return s[i];
+    }
+
     template<typename T>
     emscripten::val data(const cv::Mat& mat) {
         return emscripten::val(emscripten::memory_view<T>( (mat.total()*mat.elemSize())/sizeof(T), (T*) mat.data));
@@ -92,6 +97,12 @@ namespace Utils{
     }
     void convertTo(const Mat& obj, Mat& m, int rtype, double alpha, double beta) {
         obj.convertTo(m, rtype, alpha, beta);
+    }
+    void copyMatTo(const Mat& obj, Mat& dst, const Mat& mask) {
+        obj.copyTo(dst, mask);
+    }
+    void setMatTo(Mat& obj, cv::Scalar_<double> sc, const Mat& mask) {
+        obj.setTo(sc, mask);
     }
     Size matSize(const cv::Mat& mat) {
         return  mat.size();
@@ -161,6 +172,9 @@ EMSCRIPTEN_BINDINGS(Utils) {
         .constructor<int, int, int>()
         .constructor(&Utils::createMat, allow_raw_pointers())
         .constructor(&Utils::createMat2, allow_raw_pointers())
+
+        .function("setTo", select_overload<void(cv::Mat&, cv::Scalar_<double>, const cv::Mat&)>(&Utils::setMatTo))
+
         .function("elemSize1", select_overload<size_t()const>(&cv::Mat::elemSize1))
         //.function("assignTo", select_overload<void(Mat&, int)const>(&cv::Mat::assignTo))
         .function("channels", select_overload<int()const>(&cv::Mat::channels))
@@ -174,8 +188,8 @@ EMSCRIPTEN_BINDINGS(Utils) {
         .function("rowRange", select_overload<Mat(int, int)const>(&cv::Mat::rowRange))
         .function("rowRange", select_overload<Mat(const Range&)const>(&cv::Mat::rowRange))
 
-        .function("copyTo", select_overload<void(OutputArray)const>(&cv::Mat::copyTo))
-        .function("copyTo", select_overload<void(OutputArray, InputArray)const>(&cv::Mat::copyTo))
+        .function("copyTo",  select_overload<void(const Mat&, Mat&, const Mat&)>(&Utils::copyMatTo))
+
         .function("elemSize", select_overload<size_t()const>(&cv::Mat::elemSize))
 
         .function("type", select_overload<int()const>(&cv::Mat::type))
@@ -273,7 +287,8 @@ EMSCRIPTEN_BINDINGS(Utils) {
         .constructor<double, double, double>()
         .constructor<double, double, double, double>()
         .class_function("all", &cv::Scalar_<double>::all)
-        .function("isReal", select_overload<bool()const>(&cv::Scalar_<double>::isReal));
+        .function("isReal", select_overload<bool()const>(&cv::Scalar_<double>::isReal))
+        .function("get" , &Utils::getScalarValue);
 
     function("matFromArray", &Utils::matFromArray);
 
