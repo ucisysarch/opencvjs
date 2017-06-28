@@ -4,9 +4,9 @@ This is a JavaScript binding that exposes OpenCV library to the web. This projec
 
 ### How to Build
 
-You can build two different versions of OpenCV.js: asm.js or WebAssembly (experimental). If you want to build the later, you will need the "incoming" version of Emscripten.
-
-#### asm.js version (default)
+You can build two different versions of OpenCV.js: the **asm.js** version, or the **WebAssembly** one (experimental). If you want to build the later, you will need the "incoming" version of Emscripten.
+Since the "incoming" version of Emscripten can build both, *only the installation of Emscripten-incoming will be detailed here*, for simplicity.
+If you absolutely want the "stable" one, just replace "incoming" with "master" everywhere it appears in the following command lines.
 
 1. Get the source code
 
@@ -17,33 +17,8 @@ You can build two different versions of OpenCV.js: asm.js or WebAssembly (experi
   cd opencv
   git checkout 3.1.0
   ```
+
 2. Install emscripten. You can obtain emscripten by using [Emscripten SDK](https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html).
-
-  ```
-  ./emsdk update
-  ./emsdk install sdk-master-64bit --shallow
-  ./emsdk activate sdk-master-64bit
-  source ./emsdk_env.sh
-  ```
-3. Patch Emscripten & Rebuild.
-
-  ```
-  patch -p1 < PATH/TO/patch_emscripten.diff -d emscripten/master
-  ./emsdk install sdk-master-64bit --shallow
-  ```
-
-4. Compile OpenCV and generate bindings by executing make.py script.
-
-  ```
-    python make.py
-  ```
-
-#### WebAssembly version (experimental)
-
-1. Get the source code (just like above)
-
-2. Install the "incoming" branch of emscripten. You can obtain emscripten by using [Emscripten SDK](https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html).
-At the time of writing, the current version of Emscripten does not support WebAssembly yet, so you will need to install the "incoming" branch.
 
   ```
   ./emsdk update
@@ -51,6 +26,7 @@ At the time of writing, the current version of Emscripten does not support WebAs
   ./emsdk activate sdk-incoming-64bit
   source ./emsdk_env.sh
   ```
+
 3. Patch Emscripten & Rebuild.
 
   ```
@@ -58,11 +34,23 @@ At the time of writing, the current version of Emscripten does not support WebAs
   ./emsdk install sdk-incoming-64bit --shallow
   ```
 
-4. Compile OpenCV and generate bindings by executing make.py script.
+4. Optionally, if you want to reduce the size of the built library, use *filter-bindings.py* to keep only the code that your JS files are actually using (if you want to cancel that and build the full library again, just remove the generated file *bindings2.cpp*).
 
-  ```
-    python make.py --wasm
-  ```
+    ```
+    python filter-bindings.py /path/to/files/*.js
+    ```
+
+5. Compile OpenCV and generate bindings by executing make.py script.
+
+    a. WebAssembly version (experimental):
+      ```
+        python make.py --wasm
+      ```
+
+    b. asm.js version:
+      ```
+        python make.py
+      ```
 
 
 
