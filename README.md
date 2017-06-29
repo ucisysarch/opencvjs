@@ -57,6 +57,8 @@ If you absolutely want the "stable" one, just replace "incoming" with "master" e
 ### Tests
 Test suite contains several tests and examples demonstrating how the API can be used. Run the tests by launching test/tests.html file usig a browser.
 
+The file `tests/minimal-example.html` aims to be a minimal working example. It demonstrates the use of OpenCV JS, converting between ImageData and cv.Mat objects, and the use of the window.Module to initiate the runtime.
+
 ### Exported OpenCV Subset
 Classes and functions that are intended for binding generators (i.e. come with wrapping macros such as CV_EXPORTS_W and CV_WRAP) are exposed. Hence, supported OpenCV subset is comparable to OpenCV for Python. Also, enums with exception of anonymous enums are also exported.
 
