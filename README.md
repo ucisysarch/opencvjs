@@ -57,8 +57,6 @@ If you absolutely want the "stable" one, just replace "incoming" with "master" e
 ### Tests
 Test suite contains several tests and examples demonstrating how the API can be used. Run the tests by launching test/tests.html file usig a browser.
 
-See `test/minimal-example.html` for a (hopefully) simple working example of how OpenCV JS can be used (wasm version). It demonstrates converting to and from canvas ImageData, and creating a simple window.Module object to configure the runtime.
-
 ### Exported OpenCV Subset
 Classes and functions that are intended for binding generators (i.e. come with wrapping macros such as CV_EXPORTS_W and CV_WRAP) are exposed. Hence, supported OpenCV subset is comparable to OpenCV for Python. Also, enums with exception of anonymous enums are also exported.
 
