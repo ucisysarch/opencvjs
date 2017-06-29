@@ -185,9 +185,15 @@ try:
     ]
     include_dir_args = ['-I'+item for item in INCLUDE_DIRS]
     emcc_binding_args = ['--bind']
+
     emcc_binding_args += include_dir_args
 
-    emscripten.Building.emcc('../../bindings.cpp', emcc_binding_args, 'bindings.bc')
+    bindingsFile = '../../bindings.cpp'
+    bindingsFile2 = '../../bindings2.cpp'
+    if os.path.exists( bindingsFile2 ):
+        bindingsFile = bindingsFile2     #   prefer "filtered" bindings file if it exists
+
+    emscripten.Building.emcc(bindingsFile, emcc_binding_args, 'bindings.bc')
     assert os.path.exists('bindings.bc')
 
     stage('Building OpenCV.js')
@@ -229,7 +235,9 @@ try:
     emscripten.Building.link(input_files, 'libOpenCV.bc')
     emcc_args += '--preload-file ../../test/data/'.split(' ') #For testing purposes
     emcc_args += ['--bind']
-#emcc_args += ['--memoryprofiler']
+
+    #emcc_args += ['--memoryprofiler']
+    #emcc_args += ['--tracing']      #   ability to use custom memory profiler, with hooks Module.onMalloc(), .onFree() and .onRealloc()
 
     emscripten.Building.emcc('libOpenCV.bc', emcc_args, opencv)
     stage('Wrapping')
