@@ -6,13 +6,12 @@
         <style>
             img, canvas
             {
+                margin: .5em;
                 border: 1px solid black;
             }
         </style>
     </head>
     <body>
-        <img id="theImage" src="data/lena.jpg" />
-
     </body>
 
     <script>
@@ -56,41 +55,38 @@
 
         function main()
         {
-            var img = document.getElementById( "theImage" );
+            var img = new Image();
             
-            if( !img.complete )
-            {
-                //  image not fully loaded -> wait for it to load, and call the function again when it's done
-                img.onload = doTheThing;
-                return;
-            }
-            
-            //get the pixel data from the image: draw it on a canvas, then use getImageData()
-            var canvas = document.createElement( "canvas" );
-            var ctx = canvas.getContext( "2d" );
-            canvas.width = img.width;
-            canvas.height = img.height;
-            ctx.drawImage( img, 0, 0 );
+            img.onload = function(){
+                //get the pixel data from the image: draw it on a canvas, then use getImageData()
+                var canvas = document.createElement( "canvas" );
+                var ctx = canvas.getContext( "2d" );
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage( img, 0, 0 );
 
-            var imageData = ctx.getImageData( 0, 0, canvas.width, canvas.height );
+                var imageData = ctx.getImageData( 0, 0, canvas.width, canvas.height );
 
-            //  convert the imageData to a format OpenCV can process
-            var mat = createMatFromImageData( imageData );
+                //  convert the imageData to a format OpenCV can process
+                var mat = createMatFromImageData( imageData );
 
-            //  blur the image
-            var blurRadius = 15;
-            var blurred = new cv.Mat();
-            cv.blur( mat, blurred, [blurRadius, blurRadius], [-1,-1], cv.BORDER_DEFAULT );
+                //  blur the image
+                var blurRadius = 15;
+                var blurred = new cv.Mat();
+                cv.blur( mat, blurred, [blurRadius, blurRadius], [-1,-1], cv.BORDER_DEFAULT );
 
-            //  convert back from OpenCV format to a format we can draw on our canvas, then draw it
-            fillImageData( blurred, imageData );
-            ctx.putImageData( imageData, 0, 0 );
+                //  convert back from OpenCV format to a format we can draw on our canvas, then draw it
+                fillImageData( blurred, imageData );
+                ctx.putImageData( imageData, 0, 0 );
 
-            document.body.appendChild( canvas );
+                document.body.appendChild( img );
+                document.body.appendChild( canvas );
 
-            //  finally, do not forget to call .delete() on every object that we created, as those are not automatically garbage collected
-            mat.delete();
-            blurred.delete();
+                //  finally, do not forget to call .delete() on every object that we created, as those are not automatically garbage collected
+                mat.delete();
+                blurred.delete();
+            };
+            img.src="data/lena.jpg";
         }
 
         //  create the window.Module object BEFORE we load cv-wasm.js !
