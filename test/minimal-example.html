@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>"Minimal" OpenCV-JS example</title>
+        <meta charset="utf-8">
+        <style>
+            img, canvas
+            {
+                margin: .5em;
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+    <body>
+    </body>
+
+    <script>
+
+        function assert( fact )
+        {
+            if( !fact )
+            {
+                throw new Error( "Assertion failed !" );
+            }
+        }
+
+        //  simple helper to create a Mat and fill it with the provided ImageData object
+        function createMatFromImageData( imageData )
+        {
+            var mat = new cv.Mat( [imageData.height, imageData.width], cv.CV_8UC4 );
+
+            var srcBuffer = imageData.data;
+            var dstBuffer = mat.data();
+            for( var i=0; i<dstBuffer.length; i++ )
+            {
+                dstBuffer[i] = srcBuffer[i];
+            }
+            return mat;
+        }
+        
+        //  simple helper: fill the provided ImageData object with the data from mat
+        function fillImageData( mat, imageData )
+        {
+            assert( mat.cols === imageData.width );
+            assert( mat.rows === imageData.height );
+            assert( mat.type() === cv.CV_8UC4 );
+
+            var srcBuffer = mat.data();
+            var dstBuffer = imageData.data;
+            for( var i=0; i<srcBuffer.length; i++ )
+            {
+                dstBuffer[i] = srcBuffer[i];
+            }
+        }
+
+        function main()
+        {
+            var img = new Image();
+            
+            img.onload = function(){
+                //get the pixel data from the image: draw it on a canvas, then use getImageData()
+                var canvas = document.createElement( "canvas" );
+                var ctx = canvas.getContext( "2d" );
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage( img, 0, 0 );
+
+                var imageData = ctx.getImageData( 0, 0, canvas.width, canvas.height );
+
+                //  convert the imageData to a format OpenCV can process
+                var mat = createMatFromImageData( imageData );
+
+                //  blur the image
+                var blurRadius = 15;
+                var blurred = new cv.Mat();
+                cv.blur( mat, blurred, [blurRadius, blurRadius], [-1,-1], cv.BORDER_DEFAULT );
+
+                //  convert back from OpenCV format to a format we can draw on our canvas, then draw it
+                fillImageData( blurred, imageData );
+                ctx.putImageData( imageData, 0, 0 );
+
+                document.body.appendChild( img );
+                document.body.appendChild( canvas );
+
+                //  finally, do not forget to call .delete() on every object that we created, as those are not automatically garbage collected
+                mat.delete();
+                blurred.delete();
+            };
+            img.src="data/lena.jpg";
+        }
+
+        //  create the window.Module object BEFORE we load cv-wasm.js !
+        window.Module = {
+            print: console.log,
+            printErr: function(text) {
+                console.error(text);
+            },
+            setStatus: function(text) {
+                console.log(text);
+            },
+            onRuntimeInitialized: function(){   //  this is like onload
+                //  here window.cv exists and is initialized and usable
+                console.log( "CV loaded" );
+                main();
+            }
+        };
+
+    </script>
+
+    <script src="cv-wasm.js"></script>
+</html>

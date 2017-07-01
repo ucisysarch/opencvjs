@@ -1,6 +1,13 @@
 #!/usr/bin/python
 import os, sys, re, json, shutil
+import argparse
 from subprocess import Popen, PIPE, STDOUT
+
+
+#   parse the command-line options
+parser = argparse.ArgumentParser()
+parser.add_argument( "--wasm", action="store_true", help="Create a .wasm file (WebAssembly format, experimental) instead of asm.js format." )
+clArguments = parser.parse_args()
 
 # Startup
 exec(open(os.path.expanduser('~/.emscripten'), 'r').read())
@@ -178,14 +185,27 @@ try:
     ]
     include_dir_args = ['-I'+item for item in INCLUDE_DIRS]
     emcc_binding_args = ['--bind']
+
     emcc_binding_args += include_dir_args
 
-    emscripten.Building.emcc('../../bindings.cpp', emcc_binding_args, 'bindings.bc')
+    bindingsFile = '../../bindings.cpp'
+    bindingsFile2 = '../../bindings2.cpp'
+    if os.path.exists( bindingsFile2 ):
+        bindingsFile = bindingsFile2     #   prefer "filtered" bindings file if it exists
+
+    emscripten.Building.emcc(bindingsFile, emcc_binding_args, 'bindings.bc')
     assert os.path.exists('bindings.bc')
 
     stage('Building OpenCV.js')
-    opencv = os.path.join('..', '..', 'build', 'cv.js')
-    data = os.path.join('..', '..', 'build', 'cv.data')
+
+    if clArguments.wasm:
+        emcc_args += "-s WASM=1".split( " " )
+        basename = "cv-wasm"
+    else:
+        basename = "cv"
+
+    destFiles = [ os.path.join('..', '..', 'build', basename + ext ) for ext in [ ".js", ".data", ".wasm" ] ]
+    opencv = destFiles[0]
 
     tests = os.path.join('..', '..', 'test')
 
@@ -215,7 +235,9 @@ try:
     emscripten.Building.link(input_files, 'libOpenCV.bc')
     emcc_args += '--preload-file ../../test/data/'.split(' ') #For testing purposes
     emcc_args += ['--bind']
-#emcc_args += ['--memoryprofiler']
+
+    #emcc_args += ['--memoryprofiler']
+    #emcc_args += ['--tracing']      #   ability to use custom memory profiler, with hooks Module.onMalloc(), .onFree() and .onRealloc()
 
     emscripten.Building.emcc('libOpenCV.bc', emcc_args, opencv)
     stage('Wrapping')
@@ -245,10 +267,9 @@ try:
 }));
 """ % (out,)).lstrip())
 
-
-    shutil.copy2(opencv, tests)
-    if os.path.exists(data):
-        shutil.copy2(data, tests)
+    for f in destFiles:
+        if os.path.exists(f):
+            shutil.copy2(f, tests)
 
 finally:
     os.chdir(this_dir)

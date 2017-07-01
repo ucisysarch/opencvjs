@@ -3,6 +3,11 @@
 This is a JavaScript binding that exposes OpenCV library to the web. This project is made possible by support of Intel corporation. Currently, this is based on OpenCV 3.1.0.
 
 ### How to Build
+
+You can build two different versions of OpenCV.js: the **asm.js** version, or the **WebAssembly** one (experimental). If you want to build the later, you will need the "incoming" version of Emscripten.
+Since the "incoming" version of Emscripten can build both, *only the installation of Emscripten-incoming will be detailed here*, for simplicity.
+If you absolutely want the "stable" one, just replace "incoming" with "master" everywhere it appears in the following command lines.
+
 1. Get the source code
 
   ```
@@ -12,32 +17,47 @@ This is a JavaScript binding that exposes OpenCV library to the web. This projec
   cd opencv
   git checkout 3.1.0
   ```
+
 2. Install emscripten. You can obtain emscripten by using [Emscripten SDK](https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html).
 
   ```
   ./emsdk update
-  ./emsdk install sdk-master-64bit --shallow
-  ./emsdk activate sdk-master-64bit
+  ./emsdk install sdk-incoming-64bit --shallow
+  ./emsdk activate sdk-incoming-64bit
   source ./emsdk_env.sh
   ```
+
 3. Patch Emscripten & Rebuild.
 
   ```
-  patch -p1 < PATH/TO/patch_emscripten_master.diff
+  patch -p1 < PATH/TO/patch_emscripten.diff -d emscripten/incoming
+  ./emsdk install sdk-incoming-64bit --shallow
   ```
-4. Rebuild emscripten
-  ```
-  ./emsdk install sdk-master-64bit --shallow
-  ```
+
+4. Optionally, if you want to reduce the size of the built library, use *filter-bindings.py* to keep only the code that your JS files are actually using (if you want to cancel that and build the full library again, just remove the generated file *bindings2.cpp*).
+
+    ```
+    python filter-bindings.py /path/to/files/*.js
+    ```
 
 5. Compile OpenCV and generate bindings by executing make.py script.
 
-  ```
-    python make.py
-  ```
+    a. WebAssembly version (experimental):
+      ```
+        python make.py --wasm
+      ```
+
+    b. asm.js version:
+      ```
+        python make.py
+      ```
+
+
 
 ### Tests
 Test suite contains several tests and examples demonstrating how the API can be used. Run the tests by launching test/tests.html file usig a browser.
+
+The file `tests/minimal-example.html` aims to be a minimal working example. It demonstrates the use of OpenCV JS, converting between ImageData and cv.Mat objects, and the use of the window.Module to initiate the runtime.
 
 ### Exported OpenCV Subset
 Classes and functions that are intended for binding generators (i.e. come with wrapping macros such as CV_EXPORTS_W and CV_WRAP) are exposed. Hence, supported OpenCV subset is comparable to OpenCV for Python. Also, enums with exception of anonymous enums are also exported.
