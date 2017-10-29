@@ -2,7 +2,7 @@
 
 This is a JavaScript binding that exposes OpenCV library to the web. This project is made possible by support of Intel corporation. Currently, this is based on OpenCV 3.1.0.
 
-### How to Build
+### How to Build with Javascript Bindings
 1. Get the source code
 
   ```
@@ -35,6 +35,18 @@ This is a JavaScript binding that exposes OpenCV library to the web. This projec
   ```
     python make.py
   ```
+
+### How to Build static C++ library/headers that works with existing emscripten projects
+1. Follow steps 1 and 2 above.
+
+2. Compile OpenCV and generate bindings by executing make.py script.
+
+  ```
+    python make.py --build-static-lib
+  ```
+
+3. The compiled static libraries will be found in build/lib, headers in build/include and 3rd party libs in build/3rdparty
+
 
 ### Tests
 Test suite contains several tests and examples demonstrating how the API can be used. Run the tests by launching test/tests.html file usig a browser.
