@@ -1,6 +1,19 @@
 #!/usr/bin/python
 import os, sys, re, json, shutil
 from subprocess import Popen, PIPE, STDOUT
+from distutils.dir_util import copy_tree
+import argparse
+
+parser = argparse.ArgumentParser(description='Creates javascript bindings for openCV')
+parser.add_argument('--build-static-lib',
+                    dest='build_static_lib',
+                    default=False,
+                    const=True,
+                    nargs='?',
+                    help='Only builds openCV static C++ library. For use with exisiting emscripten projects')
+
+args = parser.parse_args()
+build_static_lib = args.build_static_lib
 
 # Startup
 exec(open(os.path.expanduser('~/.emscripten'), 'r').read())
@@ -36,6 +49,7 @@ emcc_args = '-O3 --llvm-lto 1 -s ASSERTIONS=0 -s AGGRESSIVE_VARIABLE_ELIMINATION
 print
 print '--------------------------------------------------'
 print 'Building opencv.js, build type:', emcc_args
+print 'Building static C++ lib only:', build_static_lib
 print '--------------------------------------------------'
 print
 
@@ -161,7 +175,8 @@ try:
 
     emscripten.Building.make(['make', '-j4'])
 
-    stage('Generating Bindings')
+    if not build_static_lib:
+        stage('Generating Bindings')
     INCLUDE_DIRS = [
              os.path.join('..', 'modules', 'core', 'include'),
              os.path.join('..', 'modules', 'flann', 'include'),
@@ -179,6 +194,35 @@ try:
     include_dir_args = ['-I'+item for item in INCLUDE_DIRS]
     emcc_binding_args = ['--bind']
     emcc_binding_args += include_dir_args
+
+    if build_static_lib:
+        includes_dir = os.path.join('..', '..', 'build', 'includes', 'opencv2')
+        lib_dir = os.path.join('..', '..', 'build', 'lib')
+        thirdparty_lib_dir = os.path.join('..', '..', 'build', '3rdparty', 'lib')
+
+        if not os.path.isdir(includes_dir):
+            os.makedirs(includes_dir)
+
+        if not os.path.isdir(lib_dir):
+            os.makedirs(lib_dir)
+
+        if not os.path.isdir(thirdparty_lib_dir):
+            os.makedirs(thirdparty_lib_dir)
+
+        for path in INCLUDE_DIRS:
+            if os.path.isdir(path):
+                print "Copying", path, "to", includes_dir
+                copy_tree(os.path.join(path, 'opencv2'), includes_dir)
+
+        lib = os.path.join('lib')
+        print "Copying", lib, "to", lib_dir
+        copy_tree(lib, lib_dir)
+
+        thirdparty = os.path.join('3rdparty', 'lib')
+        print "Copying", thirdparty, "to", thirdparty_lib_dir
+        copy_tree(thirdparty, thirdparty_lib_dir)
+
+        sys.exit()
 
     emscripten.Building.emcc('../../bindings.cpp', emcc_binding_args, 'bindings.bc')
     assert os.path.exists('bindings.bc')
