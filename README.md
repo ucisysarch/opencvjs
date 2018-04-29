@@ -1,5 +1,7 @@
 # OpenCV.js
 
+[![Slack](https://slack.bri.im/badge.svg)](https://slack.bri.im)
+
 This is a JavaScript binding that exposes OpenCV library to the web. This project is made possible by support of Intel corporation. Currently, this is based on OpenCV 3.1.0.
 
 ### How to Build
